@@ -2,3 +2,6 @@
 **/.ipynb_checkpoints
 **/pyenv
 env3p7
+.keras
+.cache
+hypes/

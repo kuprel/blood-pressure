@@ -3,12 +3,18 @@ import soundfile
 import numpy
 
 MAXBLOCKSIZE = 2**21
+ROOT = '/scr1/mimic/waveforms/'
 
-def rec_id_to_string(rec_id):
-    return str(rec_id[0]) + '_' + str(rec_id[1]).zfill(4)
+def rec_seg_to_string(rec_seg):
+    return str(rec_seg[0]) + '_' + str(rec_seg[1]).zfill(4)
 
-def rec_id_to_tuple(rec_id):
-    return int(rec_id.split('_')[0]), int(rec_id.split('_')[1])
+def rec_seg_to_tuple(rec_seg):
+    return int(rec_seg.split('_')[0]), int(rec_seg.split('_')[1])
+
+def get_rec_path(rec_seg):
+    if type(rec_seg) is tuple:
+        rec_seg = rec_seg_to_string(rec_seg)
+    return ROOT + rec_seg
 
 def to_digital(data, hdr):
     data *= hdr.adc_gain
@@ -40,19 +46,17 @@ def read_waveforms(hdr, path):
                 data[i*MAXBLOCKSIZE:(i+1)*MAXBLOCKSIZE] = block
     return data
 
-def read_original_record(rec_id, compute_physical=True):
-    if type(rec_id) is tuple:
-        rec_id = rec_id_to_string(rec_id)
-    path = 'mimic3wdb/' + rec_id[:2] + '/' + rec_id.split('_')[0]
-    rec = wfdb.rdrecord(rec_id, pb_dir=path, physical=compute_physical)
+def read_original_record(rec_seg, compute_physical=True):
+    if type(rec_seg) is tuple:
+        rec_seg = rec_seg_to_string(rec_seg)
+    path = 'mimic3wdb/' + rec_seg[:2] + '/' + rec_seg.split('_')[0]
+    rec = wfdb.rdrecord(rec_seg, pb_dir=path, physical=compute_physical)
     return rec
 
-def read_record(rec_id, root='/scr1/mimic/waveforms/', x_only=False, y_only=False, compute_physical=True):
-
-    if type(rec_id) is tuple:
-        rec_id = rec_id_to_string(rec_id)
-        
-    path = root + rec_id
+def read_record(rec_seg, x_only=False, y_only=False, compute_physical=True):
+    
+    path = get_rec_path(rec_seg)
+ 
     hdr = wfdb.rdheader(path)
     is_y = numpy.array([sig_is_y(j) for j in hdr.sig_name])
 

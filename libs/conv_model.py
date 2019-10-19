@@ -1,5 +1,4 @@
 from tensorflow import keras
-from Brett import prepare_data
 
 
 def conv_layer_args(H):
@@ -26,40 +25,50 @@ def build(H):
 
     args_a, args_b = conv_layer_args(H)
     
-    m = len(prepare_data.INPUT_SIGS)
+    m = len(H['input_sigs_train'])
     
     x = keras.layers.Input(shape=(H['window_size'], m))
     
-    Z = []
-    for i in range(m):
-        z = x[:, :, i:i+1]
-        for j in range(H['layer_count_a']):
-            z = keras.layers.Conv1D(**args_a)(z)
-        Z.append(z)
+    Z = [x[:, ::H['input_stride'], j:j+1] for j in range(m)]
+    
+    for i in range(H['layer_count_a']):
+        for j in range(m):
+            layer = keras.layers.Conv1D(**args_a)
+            z = [layer(Z[j]), Z[j][:, ::H['stride_a'], :H['filter_count']]]
+            Z[j] = keras.layers.Concatenate()(z)
 
     z = keras.layers.Concatenate()(Z)
 
     for i in range(H['layer_count_b']):
+        layer = keras.layers.Conv1D(**args_b)
         if i > 0:
-            Z = [keras.layers.Conv1D(**args_b)(z), z[:, :, :H['filter_count']]]
-            z = keras.layers.Concatenate()(Z)
+            z = [layer(z), z[:, :, :H['filter_count']]]
+            z = keras.layers.Concatenate()(z)
         else:
-            z = keras.layers.Conv1D(**args_b)(z)
+            z = layer(z)
 
     z = keras.layers.Flatten()(z)
     z = keras.layers.Dense(H['dense_units'], activation=H['activation'])(z)
     if H['dropout'] > 0:
         z = keras.layers.Dropout(H['dropout'])(z)
-    z = keras.layers.Dense(2)(z)
+        
+    final_layer = keras.layers.Dense(2)
+    z = final_layer(z)
 
     model = keras.models.Model(inputs=x, outputs=z)
 
+    final_layer.set_weights([
+        final_layer.get_weights()[0],
+        keras.backend.constant([120, 60], dtype='float32')
+    ])
+    
     optimizer = getattr(keras.optimizers, H['optimizer']['name'].title())
 
     model.compile(
         optimizer = optimizer(**H['optimizer']['args']),
-        loss='mean_squared_error',
-        metrics=['mean_absolute_error']
+        loss='mean_absolute_error'
+#         loss='mean_squared_error',
+#         metrics=['mean_absolute_error']
     )
     
     return model
