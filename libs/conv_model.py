@@ -1,29 +1,9 @@
 from tensorflow import keras
 
 
-def conv_layer_args(H):
-    
-    args = {
-        'filters': H['filter_count'], 
-        'padding': 'same', 
-        'activation': H['activation']
-    }
-
-    args_a = {
-        'kernel_size': H['kernel_size_a'], 
-        'strides': H['stride_a'],
-        'use_bias': False,
-        **args
-    }
-
-    args_b = {'kernel_size': H['kernel_size_b'], **args}
-    
-    return args_a, args_b
-
-
 def build(H):
 
-    args_a, args_b = conv_layer_args(H)
+    base_args = {'padding': 'same', 'activation': H['activation']}
     
     m = len(H['input_sigs_train'])
     
@@ -31,18 +11,36 @@ def build(H):
     
     Z = [x[:, ::H['input_stride'], j:j+1] for j in range(m)]
     
-    for i in range(H['layer_count_a']):
+    for i, L in enumerate(H['layers_a']):
+        args = {
+            'filters': L['filter_count'], 
+            'kernel_size': L['kernel_size'], 
+            'strides': L['stride'],
+            'use_bias': False,
+            **base_args
+        }
+        if i == 0:
+            args['name'] = 'conv_{}'.format(i)
+            layer = keras.layers.Conv1D(**args)
         for j in range(m):
-            layer = keras.layers.Conv1D(**args_a)
-            z = [layer(Z[j]), Z[j][:, ::H['stride_a'], :H['filter_count']]]
+            if i != 0:
+                args['name'] = 'conv_{}_{}'.format(i, j)
+                layer = keras.layers.Conv1D(**args)
+            z = [layer(Z[j]), Z[j][:, ::L['stride'], :L['filter_count']]]
             Z[j] = keras.layers.Concatenate()(z)
 
     z = keras.layers.Concatenate()(Z)
 
-    for i in range(H['layer_count_b']):
-        layer = keras.layers.Conv1D(**args_b)
+    args = {
+        'filters': H['layers_b']['filter_count'], 
+        'kernel_size': H['layers_b']['kernel_size'],
+        **base_args
+    }
+    
+    for i in range(H['layers_b']['count']):
+        layer = keras.layers.Conv1D(**args)
         if i > 0:
-            z = [layer(z), z[:, :, :H['filter_count']]]
+            z = [layer(z), z[:, :, :H['layers_b']['filter_count']]]
             z = keras.layers.Concatenate()(z)
         else:
             z = layer(z)
@@ -59,16 +57,17 @@ def build(H):
 
     final_layer.set_weights([
         final_layer.get_weights()[0],
-        keras.backend.constant([120, 60], dtype='float32')
-    ])
+        keras.backend.constant(H['mean_bp'], dtype='float32')
+    ])    
     
-    optimizer = getattr(keras.optimizers, H['optimizer']['name'].title())
-
+    lr_schedule = keras.optimizers.schedules.PiecewiseConstantDecay(
+        boundaries = [H['steps_per_epoch'] * i for i in H['lr_boundaries']],
+        values = [H['learning_rate'] / i for i in H['lr_divisors']]
+    )
+    
     model.compile(
-        optimizer = optimizer(**H['optimizer']['args']),
+        optimizer = keras.optimizers.Adam(learning_rate=lr_schedule),
         loss='mean_absolute_error'
-#         loss='mean_squared_error',
-#         metrics=['mean_absolute_error']
     )
     
     return model
