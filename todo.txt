@@ -1,0 +1,38 @@
+csv to hdf
+  update sample_data
+  remove preinitialize process
+
+fix conv_model
+
+tensorboard
+  learning rate
+  training curve
+  surrogate losses (cvp, pap, etc)
+  correlation plot
+  pulse pressure
+  4 stage classification
+  95% CI
+  hypertension SS
+
+share weights
+  conv2d
+  2nd layer ecg
+  3rd layer independent
+
+more pressure waveform outputs
+icd code outputs
+
+age/gender inputs
+height/weight
+prescription input
+
+halve chunk_size
+
+:1024:2 finetuned on :512:1
+validate by subject_id, hadm_id
+normalize to account for varying waveform counts
+
+curriculum
+  512:1 -> 1024:2 -> 1024:1
+  
+read http://www.onlinejacc.org/content/70/5/572

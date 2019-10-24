@@ -46,15 +46,11 @@ def convert_flac_to_serial(rec_seg):
     except:
         print(rec_seg, 'failed')
 
-def filter_downloaded(metadata):
+def get_downloaded():
     rec_segs = os.listdir(flacdb.ROOT)
-    rec_segs = [i.split('.')[0] for i in rec_segs if '_x.flac' in i]
-    rec_segs = [flacdb.rec_seg_to_tuple(i) for i in rec_segs]
-    if metadata.index.names != ['rec_id', 'segment']:
-        metadata = metadata.set_index(['rec_id', 'segment'])
-    rec_segs = sorted(set(rec_segs).intersection(metadata.index))
-    filtered = metadata.reindex(rec_segs)
-    return filtered
+    to_tuple = lambda i: flacdb.rec_seg_to_tuple(i.split('.')[0])
+    rec_segs = [to_tuple(i) for i in rec_segs if '_x.flac' in i]
+    return rec_segs
 
 def filter_serialized(metadata):    
     chunk_counts = {}
@@ -67,8 +63,8 @@ def filter_serialized(metadata):
         else:
             chunk_counts[rec_seg] = 1
         if rec_seg in metadata.index:
-            required_chunk_count = get_chunk_count(metadata.loc[rec_seg]['sig_len'])
-            if chunk_counts[rec_seg] == required_chunk_count:
+            sig_len = metadata.loc[rec_seg]['sig_len']
+            if chunk_counts[rec_seg] == get_chunk_count(sig_len):
                 serialized.append(rec_seg)
     filtered = metadata.reindex(serialized)
     return filtered
@@ -76,11 +72,13 @@ def filter_serialized(metadata):
 if __name__ == '__main__':
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
     metadata = pandas.read_csv('/scr-ssd/mimic/metadata.csv')
+    metadata.set_index(['rec_id', 'segment'], inplace=True)
+    filtered = metadata.reindex(metadata.index & get_downloaded())
     filtered = filter_downloaded(metadata)
     filtered = filtered[filtered['sig_len'] > CHUNK_SIZE]
     print(len(filtered), 'records')
     serialized = filter_serialized(filtered)
-    filtered = filtered.reindex(set(filtered.index).difference(serialized.index))
+    filtered = filtered.reindex(set(filtered.index) - set(serialized.index))
     print(len(filtered), 'left to serialize')
     pool = multiprocessing.Pool(multiprocessing.cpu_count())
     pool.map(convert_flac_to_serial, filtered.index)

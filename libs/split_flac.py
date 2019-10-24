@@ -11,7 +11,8 @@ def write_part(rec, path, is_part):
     rec_part.p_signal = rec_part.p_signal[:, is_part]
     rec_write_fields, sig_write_fields = rec.get_write_fields()
     for k in sig_write_fields:
-        rec_part.__dict__[k] = numpy.array(rec_part.__dict__[k])[is_part].tolist()
+        v = numpy.array(rec_part.__dict__[k])[is_part].tolist()
+        rec_part.__dict__[k] = v
     rec_part.n_sig = is_part.sum()
     rec_part.record_name = path.split('/')[-1]
     bloodpressure.write_record(rec_part, path)

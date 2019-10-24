@@ -1,6 +1,6 @@
 import tensorflow as tf
 from functools import partial, reduce
-
+import numpy
 import initialize
 import prepare_data
 
@@ -12,12 +12,14 @@ def filter_datum(x, y, is_good):
 def drop_filter_label(x, y, is_good):
     return x, y
 
-def process_raw(H, is_validation, validation_mask, sigs):
+def process_raw(H, part, validation_mask, sigs):
     
     sig_has_nan = tf.math.reduce_any(tf.math.is_nan(sigs), axis=0)
     sig_has_nan |= tf.math.reduce_any(sigs < -100, axis=0)
     
-    sig_diff_is_small = tf.reduce_max(sigs, axis=0) - tf.reduce_min(sigs, axis=0) < 0.01
+    sig_max = tf.reduce_max(sigs, axis=0)
+    sig_min = tf.reduce_min(sigs, axis=0)
+    sig_diff_is_small = sig_max - sig_min < 0.01
 
     saturated = tf.abs(sigs - tf.reduce_max(sigs, axis=0)) < 1e-4
     saturated |= tf.abs(sigs - tf.reduce_min(sigs, axis=0)) < 1e-4
@@ -30,10 +32,11 @@ def process_raw(H, is_validation, validation_mask, sigs):
     
     sig_is_bad = sig_has_nan | sig_diff_is_small | sig_is_saturated
     
-    if is_validation:
-        example_is_bad = tf.reduce_any(tf.boolean_mask(sig_is_bad[:-1], validation_mask))
-    else:
+    if part == 'train':
         example_is_bad = tf.reduce_all(sig_is_bad[:-1])
+    else:
+        val_sig_is_bad = tf.boolean_mask(sig_is_bad[:-1], validation_mask)
+        example_is_bad = tf.reduce_any(val_sig_is_bad)
     
     example_is_bad |= sig_is_bad[-1] | bp_too_small | bp_diff_is_small
     
@@ -41,13 +44,14 @@ def process_raw(H, is_validation, validation_mask, sigs):
     
     if example_is_good and tf.reduce_any(sig_is_bad):
         sigs *= tf.cast(~sig_is_bad, sigs.dtype)
-        sigs = tf.where(tf.math.is_nan(sigs), tf.constant(0, dtype=sigs.dtype), sigs)
+        zero = tf.constant(0, dtype=sigs.dtype)
+        sigs = tf.where(tf.math.is_nan(sigs), zero, sigs)
     
     x, y = sigs[:,:-1], sigs[:,-1]
     y = y[-H['pressure_window']:]
     y = tf.stack([tf.reduce_max(y), tf.reduce_min(y)])
     
-    if example_is_good and is_validation:
+    if example_is_good and part != 'train':
         x = tf.where(validation_mask, x, tf.constant(0, dtype=x.dtype))
     
     return x, y, example_is_good
@@ -65,26 +69,30 @@ def get_window_index_matrix(H):
     return I
 
 def get_offsets(indices):
-    offsets = tf.stack([indices, tf.zeros(shape=indices.shape[-1:], dtype='int32')], axis=1)
+    zeros = tf.zeros(shape=indices.shape[-1:], dtype='uint16')
+    offsets = tf.stack([indices, zeros], axis=1)
     offsets = tf.expand_dims(tf.expand_dims(offsets, 1), 1)
     return offsets
 
-def get_windows(H, window_index_matrix, chunk_path, sig_indices, window_indices, baseline, gain):
-    sigs = tf.io.read_file(chunk_path)
+def get_windows(H, W, chunk_name, sig_indices, window_indices, baseline, gain):
+    sigs = tf.io.read_file(prepare_data.ROOT_SERIAL + chunk_name + '.tfrec')
     sigs = tf.io.parse_tensor(sigs, out_type='int16')
     sigs.set_shape((prepare_data.CHUNK_SIZE, None))
-    sigs = tf.concat([tf.zeros(shape=[prepare_data.CHUNK_SIZE, 1], dtype='int16'), sigs], axis=1)
+    zeros = tf.zeros(shape=[prepare_data.CHUNK_SIZE, 1], dtype='int16')
+    sigs = tf.concat([zeros, sigs], axis=1)
     sigs = tf.gather(sigs, tf.cast(sig_indices, 'int32'), axis=1)
-    sig_shape = (prepare_data.CHUNK_SIZE, len(H['input_sigs_train'] + H['output_sigs']))
-    sigs.set_shape(sig_shape)
-    sigs = tf.cast(tf.cast(sigs, 'int32') - baseline, 'float32') / gain
-    offsets = get_offsets(window_indices)
-    windows = tf.gather_nd(sigs, window_index_matrix + offsets)
+    n_sig = len(H['input_sigs_train'] + H['output_sigs'])
+    sigs.set_shape((prepare_data.CHUNK_SIZE, n_sig))
+    sigs = tf.cast(sigs - baseline, 'float32') / gain
+    dW = tf.cast(get_offsets(window_indices), 'int32')
+    windows = tf.gather_nd(sigs, W + dW)
     data = tf.data.Dataset.from_tensor_slices(windows)
     return data
 
-def build(H, tensors, is_validation=False):
-    dataset = tf.data.Dataset.from_tensor_slices(tensors)
+def build(H, data, part):
+    I = numpy.random.permutation(data[0].shape[0])
+    data = tuple([tf.gather(d, I) for d in data])
+    dataset = tf.data.Dataset.from_tensor_slices(data)
     window_index_matrix = get_window_index_matrix(H)
     dataset = dataset.interleave(
         partial(get_windows, H, window_index_matrix), 
@@ -92,11 +100,12 @@ def build(H, tensors, is_validation=False):
         cycle_length = H['batch_buffer_size'] * H['batch_size'],
         num_parallel_calls = tf.data.experimental.AUTOTUNE,
     )
-    validation_mask = [i in H['input_sigs_validation'] for i in H['input_sigs_train']]
-    validation_mask = tf.constant(validation_mask, dtype=tf.bool, shape=[len(H['input_sigs_train'])])
-    dataset = dataset.map(partial(process_raw, H, is_validation, validation_mask))
+    S_train, S_val = H['input_sigs_train'], H['input_sigs_validation']
+    validation_mask = tf.constant([i in S_val for i in S_train], dtype='bool')
+    dataset = dataset.map(partial(process_raw, H, part, validation_mask))
     if H['filter_data']:
         dataset = dataset.filter(filter_datum).map(drop_filter_label)
-    buffer_size = H['batch_buffer_size'] * H['batch_size'] * H['windows_per_chunk']
+    buffer_size = H['batch_buffer_size'] 
+    buffer_size *= H['batch_size'] * H['windows_per_chunk']
     dataset = dataset.shuffle(buffer_size).batch(H['batch_size'])
     return dataset
