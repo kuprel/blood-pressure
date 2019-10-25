@@ -21,8 +21,19 @@ for k in ['train', 'validation']:
 model = conv_model.build(H)
 model.summary()
 
-tb_callback = tf.keras.callbacks.TensorBoard('/scr-ssd/tflogs/' + model_id)
+# class LRTensorBoard(tf.keras.callbacks.TensorBoard):
+#     def __init__(self, log_dir, **kwargs):
+#         super().__init__(log_dir=log_dir, **kwargs)
 
+#     def on_epoch_end(self, epoch, logs=None):
+#         lr = self.model.optimizer.lr(epoch * H['steps_per_epoch'])
+#         logs.update({'lr': tf.keras.backend.eval(lr)})
+#         super().on_epoch_end(epoch, logs)
+
+log_dir = '/scr-ssd/tflogs/' + model_id
+tb_callback = tf.keras.callbacks.TensorBoard(log_dir)
+# lr_callback = LRTensorBoard(log_dir + '_lr')
+        
 model.fit(
     data['train'],
     validation_data = data['validation'],

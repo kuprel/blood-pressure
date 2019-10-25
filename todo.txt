@@ -2,29 +2,23 @@ csv to hdf
   update sample_data
   remove preinitialize process
 
-fix conv_model
-
 tensorboard
-  learning rate
-  training curve
   surrogate losses (cvp, pap, etc)
   correlation plot
-  pulse pressure
+  training flaky
+  
   4 stage classification
-  95% CI
   hypertension SS
-
-share weights
-  conv2d
-  2nd layer ecg
-  3rd layer independent
+  percent within 15, 10, 5
 
 more pressure waveform outputs
 icd code outputs
 
-age/gender inputs
-height/weight
-prescription input
+age
+gender
+height
+weight
+prescriptions
 
 halve chunk_size
 
@@ -36,3 +30,5 @@ curriculum
   512:1 -> 1024:2 -> 1024:1
   
 read http://www.onlinejacc.org/content/70/5/572
+
+share ecg weights
