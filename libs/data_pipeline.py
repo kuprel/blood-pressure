@@ -49,10 +49,7 @@ def process_raw(H, part, validation_mask, sigs):
     
     x, y = sigs[:,:-1], sigs[:,-1]
     y = y[-H['pressure_window']:]
-    if H['predict_pulse_pressure']:
-        y = tf.reduce_max(y) - tf.reduce_min(y)
-    else:
-        y = tf.stack([tf.reduce_max(y), tf.reduce_min(y)])
+    y = tf.stack([tf.reduce_max(y), tf.reduce_min(y)])
     
     if example_is_good and part != 'train':
         x = tf.where(validation_mask, x, tf.constant(0, dtype=x.dtype))

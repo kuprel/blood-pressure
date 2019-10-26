@@ -1,3 +1,5 @@
+use bias then zero out missing signals
+
 csv to hdf
   update sample_data
   remove preinitialize process
