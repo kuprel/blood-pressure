@@ -91,7 +91,7 @@ def get_windows(H, W, chunk_name, sig_indices, window_indices, baseline, gain):
 
 def build(H, data, part):
     I = numpy.random.permutation(data[0].shape[0])
-    data = tuple([tf.gather(d, I) for d in data])
+    data = tuple([tf.gather(d, I) for d in data[:5]])
     dataset = tf.data.Dataset.from_tensor_slices(data)
     window_index_matrix = get_window_index_matrix(H)
     dataset = dataset.interleave(

@@ -1,5 +1,3 @@
-use bias then zero out missing signals
-
 csv to hdf
   update sample_data
   remove preinitialize process
@@ -7,20 +5,29 @@ csv to hdf
 tensorboard
   surrogate losses (cvp, pap, etc)
   correlation plot
-  training flaky
-  
   4 stage classification
   hypertension SS
   percent within 15, 10, 5
 
 more pressure waveform outputs
-icd code outputs
+
+smooth bp
+
+data augmentation
+  randomly slide ppg and resp
 
 age
 gender
 height
 weight
+death during stay
+ethnicity  
+icd_codes
+
 prescriptions
+inputs
+glucose, hematocrit, creatinine,
+electrolytes: potassium, magnesium, calcium, sodium
 
 halve chunk_size
 
@@ -30,7 +37,15 @@ normalize to account for varying waveform counts
 
 curriculum
   512:1 -> 1024:2 -> 1024:1
+  shrink target region over time
   
-read http://www.onlinejacc.org/content/70/5/572
+read
+  http://www.onlinejacc.org/content/70/5/572
+  https://deepmind.com/blog/article/wavenet-generative-model-raw-audio
+  https://arxiv.org/pdf/1910.10683.pdf (T5)
 
 share ecg weights
+
+dilated convolution
+finetune speech to text model
+check masks
