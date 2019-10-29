@@ -23,6 +23,6 @@ for part in ['train', 'validation']:
     _dx = diagnoses[partition[part]].copy()
     data[part] = initialize.dataframes_to_tensors(H, sample, _sig, _meta, _dx)
 
-path = '/scr-ssd/mimic/initial_data_{}.pkl'.format(H['epochs'])
+path = '/scr-ssd/mimic/initial_data_{}_new.pkl'.format(H['epochs'])
 with open(path, 'wb') as f:
     pickle.dump(data, f)

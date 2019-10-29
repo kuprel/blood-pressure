@@ -1,6 +1,6 @@
-csv to hdf
-  update sample_data
-  remove preinitialize process
+plot bp vs ptt
+
+sig_index input
 
 tensorboard
   surrogate losses (cvp, pap, etc)
@@ -10,6 +10,8 @@ tensorboard
   percent within 15, 10, 5
 
 more pressure waveform outputs
+  only apply loss when present
+    
 
 smooth bp
 
