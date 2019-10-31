@@ -12,7 +12,7 @@ model_id = sys.argv[1] + '_' + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
 H = initialize.load_hypes(model_id)
 
-path = '/scr-ssd/mimic/initial_data_{}.pkl'.format(H['epochs'])
+path = '/scr1/mimic/initial_data_{}.pkl'.format(H['epochs'])
 with open(path, 'rb') as f:
     data = pickle.load(f)
 

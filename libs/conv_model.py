@@ -1,37 +1,11 @@
 import tensorflow as tf
 from tensorflow import keras as K
 from functools import partial, reduce
+import numpy
+import loss_metrics
 
 compose = lambda *F: reduce(lambda f, g: lambda x: f(g(x)), F)
 
-def systolic_error(bp_true, bp_pred):
-    return K.losses.mean_absolute_error(bp_true[:, 0], bp_pred[:, 0])
-
-def diastolic_error(bp_true, bp_pred):
-    return K.losses.mean_absolute_error(bp_true[:, 1], bp_pred[:, 1])
-    
-def pulse_error(bp_true, bp_pred):
-    pp_true = bp_true[:, 0] - bp_true[:, 1]
-    pp_pred = bp_pred[:, 0] - bp_pred[:, 1]
-    return K.losses.mean_absolute_error(pp_true, pp_pred)
-
-def target_region_loss(r, y_true, y_pred):
-    errors = y_pred - y_true
-    losses = tf.abs(errors - r) + tf.abs(errors + r)
-    loss = tf.reduce_mean(losses) / 2 - r
-    return loss
-
-def loss(H, y_true, y_pred, sample_weight):
-    keys = ['systolic', 'diastolic', 'pulse']
-    w_sys, w_dia, w_pp = [H['loss_weight'][i] for i in keys]
-    r_sys, r_dia, r_pp = [H['target_radius'][i] for i in keys]
-    pp_true = y_true[:, 0] - y_true[:, 1]
-    pp_pred = y_pred[:, 0] - y_pred[:, 1]
-    loss_sys = target_region_loss(r_sys,  y_true[:, 0], y_pred[:, 0])
-    loss_dia = target_region_loss(r_dia,  y_true[:, 1], y_pred[:, 1])
-    loss_pp  = target_region_loss(r_pp,  pp_true,      pp_pred)
-    loss = loss_sys * w_sys + loss_dia * w_dia + loss_pp * w_pp
-    return loss
 
 def resnet_block_a(H, x):
     
@@ -46,6 +20,7 @@ def resnet_block_a(H, x):
         'kernel_size': H['kernel_sizes'][1], 
         'strides': H['strides'][1],   
     }
+    
     layers = [
         K.layers.BatchNormalization(),
         partial(tf.multiply, mask),
@@ -149,7 +124,16 @@ def dense_layer(H):
     
     layer = compose(*layers[::-1])
     return layer
-    
+
+
+def final_layer(H):
+    layers = [
+        K.layers.Dense(2 * len(H['output_sigs'])),
+        K.layers.Reshape([2, len(H['output_sigs'])])
+    ]
+    layer = compose(*layers[::-1])
+    return layer
+
 
 def build(H):
 
@@ -159,12 +143,12 @@ def build(H):
     mask = ~tf.reduce_all(x == 0, axis=1, keepdims=True)
     mask = tf.cast(mask, dtype=x.dtype)
     
-    bp_layer = K.layers.Dense(2)
+    pressure_layer = K.layers.Dense(2 * len(H['output_sigs']))
     
     split = partial(tf.split, axis=2, num_or_size_splits=m)
     squeeze = partial(map, partial(tf.squeeze, axis=2))
     stack = partial(tf.stack, axis=2)
-    
+        
     layers = [
         first_layer(H, mask),
         split, squeeze,
@@ -173,27 +157,44 @@ def build(H):
         resnet_block_ab(H, mask),
         *[resnet_block_b(H) for i in range(H['layer_count'])],
         dense_layer(H),
-        bp_layer,
     ]
     
     net = compose(*layers[::-1])
+    z = net(x)
     
-    model = K.models.Model(inputs=x, outputs=net(x))
+    reshape = K.layers.Reshape([2, len(H['output_sigs'])], name='pressure')
+    pressure = compose(reshape, pressure_layer)(z)
+    gender = K.layers.Dense(1, name='gender', activation='sigmoid')(z)
+    died = K.layers.Dense(1, name='died', activation='sigmoid')(z)
     
-    bp_layer.set_weights([
-        bp_layer.get_weights()[0],
-        tf.constant(H['mean_bp'], dtype='float32')
+    model = K.models.Model(inputs=x, outputs=[pressure, gender, died])
+    
+    mean_pressure = [H['mean_pressure'][s] for s in H['output_sigs']]
+    mean_pressure = numpy.array(mean_pressure, dtype='float32').T
+                                
+    pressure_layer.set_weights([
+        pressure_layer.get_weights()[0],
+        tf.constant(mean_pressure.flatten())
     ])  
 
     lr_schedule = K.optimizers.schedules.PiecewiseConstantDecay(
         boundaries = [H['steps_per_epoch'] * i for i in H['lr_boundaries']],
         values = [H['learning_rate'] / i for i in H['lr_divisors']]
     )
-        
+    
+    loss, metrics = loss_metrics.build(H)
+    
+    loss_weights = H['loss_weights']['output']
+    
     model.compile(
         optimizer = K.optimizers.Adam(learning_rate=lr_schedule),
-        loss=partial(loss, H),
-        metrics=[systolic_error, diastolic_error, pulse_error]
+        loss = loss,
+        metrics = metrics,
+        loss_weights = {
+            'pressure': loss_weights['pressure'],
+            'gender': loss_weights['gender'],
+            'died': loss_weights['died']
+        },
     )
 
     return model

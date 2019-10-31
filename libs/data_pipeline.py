@@ -7,7 +7,7 @@ import prepare_data
 compose = lambda *F: reduce(lambda f, g: lambda x: f(g(x)), F)
 
 
-def process_sigs(H, part, validation_mask, sigs):
+def process_sigs(H, part, validation_mask, sigs, *metadata):
     
     sig_has_nan = tf.math.reduce_any(tf.math.is_nan(sigs), axis=0)
     sig_has_nan |= tf.math.reduce_any(sigs < -100, axis=0)
@@ -54,7 +54,7 @@ def process_sigs(H, part, validation_mask, sigs):
     if example_is_good and part != 'train':
         x = tf.where(validation_mask, x, tf.constant(0, dtype=x.dtype))
     
-    return x, y, example_is_good
+    return (x, y, example_is_good, *metadata)
 
 
 def get_window_index_matrix(H):
@@ -77,7 +77,9 @@ def get_offsets(indices):
     return offsets
 
 
-def get_windows(H, W, chunk_name, sig_indices, window_indices, baseline, gain):
+def get_windows(
+    H, W, chunk_name, sig_indices, window_indices, baseline, gain, *metadata
+):
     sigs = tf.io.read_file(prepare_data.ROOT_SERIAL + chunk_name + '.tfrec')
     sigs = tf.io.parse_tensor(sigs, out_type='int16')
     sigs.set_shape((prepare_data.CHUNK_SIZE, None))
@@ -89,21 +91,32 @@ def get_windows(H, W, chunk_name, sig_indices, window_indices, baseline, gain):
     sigs = tf.cast(sigs - baseline, 'float32') / gain
     dW = tf.cast(get_offsets(window_indices), 'int32')
     windows = tf.gather_nd(sigs, W + dW)
-    data = tf.data.Dataset.from_tensor_slices(windows)
+    metadata = [tf.stack([i] * H['windows_per_chunk']) for i in metadata]
+    data = tf.data.Dataset.from_tensor_slices((windows, *metadata))
     return data
 
 
-def filter_datum(x, y, is_good):
+def filter_datum(x, y, is_good, *metadata):
     return is_good
 
 
-def drop_filter_label(x, y, is_good):
-    return x, y
+def to_inputs_outputs(x, y, is_good, *metadata):
+    outputs = {
+        'pressure': y, 
+        'gender': metadata[0],
+        'age': metadata[1],
+        'height': metadata[2],
+        'weight': metadata[3],
+        'race': metadata[4],
+        'died': metadata[5],
+        'diagnoses': metadata[6]
+    }
+    return x, outputs
 
 
 def build(H, data, part):
     I = numpy.random.permutation(data[0].shape[0])
-    data = tuple([tf.gather(d, I) for d in data[:5]])
+    data = tuple([tf.gather(d, I) for d in data])
     dataset = tf.data.Dataset.from_tensor_slices(data)
     window_index_matrix = get_window_index_matrix(H)
     dataset = dataset.interleave(
@@ -119,7 +132,7 @@ def build(H, data, part):
     
     dataset = dataset.map(partial(process_sigs, H, part, validation_mask))
     if H['filter_data']:
-        dataset = dataset.filter(filter_datum).map(drop_filter_label)
+        dataset = dataset.filter(filter_datum).map(to_inputs_outputs)
     buffer_size = H['batch_buffer_size'] 
     buffer_size *= H['batch_size'] * H['windows_per_chunk']
     dataset = dataset.shuffle(buffer_size).batch(H['batch_size'])

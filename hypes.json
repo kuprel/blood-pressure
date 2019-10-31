@@ -6,12 +6,12 @@
   "require_all_sigs": false,
   "filter_data": true,
   "sample_with_replacement": false,
-  "window_size": 512,
   "input_stride": 1,
   "pressure_window": 512,
   "windows_per_chunk": 2,
   "batch_size": 64,
-  "epochs": 32,
+  "window_size": 512,
+  "epochs": 1024,
   "steps_per_epoch": 128,
   "validation_steps": 256,
   "filter_count": 128,
@@ -20,10 +20,19 @@
   "kernel_sizes": [16, 8, 4],
   "dense_units": 256,
   "dropout": 0.1,
-  "mean_bp": [126.919, 57.932],
+  "mean_pressure": {
+    "ABP": [127, 58],
+    "CVP": [18, 5.9],
+    "ICP": [12.8, 6.4],
+    "PAP": [43.2, 14.6]
+  },
   "batch_buffer_size": 4,
-  "loss_weight": {"systolic": 0.5, "diastolic": 0.3, "pulse": 0.2},
-  "target_radius": {"systolic": 3, "diastolic": 2, "pulse": 6},
+  "loss_weights": {
+    "output": {"pressure": 0.8, "gender": 0.1, "died": 0.1},
+    "sig": {"ABP": 0.7, "CVP": 0.1, "ICP": 0.1, "PAP": 0.1},
+    "metric": {"systolic": 0.6, "diastolic": 0.4}
+  },
+  "relative_target_radius": 0.02,
   "learning_rate": 0.0001,
   "lr_boundaries": [10, 25, 100, 150, 200, 300, 400],
   "lr_divisors": [9, 3, 1, 2, 4, 8, 16, 32]

@@ -163,10 +163,14 @@ def dataframes_to_tensors(H, sample, sig_data, metadata, diagnoses):
     metadata = metadata.reindex(sample.index)
     diagnoses = diagnoses.reindex(sample.index)
     S = H['input_sigs_train'] + H['output_sigs']
-    gender = numpy.stack([metadata['gender'] == i for i in ['M', 'F']], axis=1)
-    race = list(metadata['ethnicity'].dtype.categories)
+    gender = metadata['gender'].astype(object).replace({'M': 1, 'F': -1})
+    gender = gender.fillna(0).astype('int8')
+    race = ['white', 'black', 'hispanic', 'asian']
     race = metadata['ethnicity'].map(race.index)
     race = race.astype(object).fillna(-1).astype('int8') + 1
+    died = metadata['death_time'].notna()
+    died = died.astype('int8').replace({0: -1})
+    died[metadata['hadm_id'] == -1] = 0
     diagnoses = diagnoses.astype(object).replace({False: -1, True: 1})
     diagnoses = diagnoses.fillna(0).astype('int8')
     tensors = (
@@ -175,12 +179,12 @@ def dataframes_to_tensors(H, sample, sig_data, metadata, diagnoses):
         tf.constant(window_ids,                       dtype='uint16' ),
         tf.constant(sig_data['baseline'][S].values,   dtype='int16'  ),
         tf.constant(sig_data['adc_gain'][S].values,   dtype='float32'),
-        tf.constant(gender,                           dtype='bool'   ),
+        tf.constant(gender,                           dtype='int8'   ),
         tf.constant(metadata['age'].values,           dtype='int8'   ),
         tf.constant(metadata['height'].values,        dtype='int8'   ),
         tf.constant(metadata['weight'].values,        dtype='float32'),
         tf.constant(race,                             dtype='int8'   ),
-        tf.constant(metadata['death_time'].notna(),   dtype='bool'   ),
+        tf.constant(died.values,                      dtype='int8'   ),
         tf.constant(diagnoses.values,                 dtype='int8'   )
     )
     return tensors

@@ -1,4 +1,16 @@
+sebastian meeting
+  predict
+    diseases
+    age, height, weight
+    race
+  plot_batch
+    title
+  logit bias
+    binary
+    multiclass
+
 plot bp vs ptt
+smooth bp
 
 sig_index input
 
@@ -9,14 +21,17 @@ tensorboard
   hypertension SS
   percent within 15, 10, 5
 
-more pressure waveform outputs
-  only apply loss when present
-    
-
-smooth bp
-
 data augmentation
   randomly slide ppg and resp
+
+input gender
+  validate on only entries w/ gender
+  keras lookup layer added to dense
+  pass through data pipeline
+  
+predict gender
+  pass through data pipeline
+  add loss
 
 age
 gender
