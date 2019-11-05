@@ -8,16 +8,14 @@ import sys
 
 tf.debugging.set_log_device_placement(True)
 
-model_id = sys.argv[1] + '_' + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+time_str = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+model_id = sys.argv[1] + '_' + time_str
 
 H = initialize.load_hypes(model_id)
+data = initialize.load_data(H, from_disk=True)
 
-path = '/scr1/mimic/initial_data_{}.pkl'.format(H['epochs'])
-with open(path, 'rb') as f:
-    data = pickle.load(f)
-
-for k in ['train', 'validation']:
-    data[k] = data_pipeline.build(H, data[k], k)
+for part in ['train', 'validation']:
+    data[part] = data_pipeline.build(H, data[part], part)
     
 model = conv_model.build(H)
 model.summary()

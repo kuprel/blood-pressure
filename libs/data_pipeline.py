@@ -7,7 +7,9 @@ import prepare_data
 compose = lambda *F: reduce(lambda f, g: lambda x: f(g(x)), F)
 
 
-def process_sigs(H, part, validation_mask, sigs, *metadata):
+def process_example(H, part, validation_mask, example):
+    
+    sigs = example.pop('sigs')
     
     sig_has_nan = tf.math.reduce_any(tf.math.is_nan(sigs), axis=0)
     sig_has_nan |= tf.math.reduce_any(sigs < -100, axis=0)
@@ -54,7 +56,9 @@ def process_sigs(H, part, validation_mask, sigs, *metadata):
     if example_is_good and part != 'train':
         x = tf.where(validation_mask, x, tf.constant(0, dtype=x.dtype))
     
-    return (x, y, example_is_good, *metadata)
+    example = {**example, 'x': x, 'pressure': y, 'is_good': example_is_good}
+    
+    return example
 
 
 def get_window_index_matrix(H):
@@ -77,50 +81,48 @@ def get_offsets(indices):
     return offsets
 
 
-def get_windows(
-    H, W, chunk_name, sig_indices, window_indices, baseline, gain, *metadata
-):
-    sigs = tf.io.read_file(prepare_data.ROOT_SERIAL + chunk_name + '.tfrec')
+def get_examples(H, W, example):
+    chunk_name = example.pop('chunk_name')
+    sigs_path = prepare_data.ROOT_SERIAL + chunk_name + '.tfrec'
+    sigs = tf.io.read_file(sigs_path)
     sigs = tf.io.parse_tensor(sigs, out_type='int16')
     sigs.set_shape((prepare_data.CHUNK_SIZE, None))
     zeros = tf.zeros(shape=[prepare_data.CHUNK_SIZE, 1], dtype='int16')
     sigs = tf.concat([zeros, sigs], axis=1)
-    sigs = tf.gather(sigs, tf.cast(sig_indices, 'int32'), axis=1)
+    sigs = tf.gather(sigs, tf.cast(example['sig_index'], 'int32'), axis=1)
     n_sig = len(H['input_sigs_train'] + H['output_sigs'])
     sigs.set_shape((prepare_data.CHUNK_SIZE, n_sig))
+    baseline = example.pop('baseline')
+    gain = example.pop('adc_gain')
     sigs = tf.cast(sigs - baseline, 'float32') / gain
-    dW = tf.cast(get_offsets(window_indices), 'int32')
+    window_ids = example.pop('window_ids')
+    dW = tf.cast(get_offsets(window_ids), 'int32')
     windows = tf.gather_nd(sigs, W + dW)
-    metadata = [tf.stack([i] * H['windows_per_chunk']) for i in metadata]
-    data = tf.data.Dataset.from_tensor_slices((windows, *metadata))
-    return data
-
-
-def filter_datum(x, y, is_good, *metadata):
-    return is_good
-
-
-def to_inputs_outputs(x, y, is_good, *metadata):
-    outputs = {
-        'pressure': y, 
-        'gender': metadata[0],
-        'age': metadata[1],
-        'height': metadata[2],
-        'weight': metadata[3],
-        'race': metadata[4],
-        'died': metadata[5],
-        'diagnoses': metadata[6]
+    metadata = {
+        k: tf.stack([example[k]] * H['windows_per_chunk']) 
+        for k in example
     }
-    return x, outputs
+    examples = {'sigs': windows, **metadata}
+    examples = tf.data.Dataset.from_tensor_slices(examples)
+    return examples
+
+
+def filter_example(example):
+    return example['is_good']
+
+
+def to_inputs_outputs(example):
+    return example['x'], example
 
 
 def build(H, data, part):
-    I = numpy.random.permutation(data[0].shape[0])
-    data = tuple([tf.gather(d, I) for d in data])
+    n = next(iter(data.values())).shape[0]
+    I = numpy.random.permutation(n)
+    data = {k: tf.gather(data[k], I) for k in data}
     dataset = tf.data.Dataset.from_tensor_slices(data)
     window_index_matrix = get_window_index_matrix(H)
     dataset = dataset.interleave(
-        partial(get_windows, H, window_index_matrix), 
+        partial(get_examples, H, window_index_matrix), 
         block_length = 1, 
         cycle_length = H['batch_buffer_size'] * H['batch_size'],
         num_parallel_calls = tf.data.experimental.AUTOTUNE,
@@ -130,10 +132,11 @@ def build(H, data, part):
     S_train, S_val = H['input_sigs_train'], H['input_sigs_validation']
     validation_mask = tf.constant([i in S_val for i in S_train], dtype='bool')
     
-    dataset = dataset.map(partial(process_sigs, H, part, validation_mask))
+    dataset = dataset.map(partial(process_example, H, part, validation_mask))
     if H['filter_data']:
-        dataset = dataset.filter(filter_datum).map(to_inputs_outputs)
+        dataset = dataset.filter(filter_example).map(to_inputs_outputs)
     buffer_size = H['batch_buffer_size'] 
     buffer_size *= H['batch_size'] * H['windows_per_chunk']
     dataset = dataset.shuffle(buffer_size).batch(H['batch_size'])
+    dataset = dataset.repeat(10)
     return dataset

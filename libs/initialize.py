@@ -2,15 +2,35 @@ import os
 from functools import partial, reduce
 import json
 import pandas
+import zlib
 import shutil
 import numpy
 from scipy import signal
 import tensorflow as tf
 
-import flacdb, prepare_data
+import flacdb
+import prepare_data
 
 RESP_SCALE = 5
 HOME = '/sailhome/kuprel/blood-pressure/'
+
+DATA_ROOT = '/scr1/mimic/initial_data/'
+
+# change to name: dtype
+TENSOR_INFO = [
+    {'name': 'chunk_name', 'dtype': 'string' },
+    {'name': 'sig_index',  'dtype': 'int8'   },
+    {'name': 'window_ids', 'dtype': 'uint16' },
+    {'name': 'baseline',   'dtype': 'int16'  },
+    {'name': 'adc_gain',   'dtype': 'float32'},
+    {'name': 'gender',     'dtype': 'int8'   },
+    {'name': 'age',        'dtype': 'int8'   },
+    {'name': 'height',     'dtype': 'int8'   },
+    {'name': 'weight',     'dtype': 'float32'},
+    {'name': 'race',       'dtype': 'int8'   },
+    {'name': 'died',       'dtype': 'int8'   },
+    {'name': 'diagnosis',  'dtype': 'int8'   },
+]
 
 clinic_file = lambda i: '/scr1/mimic/clinic/{}.csv'.format(i.upper())
 
@@ -24,10 +44,10 @@ def load_hypes(model_id='tmp'):
     return H
 
 
-def load_diagnoses(codes, metadata):
-    diagnoses = pandas.read_csv(clinic_file('diagnoses_icd'))
+def load_diagnosis(codes, metadata):
+    diagnosis = pandas.read_csv(clinic_file('diagnoses_icd'))
     new_names = {'HADM_ID': 'hadm_id', 'ICD9_CODE': 'code'}
-    data = diagnoses[new_names].rename(columns=new_names)
+    data = diagnosis[new_names].rename(columns=new_names)
     data = data[data['code'].isin(codes)]
     data.drop_duplicates(inplace=True)
     data.set_index(['hadm_id', 'code'], inplace=True)
@@ -54,8 +74,9 @@ def load_test_subject_ids():
 def load_partition(H, sig_data, metadata):
     test_subject_ids = load_test_subject_ids()
     partition = {'validation': metadata['subject_id'].isin(test_subject_ids)}
-    partition['train'] = ~partition['validation']    
-    has_validation_sig = sig_data['sig_index'][H['input_sigs_validation']] > 0
+    partition['train'] = ~partition['validation']
+    S = [s for s in H['input_sigs_validation'] if s not in H['output_sigs']]
+    has_validation_sig = sig_data['sig_index'][S] > 0
     partition['validation'] &= has_validation_sig.all(axis=1)
     return partition    
 
@@ -64,9 +85,10 @@ def load_sig_data(sig_names):
     index = ['rec_id', 'segment', 'sig_name']
     columns = index + ['sig_index', 'baseline', 'adc_gain']
     sig_data = pandas.read_hdf('/scr-ssd/mimic/sig_data.hdf', columns=columns)
-    dtypes = sig_data.dtypes
     sig_data = sig_data[sig_data['sig_name'].isin(sig_names)]
     sig_data.drop_duplicates(index, inplace=True)
+    sig_data = sig_data.astype({'sig_name': str})
+    dtypes = sig_data.dtypes
     sig_data.set_index(index, inplace=True)
     sig_data = sig_data.loc[(slice(None), slice(None), sig_names), :]
     sig_data.at[:, 'sig_index'] += 1
@@ -83,8 +105,8 @@ def load_data(H):
     sig_data = sig_data.reindex(index)
     metadata = metadata.reindex(index)
     partition = load_partition(H, sig_data, metadata)
-    diagnoses = load_diagnoses(H['icd_codes'], metadata)
-    return sig_data, metadata, partition, diagnoses
+    diagnosis = load_diagnosis(H['icd_codes'], metadata)
+    return sig_data, metadata, partition, diagnosis
 
 
 def calculate_chunks_per_record(H, rec_count, part):
@@ -153,43 +175,122 @@ def sample_data(H, data, part):
     return data
 
 
-def dataframes_to_tensors(H, sample, sig_data, metadata, diagnoses):
-    arrays = {}
+def dataframes_to_tensors(H, sample, sig_data, metadata, diagnosis):
+    tensors = {}
     index = sample.index.names + ['window_index']
     sample = sample.reset_index().set_index(index)
-    window_ids = sample['window_id'].unstack(-1).values
+    tensors['window_ids'] = sample['window_id'].unstack(-1).values
     sample = sample.loc[(slice(None), slice(None), slice(None), 0), :]
     sig_data = sig_data.reindex(sample.index)
     metadata = metadata.reindex(sample.index)
-    diagnoses = diagnoses.reindex(sample.index)
+    diagnosis = diagnosis.reindex(sample.index)
+    diagnosis = diagnosis.astype(object).replace({False: -1, True: 1})
+    tensors['diagnosis'] = diagnosis.fillna(0).astype('int8').values
     S = H['input_sigs_train'] + H['output_sigs']
     gender = metadata['gender'].astype(object).replace({'M': 1, 'F': -1})
-    gender = gender.fillna(0).astype('int8')
+    tensors['gender'] = gender.fillna(0).astype('int8')
     race = ['white', 'black', 'hispanic', 'asian']
     race = metadata['ethnicity'].map(race.index)
-    race = race.astype(object).fillna(-1).astype('int8') + 1
+    tensors['race'] = race.astype(object).fillna(-1).astype('int8') + 1
     died = metadata['death_time'].notna()
-    died = died.astype('int8').replace({0: -1})
-    died[metadata['hadm_id'] == -1] = 0
-    diagnoses = diagnoses.astype(object).replace({False: -1, True: 1})
-    diagnoses = diagnoses.fillna(0).astype('int8')
-    tensors = (
-        tf.constant(sample['chunk_name'].values,      dtype='string' ),
-        tf.constant(sig_data['sig_index'][S].values,  dtype='int8'   ),
-        tf.constant(window_ids,                       dtype='uint16' ),
-        tf.constant(sig_data['baseline'][S].values,   dtype='int16'  ),
-        tf.constant(sig_data['adc_gain'][S].values,   dtype='float32'),
-        tf.constant(gender,                           dtype='int8'   ),
-        tf.constant(metadata['age'].values,           dtype='int8'   ),
-        tf.constant(metadata['height'].values,        dtype='int8'   ),
-        tf.constant(metadata['weight'].values,        dtype='float32'),
-        tf.constant(race,                             dtype='int8'   ),
-        tf.constant(died.values,                      dtype='int8'   ),
-        tf.constant(diagnoses.values,                 dtype='int8'   )
-    )
+    tensors['died'] = died.astype('int8').replace({0: -1})
+    tensors['died'][metadata['hadm_id'] == -1] = 0
+    tensors['chunk_name'] = sample['chunk_name']
+    tensors['sig_index'] = sig_data['sig_index'][S].values
+    tensors['baseline']  = sig_data['baseline'][S].values
+    tensors['adc_gain']  = sig_data['adc_gain'][S].values
+    tensors['age']    = metadata['age'].values
+    tensors['height'] = metadata['height'].values
+    tensors['weight'] = metadata['weight'].values
+    tensors = {
+        i['name']: tf.constant(tensors[i['name']], dtype=i['dtype'])
+        for i in TENSOR_INFO
+    }
     return tensors
 
 
+def write_tensors(data, file_suffix):
+    for k in data:
+        file = TENSORS_ROOT + k + '_' + file_suffix + '.tensor'
+        x = tf.io.serialize_tensor(data[k])
+        z = zlib.compress(x, level=6)
+        tf.io.write_file(file, z)
+
+        
+def read_tensors(epochs, part=None):
+    data = {}
+    parts = ['train', 'validation'] if part is None else [part]
+    for part in parts:
+        data[part] = {}
+        for i in TENSOR_INFO:
+            file_suffix = str(epochs) + '_' + part
+            file = TENSORS_ROOT + i['name'] + '_' + file_suffix + '.tensor'
+            z = tf.io.read_file(file)
+            x = tf.io.decode_compressed(z, compression_type='ZLIB')
+            data[part][i['name']] = tf.io.parse_tensor(x, out_type=i['dtype'])
+    return data
+        
+        
+def run(H, part=None, write_to_disk=False):
+    S = H['input_sigs_train'] + H['output_sigs']
+    sig_data = load_sig_data(S)
+    metadata = pandas.read_hdf('/scr-ssd/mimic/metadata.hdf')
+    index = metadata.index & sig_data.index & prepare_data.get_downloaded() 
+    sig_data = sig_data.reindex(index)
+    metadata = metadata.reindex(index)
+    partition = load_partition(H, sig_data, metadata)
+    describe_data_size(H, sig_data, metadata)
+
+    parts = ['train', 'validation'] if part is None else [part]
+    
+    sample = {}
+    for part in parts:
+        sig_len = metadata[partition[part]][['sig_len']]
+        sample[part] = sample_data(H, sig_len, part)
+    
+    if write_to_disk:
+        f = DATA_ROOT + 'initial_data_{}.hdf'.format(H['epochs'])
+        sig_data.to_hdf(f, 'sig_data')
+        sample['train'].to_hdf(f, 'sample_train')
+        sample['validation'].to_hdf(f, 'sample_validation')
+        partition['train'].to_hdf(f, 'partition_train')
+        partition['validation'].to_hdf(f, 'partition_validation')
+        metadata.to_hdf(f, 'metadata', format='table')
+    else:
+        return sig_data, metadata, sample, partition
+
+
+def load_data(H, from_disk=False):
+    
+    parts = ['train', 'validation']
+
+    if from_disk:
+        f = DATA_ROOT + 'initial_data_{}.hdf'.format(H['epochs'])
+        sample = {}
+        sample['train'] = pandas.read_hdf(f, 'sample_train')
+        sample['validation'] = pandas.read_hdf(f, 'sample_validation')
+        partition = {}
+        partition['train'] = pandas.read_hdf(f, 'partition_train')
+        partition['validation'] = pandas.read_hdf(f, 'partition_validation')
+        metadata = pandas.read_hdf(f, 'metadata')
+        sig_data = pandas.read_hdf(f, 'sig_data')
+    else:
+        sig_data, metadata, sample, partition = run(H)
+        
+    diagnosis = load_diagnosis(H['icd_codes'], metadata)
+    
+    data = {}
+    for part in parts:
+        data[part] = dataframes_to_tensors(
+            H, sample[part],
+            sig_data[partition[part]],
+            metadata[partition[part]],
+            diagnosis[partition[part]],   
+        )
+    
+    return data
+
+        
 def describe_data_size(H, sig_data, metadata):
     sig_counts = (sig_data['sig_index'][H['input_sigs_train']] > 0).sum(1)
     chunk_counts = metadata['sig_len'].apply(prepare_data.get_chunk_count)

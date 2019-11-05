@@ -164,10 +164,15 @@ def build(H):
     
     reshape = K.layers.Reshape([2, len(H['output_sigs'])], name='pressure')
     pressure = compose(reshape, pressure_layer)(z)
+    
     gender = K.layers.Dense(1, name='gender', activation='sigmoid')(z)
     died = K.layers.Dense(1, name='died', activation='sigmoid')(z)
+    n = len(H['icd_codes'])
+    diagnosis = K.layers.Dense(n, name='diagnosis', activation='sigmoid')(z)
     
-    model = K.models.Model(inputs=x, outputs=[pressure, gender, died])
+    outputs = [pressure, gender, died, diagnosis]
+    
+    model = K.models.Model(inputs=x, outputs=outputs)
     
     mean_pressure = [H['mean_pressure'][s] for s in H['output_sigs']]
     mean_pressure = numpy.array(mean_pressure, dtype='float32').T
@@ -193,7 +198,8 @@ def build(H):
         loss_weights = {
             'pressure': loss_weights['pressure'],
             'gender': loss_weights['gender'],
-            'died': loss_weights['died']
+            'died': loss_weights['died'],
+            'diagnosis': loss_weights['diagnosis']
         },
     )
 

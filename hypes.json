@@ -2,7 +2,10 @@
   "input_sigs_train": ["I", "II", "III", "V", "AVR", "MCL", "PLETH", "RESP"],
   "input_sigs_validation": ["II", "V", "AVR", "PLETH", "RESP"],
   "output_sigs": ["ABP", "CVP", "ICP", "PAP"],
-  "icd_codes": ["4019", "4280", "42731", "41401", "2724"],
+  "icd_codes": [
+    "4019", "4280", "42731", "41401", "2724", "25000", "5859", "5849",
+    "51881", "2859", "4240", "4241", "78552", "99592", "2762"
+  ],
   "require_all_sigs": false,
   "filter_data": true,
   "sample_with_replacement": false,
@@ -28,12 +31,12 @@
   },
   "batch_buffer_size": 4,
   "loss_weights": {
-    "output": {"pressure": 0.8, "gender": 0.1, "died": 0.1},
-    "sig": {"ABP": 0.7, "CVP": 0.1, "ICP": 0.1, "PAP": 0.1},
+    "output": {"pressure": 0.5, "gender": 0.1, "died": 0.2, "diagnosis": 0.2},
+    "sig": {"ABP": 0.6, "CVP": 0.2, "ICP": 0.1, "PAP": 0.1},
     "metric": {"systolic": 0.6, "diastolic": 0.4}
   },
   "relative_target_radius": 0.02,
   "learning_rate": 0.0001,
-  "lr_boundaries": [10, 25, 100, 150, 200, 300, 400],
-  "lr_divisors": [9, 3, 1, 2, 4, 8, 16, 32]
+  "lr_boundaries": [10, 25, 100, 150, 200, 300],
+  "lr_divisors": [9, 3, 1, 2, 4, 8, 16]
 }

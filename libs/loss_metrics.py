@@ -3,63 +3,118 @@ from tensorflow import keras as K
 from functools import partial
 
 
-def pressure_loss(H, y_true, y_pred, sample_weight):
-    eps = H['relative_target_radius']
-    L1 = tf.abs(y_pred - (1 - eps) * y_true)
-    L2 = tf.abs(y_pred - (1 + eps) * y_true)
+def get_pressure_weight_matrix(H):
     w1 = [H['loss_weights']['metric'][k] for k in ['systolic', 'diastolic']]
     w2 = [H['loss_weights']['sig'][s] for s in H['output_sigs']]
     w1 = tf.constant(w1, dtype='float32')
     w2 = tf.constant(w2, dtype='float32')
     W = tf.expand_dims(w1, axis=1) * tf.expand_dims(w2, axis=0)
     W = tf.stack([W] * H['batch_size'])
-    W = tf.where(y_true == 0, 0.0, W)
-    L = tf.reduce_sum(tf.reduce_mean(W * (L1 + L2), axis=0)) / 2
-    return L
+    return W
 
 
-def extract_present(y_true, y_pred):
-    mask = lambda y: tf.boolean_mask(y, y_true[:, 0] != 0, axis=0)
-    return mask(y_true), mask(y_pred)
+def pressure_loss(H, y_true, y_pred, sample_weight=None):
+    eps = H['relative_target_radius']
+    L1 = tf.abs(y_pred - (1 - eps) * y_true)
+    L2 = tf.abs(y_pred - (1 + eps) * y_true)
+    mask = tf.cast(y_true != 0, 'float32')
+    W = get_pressure_weight_matrix(H) * mask
+    L = tf.reduce_sum(W * (L1 + L2), axis=0)
+    counts = tf.maximum(tf.reduce_sum(mask, axis=0), 1)
+    loss = tf.reduce_mean(L / counts) / 2
+    return loss
 
 
-def extract_outcome_present(y_true, y_pred, outcome):
-    mask = lambda y: tf.boolean_mask(y, y_true == outcome)
-    return mask(y_true), mask(y_pred)
+def positive_diagnosis_loss(y_true, y_pred):
+    mask = tf.cast(y_true == 1, 'float32')
+    cross_entropy = -tf.math.log(y_pred) * mask
+    counts = tf.maximum(tf.reduce_sum(mask, axis=0), 1)
+    loss = tf.reduce_mean(tf.reduce_sum(cross_entropy, axis=0) / counts)
+    return loss
+
+
+def negative_diagnosis_loss(y_true, y_pred):
+    mask = tf.cast(y_true == -1, 'float32')
+    cross_entropy = -tf.math.log(1 - y_pred) * mask
+    counts = tf.maximum(tf.reduce_sum(mask, axis=0), 1)
+    loss = tf.reduce_mean(tf.reduce_sum(cross_entropy, axis=0) / counts)
+    return loss
+
+
+def diagnosis_loss(y_true, y_pred):
+    y_pred = tf.clip_by_value(y_pred, 1e-7, 1 - 1e-7)
+    loss_positive = positive_diagnosis_loss(y_true, y_pred)
+    loss_negative = negative_diagnosis_loss(y_true, y_pred)
+    return (loss_positive + loss_negative) / 2
+
+
+def to_hypertensive(y):
+    y = tf.reduce_any(y[:, :, 0] > [140., 90.], axis=1)
+    y = tf.cast(y, 'int32')
+    y = tf.where(y == 0, -1, y)
+    return y
+
+
+def hypertensive_sensitivity(y_true, y_pred):
+    return sensitivity(to_hypertensive(y_true), to_hypertensive(y_pred))
+
+
+def hypertensive_specificity(y_true, y_pred):
+    return specificity(to_hypertensive(y_true), to_hypertensive(y_pred))
+
+
+def hypertensive_accuracy(y_true, y_pred):
+    s1 = hypertensive_sensitivity(y_true, y_pred)
+    s2 = hypertensive_specificity(y_true, y_pred)
+    return (s1 + s2) / 2
 
 
 def systolic_error(j, y_true, y_pred):
-    y, y_ = extract_present(y_true[:, :, j], y_pred[:, :, j])
-    error = K.losses.mean_absolute_error(y[:, 0], y_[:, 0])
+    mask = lambda y: tf.boolean_mask(y[:, 0, j], y_true[:, 0, j] != 0)
+    error = K.losses.mean_absolute_error(mask(y_true), mask(y_pred))
     error = tf.cond(tf.math.is_nan(error), lambda: 0.0, lambda: error)
     return error
 
 
 def diastolic_error(j, y_true, y_pred):
-    y, y_ = extract_present(y_true[:, :, j], y_pred[:, :, j])
-    error = K.losses.mean_absolute_error(y[:, 1], y_[:, 1])
-    is_nan = tf.math.is_nan(error)
-    error = tf.cond(is_nan, lambda: tf.constant(0.0), lambda: error)
+    mask = lambda y: tf.boolean_mask(y[:, 1, j], y_true[:, 0, j] != 0)
+    error = K.losses.mean_absolute_error(mask(y_true), mask(y_pred))
+    error = tf.cond(tf.math.is_nan(error), lambda: 0.0, lambda: error)
     return error
 
 
 def pulse_error(j, y_true, y_pred):
-    y, y_ = extract_present(y_true[:, :, j], y_pred[:, :, j])
-    error = K.losses.mean_absolute_error(y[:, 0] - y[:, 1], y_[:, 0] - y_[:, 1])
-    is_nan = tf.math.is_nan(error)
-    error = tf.cond(is_nan, lambda: tf.constant(0.0), lambda: error)
+    mask = lambda y: tf.boolean_mask(y[:,0,j] - y[:,1,j], y_true[:,0,j] != 0)
+    error = K.losses.mean_absolute_error(mask(y_true), mask(y_pred))
+    error = tf.cond(tf.math.is_nan(error), lambda: 0.0, lambda: error)
     return error
 
 
+def diagnosis_sensitivity(j, y_true, y_pred):
+    return sensitivity(y_true[:, j], y_pred[:, j])
+
+
+def diagnosis_specificity(j, y_true, y_pred):
+    return specificity(y_true[:, j], y_pred[:, j])
+
+
+def diagnosis_accuracy(j, y_true, y_pred):
+    s1 = sensitivity(y_true[:, j], y_pred[:, j])
+    s2 = specificity(y_true[:, j], y_pred[:, j])
+    return (s1 + s2) / 2
+
+
 def true_positive_loss(y_true, y_pred):
-    y, y_ = extract_outcome_present(y_true, y_pred, 1)
+    mask = lambda y: tf.boolean_mask(y, y_true == 1)
+    y, y_ = mask(y_true), mask(y_pred)
     loss = K.metrics.binary_crossentropy(y, y_)
     loss = tf.cond(tf.math.is_nan(loss), lambda: 0.0, lambda: loss)
     return loss
 
 
 def true_negative_loss(y_true, y_pred):
-    y, y_ = extract_outcome_present(y_true, y_pred, -1)
+    mask = lambda y: tf.boolean_mask(y, y_true == -1)
+    y, y_ = mask(y_true), mask(y_pred)
     y += 1
     loss = K.metrics.binary_crossentropy(y, y_)
     loss = tf.cond(tf.math.is_nan(loss), lambda: 0.0, lambda: loss)
@@ -74,23 +129,33 @@ def binary_outcome_loss(y_true, y_pred):
 
 
 def accuracy(y_true, y_pred):
-    p = K.metrics.binary_accuracy(tf.cast(y_true, 'float32'), y_pred)
+    y_true, y_pred = tf.cast(y_true, 'float32'), tf.cast(y_pred, 'float32')
+    p = K.metrics.binary_accuracy(y_true, y_pred)
     p = tf.cond(tf.math.is_nan(p), lambda: 0.0, lambda: p)
     return p
 
 
 def sensitivity(y_true, y_pred):
-    y_true, y_pred = extract_outcome_present(y_true, y_pred, 1)
+    mask = lambda y: tf.boolean_mask(y, y_true == 1)
+    y_true, y_pred = mask(y_true), mask(y_pred)
     return accuracy(y_true, y_pred)
 
 
 def specificity(y_true, y_pred):
-    y_true, y_pred = extract_outcome_present(y_true, y_pred, -1)
+    mask = lambda y: tf.boolean_mask(y, y_true == -1)
+    y_true, y_pred = mask(y_true), mask(y_pred)
     y_true += 1
     return accuracy(y_true, y_pred)
 
 
+def average_accuracy(y_true, y_pred, sample_weight=None):
+    s1 = sensitivity(y_true, y_pred)
+    s2 = specificity(y_true, y_pred)
+    return (s1 + s2) / 2
+
+    
 def build(H):
+        
     pressure_metrics = {
         'systolic': systolic_error,
         'diastolic': diastolic_error,
@@ -104,11 +169,51 @@ def build(H):
     
     for k in pressure_metrics:
         pressure_metrics[k].__name__ = k
-            
+    
+    pressure_metrics = list(pressure_metrics.values())
+    pressure_metrics += [
+        hypertensive_sensitivity, 
+        hypertensive_specificity,
+        hypertensive_accuracy
+    ]
+    
+    diagnosis_metrics = {
+        'sensitivity': diagnosis_sensitivity,
+        'specificity': diagnosis_specificity,
+        'accuracy': diagnosis_accuracy
+    }
+    
+    code_names = {
+        '4019':  'hypertensive',
+        '4280':  'congestive_heart_failure',
+        '42731': 'atrial_fibrillation',
+        '41401': 'coronary_atherosclerosis',
+        '2724':  'hyperlipidemia',
+        '5859':  'chronic_kidney_disease',
+        '25000': 'diabetes',
+        '5849':  'acute_kidney_failure',
+        '51881': 'acute_resp_failure',
+        '2859':  'anemia',
+        '4240':  'mitral_valve_disorder',
+        '4241':  'aortic_valve_disorder',
+        '78552': 'septic_shock',
+        '99592': 'severe_sepsis',
+        '2762':  'acidosis'
+    }
+    
+    diagnosis_metrics = {
+        code_names[code] + '_' + k: partial(diagnosis_metrics[k], j) 
+        for j, code in enumerate(H['icd_codes']) for k in diagnosis_metrics 
+    }
+    
+    for k in diagnosis_metrics:
+        diagnosis_metrics[k].__name__ = k
+    
     metrics = {
-        'pressure': list(pressure_metrics.values()), 
-        'gender': [sensitivity, specificity],
-        'died': [sensitivity, specificity]
+        'pressure': pressure_metrics, 
+        'gender': [sensitivity, specificity, average_accuracy],
+        'died': [sensitivity, specificity, average_accuracy],
+        'diagnosis': list(diagnosis_metrics.values()),
     }
     
     def gender_loss(y_true, y_pred):
@@ -120,7 +225,8 @@ def build(H):
     loss = {
         'pressure': partial(pressure_loss, H),
         'gender': gender_loss,
-        'died': died_loss
+        'died': died_loss,
+        'diagnosis': diagnosis_loss,
     }
     
     return loss, metrics
