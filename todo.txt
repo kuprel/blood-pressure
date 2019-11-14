@@ -1,10 +1,37 @@
-move sampler from pandas to tensorflow
+buffet
+  drop "other" column
+  combine into diagnosis
+    hypertensive?
+  fill missing
+    height
+    age
+    weight
+    diagnosis
+  data_pipeline
+  loss_metrics.code_names
+
+plot examples for reliable diagnoses
+plot diagnosis over full icu stay
+
+matched data with missing bp
+  generate rsync file list
+    include accidentally deleted data
+    clinic data ok?
+  sbatch download
+  sbatch convert to flac
+  integrate with current dataset
+
+segment -> seg_id
+ethnicity -> race
+
+evenly distribute by subject_id
+  set subject_id when missing rec_id
 
 predict
   age, height, weight
   race
-  
-plot_batch title
+
+run extensive sanity checks
   
 logit bias
   binary
@@ -14,24 +41,18 @@ plot bp vs ptt
 smooth bp
 
 tensorboard
-  surrogate losses (cvp, pap, etc)
   correlation plot
   4 stage classification
-  hypertension SS
   percent within 15, 10, 5
 
 data augmentation
   randomly slide ppg and resp
 
-input gender
-  validate on only entries w/ gender
-  keras lookup layer added to dense
-  pass through data pipeline
-
 prescriptions
 inputs
 glucose, hematocrit, creatinine,
 electrolytes: potassium, magnesium, calcium, sodium
+hyperglycemic SS
 
 halve chunk_size
 

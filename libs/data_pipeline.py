@@ -23,7 +23,7 @@ def process_example(H, part, validation_mask, example):
     saturated_count = tf.reduce_sum(tf.cast(saturated, 'int32'), axis=0)
     sig_is_saturated = saturated_count > sigs.shape[0] // 6
     
-    sig_counts = [len(H['input_sigs_train']), len(H['output_sigs'])]
+    sig_counts = [len(H['input_sigs']), len(H['output_sigs'])]
     
     sig_is_bad = sig_has_nan | sig_diff_is_small | sig_is_saturated
     input_is_bad = sig_is_bad[:sig_counts[0]]
@@ -64,7 +64,7 @@ def process_example(H, part, validation_mask, example):
 def get_window_index_matrix(H):
     I_heart = tf.range(-H['window_size'], 0) + 1
     I_resp = I_heart * initialize.RESP_SCALE
-    S = H['input_sigs_train'] + H['output_sigs']
+    S = H['input_sigs'] + H['output_sigs']
     I_samp = tf.gather([I_heart, I_resp], [int(s == 'RESP') for s in S])
     I_samp = tf.transpose(I_samp)
     I_sig = tf.range(len(S))
@@ -81,8 +81,20 @@ def get_offsets(indices):
     return offsets
 
 
-def get_examples(H, W, example):
-    chunk_name = example.pop('chunk_name')
+def zfill(i, n):
+    return tf.strings.substr('0'*n + tf.as_string(i), -n, n)
+
+
+def get_examples(H, W, part, example):
+    if part == 'train':
+        chunk_name = example.pop('chunk_name')
+    else:
+        rec_id = example.pop('rec_id')
+        segment = example.pop('segment')
+        chunk_count = tf.cast(example.pop('chunk_count'), 'int32')
+        chunk_index = tf.random.uniform([1], maxval=chunk_count, dtype='int32')
+        chunk_name = tf.as_string(rec_id) + '_' + zfill(segment, 4) + '_'
+        chunk_name += zfill(chunk_index[0], 4)
     sigs_path = prepare_data.ROOT_SERIAL + chunk_name + '.tfrec'
     sigs = tf.io.read_file(sigs_path)
     sigs = tf.io.parse_tensor(sigs, out_type='int16')
@@ -90,12 +102,22 @@ def get_examples(H, W, example):
     zeros = tf.zeros(shape=[prepare_data.CHUNK_SIZE, 1], dtype='int16')
     sigs = tf.concat([zeros, sigs], axis=1)
     sigs = tf.gather(sigs, tf.cast(example['sig_index'], 'int32'), axis=1)
-    n_sig = len(H['input_sigs_train'] + H['output_sigs'])
+    n_sig = len(H['input_sigs'] + H['output_sigs'])
     sigs.set_shape((prepare_data.CHUNK_SIZE, n_sig))
     baseline = example.pop('baseline')
     gain = example.pop('adc_gain')
     sigs = tf.cast(sigs - baseline, 'float32') / gain
-    window_ids = example.pop('window_ids')
+    if part == 'train':
+        window_ids = example.pop('window_ids')
+    else:
+        window_ids = tf.random.uniform(
+            shape = [H['windows_per_chunk']],
+            minval = H['window_size'] * initialize.RESP_SCALE, 
+            maxval = prepare_data.CHUNK_SIZE, 
+            dtype = 'int32'
+        )
+        window_ids = tf.cast(window_ids, 'uint16')
+        
     dW = tf.cast(get_offsets(window_ids), 'int32')
     windows = tf.gather_nd(sigs, W + dW)
     metadata = {
@@ -115,28 +137,32 @@ def to_inputs_outputs(example):
     return example['x'], example
 
 
-def build(H, data, part):
+def _build(H, data, part):
     n = next(iter(data.values())).shape[0]
-    I = numpy.random.permutation(n)
-    data = {k: tf.gather(data[k], I) for k in data}
+    m = H['batch_size'] if part == 'train' else H['validation_batch_size']
+    buffer_size = H['batch_buffer_size'] if part == 'train' else 1
     dataset = tf.data.Dataset.from_tensor_slices(data)
+    dataset = dataset.shuffle(n)
     window_index_matrix = get_window_index_matrix(H)
     dataset = dataset.interleave(
-        partial(get_examples, H, window_index_matrix), 
+        partial(get_examples, H, window_index_matrix, part), 
         block_length = 1, 
-        cycle_length = H['batch_buffer_size'] * H['batch_size'],
+        cycle_length = buffer_size * m,
         num_parallel_calls = tf.data.experimental.AUTOTUNE,
     )
     
     # put this into process_sigs?
-    S_train, S_val = H['input_sigs_train'], H['input_sigs_validation']
+    S_train, S_val = H['input_sigs'], H['input_sigs_validation']
     validation_mask = tf.constant([i in S_val for i in S_train], dtype='bool')
     
     dataset = dataset.map(partial(process_example, H, part, validation_mask))
-    if H['filter_data']:
-        dataset = dataset.filter(filter_example).map(to_inputs_outputs)
-    buffer_size = H['batch_buffer_size'] 
-    buffer_size *= H['batch_size'] * H['windows_per_chunk']
-    dataset = dataset.shuffle(buffer_size).batch(H['batch_size'])
-    dataset = dataset.repeat(10)
+    dataset = dataset.filter(filter_example).map(to_inputs_outputs)
+    buffer_size *= m * H['windows_per_chunk']
+    dataset = dataset.shuffle(buffer_size).batch(m).repeat()
     return dataset
+
+
+def build(H, data):
+    data['train'] = _build(H, data['train'], 'train')
+    data['validation'] = _build(H, data['validation'], 'validation')
+    return data

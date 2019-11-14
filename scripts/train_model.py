@@ -12,11 +12,13 @@ time_str = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 model_id = sys.argv[1] + '_' + time_str
 
 H = initialize.load_hypes(model_id)
-data = initialize.load_data(H, from_disk=True)
 
-for part in ['train', 'validation']:
-    data[part] = data_pipeline.build(H, data[part], part)
-    
+# path = initialize.DATA_ROOT + 'initial_data_{}.hdf'.format(H['epochs'])
+# data = initialize.load(H, path)
+data = initialize.run(H)
+data = initialize.dataframes_to_tensors(H, data)
+data = data_pipeline.build(H, data)
+
 model = conv_model.build(H)
 model.summary()
 
@@ -29,5 +31,6 @@ model.fit(
     epochs = H['epochs'],
     steps_per_epoch = H['steps_per_epoch'],
     validation_steps = H['validation_steps'],
+    validation_freq = H['validation_frequency'],
     callbacks = [tb_callback]
 )

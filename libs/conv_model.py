@@ -70,8 +70,8 @@ def resnet_block_ab(H, mask):
     }
     
     conv_args_a = {
-        'kernel_size': (H['kernel_sizes'][2], len(H['input_sigs_train'])), 
-        'strides': (1, len(H['input_sigs_train'])),
+        'kernel_size': (H['kernel_sizes'][2], len(H['input_sigs'])), 
+        'strides': (1, len(H['input_sigs'])),
         **conv_args
     }
 
@@ -137,15 +137,15 @@ def final_layer(H):
 
 def build(H):
 
-    m = len(H['input_sigs_train'])
-    x = K.layers.Input(shape=(H['window_size'], m), batch_size=H['batch_size'])
+    input_shape = (H['window_size'], len(H['input_sigs']))
+    x = K.layers.Input(shape=input_shape, batch_size=H['batch_size'])
     
     mask = ~tf.reduce_all(x == 0, axis=1, keepdims=True)
     mask = tf.cast(mask, dtype=x.dtype)
     
     pressure_layer = K.layers.Dense(2 * len(H['output_sigs']))
     
-    split = partial(tf.split, axis=2, num_or_size_splits=m)
+    split = partial(tf.split, axis=2, num_or_size_splits=len(H['input_sigs']))
     squeeze = partial(map, partial(tf.squeeze, axis=2))
     stack = partial(tf.stack, axis=2)
         

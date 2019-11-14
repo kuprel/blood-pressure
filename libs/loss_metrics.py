@@ -3,13 +3,15 @@ from tensorflow import keras as K
 from functools import partial
 
 
+MIN_PPV = 0.9
+
+
 def get_pressure_weight_matrix(H):
     w1 = [H['loss_weights']['metric'][k] for k in ['systolic', 'diastolic']]
     w2 = [H['loss_weights']['sig'][s] for s in H['output_sigs']]
     w1 = tf.constant(w1, dtype='float32')
     w2 = tf.constant(w2, dtype='float32')
     W = tf.expand_dims(w1, axis=1) * tf.expand_dims(w2, axis=0)
-    W = tf.stack([W] * H['batch_size'])
     return W
 
 
@@ -18,8 +20,8 @@ def pressure_loss(H, y_true, y_pred, sample_weight=None):
     L1 = tf.abs(y_pred - (1 - eps) * y_true)
     L2 = tf.abs(y_pred - (1 + eps) * y_true)
     mask = tf.cast(y_true != 0, 'float32')
-    W = get_pressure_weight_matrix(H) * mask
-    L = tf.reduce_sum(W * (L1 + L2), axis=0)
+    W = get_pressure_weight_matrix(H)
+    L = tf.reduce_sum([W] * mask * (L1 + L2), axis=0)
     counts = tf.maximum(tf.reduce_sum(mask, axis=0), 1)
     loss = tf.reduce_mean(L / counts) / 2
     return loss
@@ -98,6 +100,38 @@ def diagnosis_specificity(j, y_true, y_pred):
     return specificity(y_true[:, j], y_pred[:, j])
 
 
+def _precise_threshold(y_true, y_pred):
+    I = tf.argsort(y_pred, direction='DESCENDING')
+    y_true, y_pred = tf.gather(y_true, I), tf.gather(y_pred, I)
+    ppv = tf.math.cumsum(tf.cast(y_true, 'float32'))
+    ppv /= tf.cast(tf.range(tf.shape(y_true)[0]) + 1, 'float32')
+    i_thresh = tf.reduce_sum(tf.cast(ppv > MIN_PPV, 'int32'))
+    i_thresh = tf.minimum(i_thresh, tf.shape(y_true)[0] - 1)
+    thresh = tf.cond(i_thresh == 0, lambda: 1., lambda: y_pred[i_thresh])
+    return thresh
+
+
+def _precise_sensitivity(y_true, y_pred):
+    threshold = _precise_threshold(y_true, y_pred)
+    mask = lambda y: tf.boolean_mask(y, y_true)
+    y_true, y_pred = mask(y_true), mask(y_pred)
+    return accuracy(y_true, y_pred, threshold)
+
+
+def precise_threshold(j, y_true, y_pred):
+    mask = lambda y: tf.boolean_mask(y[:, j], y_true[:, j] != 0)
+    y_true, y_pred = mask(y_true), mask(y_pred)
+    y_true = y_true == 1
+    return _precise_threshold(y_true, y_pred)
+
+
+def precise_sensitivity(j, y_true, y_pred):
+    mask = lambda y: tf.boolean_mask(y[:, j], y_true[:, j] != 0)
+    y_true, y_pred = mask(y_true), mask(y_pred)
+    y_true = y_true == 1
+    return _precise_sensitivity(y_true, y_pred)
+
+
 def diagnosis_accuracy(j, y_true, y_pred):
     s1 = sensitivity(y_true[:, j], y_pred[:, j])
     s2 = specificity(y_true[:, j], y_pred[:, j])
@@ -128,9 +162,9 @@ def binary_outcome_loss(y_true, y_pred):
     return loss
 
 
-def accuracy(y_true, y_pred):
+def accuracy(y_true, y_pred, threshold=0.5):
     y_true, y_pred = tf.cast(y_true, 'float32'), tf.cast(y_pred, 'float32')
-    p = K.metrics.binary_accuracy(y_true, y_pred)
+    p = K.metrics.binary_accuracy(y_true, y_pred, threshold=threshold)
     p = tf.cond(tf.math.is_nan(p), lambda: 0.0, lambda: p)
     return p
 
@@ -180,7 +214,9 @@ def build(H):
     diagnosis_metrics = {
         'sensitivity': diagnosis_sensitivity,
         'specificity': diagnosis_specificity,
-        'accuracy': diagnosis_accuracy
+        'accuracy': diagnosis_accuracy,
+        'precise_sensitivity': precise_sensitivity,
+        'precise_threshold': precise_threshold
     }
     
     code_names = {
@@ -198,7 +234,19 @@ def build(H):
         '4241':  'aortic_valve_disorder',
         '78552': 'septic_shock',
         '99592': 'severe_sepsis',
-        '2762':  'acidosis'
+        '2762':  'acidosis',
+        '5119':  'pleural_effusion',
+        '41071': 'subendocardial_infarction',
+        '27800': 'obesity',
+        '27651': 'dehydration',
+        '4275':  'cardiac_arrest',
+        '5715':  'cirrhosis',
+        '42732': 'atrial_flutter',
+        '42832': 'chronic_diastolic_heart_failure',
+        '42833': 'acute_diastolic_heart_failure',
+        '79902': 'hypoxemia',
+        '27652': 'hypovolemia',
+        '431':   'intracerebral_hemorrhage'
     }
     
     diagnosis_metrics = {
