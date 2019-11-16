@@ -7,10 +7,10 @@ import loss_metrics
 compose = lambda *F: reduce(lambda f, g: lambda x: f(g(x)), F)
 
 
-def resnet_block_a(H, x):
+def resnet_block_a(H, mask, x):
     
-    mask = ~tf.reduce_all(x == 0, axis=[1, 2], keepdims=True)
-    mask = tf.cast(mask, dtype=x.dtype)
+#     mask = ~tf.reduce_all(x == 0, axis=[1, 2], keepdims=True)
+#     mask = tf.cast(mask, dtype=x.dtype)
     
     conv_args = {
         'filters': H['filter_count'], 
@@ -82,7 +82,7 @@ def resnet_block_ab(H, mask):
     
     layers = [
         K.layers.BatchNormalization(),
-        partial(tf.multiply, tf.expand_dims(mask, axis=-1)),
+        partial(tf.multiply, mask),
         K.layers.Activation('relu'),
         K.layers.Conv2D(**conv_args_a),
         partial(tf.squeeze, axis=2),
@@ -107,7 +107,7 @@ def first_layer(H, mask):
     layers = [
         partial(tf.expand_dims, axis=-1),
         K.layers.Conv2D(**args),
-        partial(tf.multiply, tf.expand_dims(mask, axis=-1))
+        partial(tf.multiply, mask)
     ]
     layer = compose(*layers[::-1])
     return layer
@@ -135,13 +135,25 @@ def final_layer(H):
     return layer
 
 
-def build(H):
+def build(H, diagnosis_codes):
 
     input_shape = (H['window_size'], len(H['input_sigs']))
-    x = K.layers.Input(shape=input_shape, batch_size=H['batch_size'])
+    signals = K.layers.Input(
+        shape = input_shape, 
+        batch_size = H['batch_size'],
+        name = 'signals'
+    )
     
-    mask = ~tf.reduce_all(x == 0, axis=1, keepdims=True)
-    mask = tf.cast(mask, dtype=x.dtype)
+#     mask = ~tf.reduce_all(signals == 0, axis=1, keepdims=True)
+
+    mask = K.layers.Input(
+        shape = len(H['input_sigs']),
+        batch_size = H['batch_size'],
+        name = 'mask'
+    )
+        
+    signals_mask = tf.expand_dims(tf.expand_dims(mask, axis=1), axis=-1)
+    signals_mask = tf.cast(signals_mask, dtype=signals.dtype)
     
     pressure_layer = K.layers.Dense(2 * len(H['output_sigs']))
     
@@ -150,29 +162,31 @@ def build(H):
     stack = partial(tf.stack, axis=2)
         
     layers = [
-        first_layer(H, mask),
+        first_layer(H, signals_mask),
         split, squeeze,
-        partial(map, partial(resnet_block_a, H)), 
+        partial(map, partial(resnet_block_a, H, signals_mask)), 
         list, stack,
-        resnet_block_ab(H, mask),
+        resnet_block_ab(H, signals_mask),
         *[resnet_block_b(H) for i in range(H['layer_count'])],
         dense_layer(H),
     ]
     
     net = compose(*layers[::-1])
-    z = net(x)
+    z = net(signals)
     
     reshape = K.layers.Reshape([2, len(H['output_sigs'])], name='pressure')
     pressure = compose(reshape, pressure_layer)(z)
     
-    gender = K.layers.Dense(1, name='gender', activation='sigmoid')(z)
-    died = K.layers.Dense(1, name='died', activation='sigmoid')(z)
-    n = len(H['icd_codes'])
-    diagnosis = K.layers.Dense(n, name='diagnosis', activation='sigmoid')(z)
-    
-    outputs = [pressure, gender, died, diagnosis]
-    
-    model = K.models.Model(inputs=x, outputs=outputs)
+    diagnosis = K.layers.Dense(
+        len(diagnosis_codes), 
+        name='diagnosis', 
+        activation='sigmoid'
+    )(z)
+        
+    model = K.models.Model(
+        inputs=[signals, mask], 
+        outputs=[pressure, diagnosis]
+    )
     
     mean_pressure = [H['mean_pressure'][s] for s in H['output_sigs']]
     mean_pressure = numpy.array(mean_pressure, dtype='float32').T
@@ -187,7 +201,7 @@ def build(H):
         values = [H['learning_rate'] / i for i in H['lr_divisors']]
     )
     
-    loss, metrics = loss_metrics.build(H)
+    loss, metrics = loss_metrics.build(H, diagnosis_codes)
     
     loss_weights = H['loss_weights']['output']
     
@@ -195,12 +209,7 @@ def build(H):
         optimizer = K.optimizers.Adam(learning_rate=lr_schedule),
         loss = loss,
         metrics = metrics,
-        loss_weights = {
-            'pressure': loss_weights['pressure'],
-            'gender': loss_weights['gender'],
-            'died': loss_weights['died'],
-            'diagnosis': loss_weights['diagnosis']
-        },
+        loss_weights = {k: loss_weights[k] for k in ['pressure', 'diagnosis']}
     )
 
     return model

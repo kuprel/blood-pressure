@@ -107,7 +107,7 @@ def _precise_threshold(y_true, y_pred):
     ppv /= tf.cast(tf.range(tf.shape(y_true)[0]) + 1, 'float32')
     i_thresh = tf.reduce_sum(tf.cast(ppv > MIN_PPV, 'int32'))
     i_thresh = tf.minimum(i_thresh, tf.shape(y_true)[0] - 1)
-    thresh = tf.cond(i_thresh == 0, lambda: 1., lambda: y_pred[i_thresh])
+    thresh = tf.cond(i_thresh <= 0, lambda: 1., lambda: y_pred[i_thresh])
     return thresh
 
 
@@ -138,30 +138,6 @@ def diagnosis_accuracy(j, y_true, y_pred):
     return (s1 + s2) / 2
 
 
-def true_positive_loss(y_true, y_pred):
-    mask = lambda y: tf.boolean_mask(y, y_true == 1)
-    y, y_ = mask(y_true), mask(y_pred)
-    loss = K.metrics.binary_crossentropy(y, y_)
-    loss = tf.cond(tf.math.is_nan(loss), lambda: 0.0, lambda: loss)
-    return loss
-
-
-def true_negative_loss(y_true, y_pred):
-    mask = lambda y: tf.boolean_mask(y, y_true == -1)
-    y, y_ = mask(y_true), mask(y_pred)
-    y += 1
-    loss = K.metrics.binary_crossentropy(y, y_)
-    loss = tf.cond(tf.math.is_nan(loss), lambda: 0.0, lambda: loss)
-    return loss
-
-
-def binary_outcome_loss(y_true, y_pred):
-    loss_positive = true_positive_loss(y_true, y_pred)
-    loss_negative = true_negative_loss(y_true, y_pred)
-    loss = (loss_positive + loss_negative) / 2
-    return loss
-
-
 def accuracy(y_true, y_pred, threshold=0.5):
     y_true, y_pred = tf.cast(y_true, 'float32'), tf.cast(y_pred, 'float32')
     p = K.metrics.binary_accuracy(y_true, y_pred, threshold=threshold)
@@ -181,14 +157,8 @@ def specificity(y_true, y_pred):
     y_true += 1
     return accuracy(y_true, y_pred)
 
-
-def average_accuracy(y_true, y_pred, sample_weight=None):
-    s1 = sensitivity(y_true, y_pred)
-    s2 = specificity(y_true, y_pred)
-    return (s1 + s2) / 2
-
     
-def build(H):
+def build(H, diagonsis_codes):
         
     pressure_metrics = {
         'systolic': systolic_error,
@@ -249,9 +219,11 @@ def build(H):
         '431':   'intracerebral_hemorrhage'
     }
     
+    get_code_name = lambda c: c + '_' + code_names[c] if c in code_names else c
+    
     diagnosis_metrics = {
-        code_names[code] + '_' + k: partial(diagnosis_metrics[k], j) 
-        for j, code in enumerate(H['icd_codes']) for k in diagnosis_metrics 
+        get_code_name(code) + '_' + k: partial(diagnosis_metrics[k], j) 
+        for j, code in enumerate(diagonsis_codes) for k in diagnosis_metrics 
     }
     
     for k in diagnosis_metrics:
@@ -259,21 +231,12 @@ def build(H):
     
     metrics = {
         'pressure': pressure_metrics, 
-        'gender': [sensitivity, specificity, average_accuracy],
-        'died': [sensitivity, specificity, average_accuracy],
         'diagnosis': list(diagnosis_metrics.values()),
     }
-    
-    def gender_loss(y_true, y_pred):
-        return binary_outcome_loss(y_true, y_pred)
 
-    def died_loss(y_true, y_pred):
-        return binary_outcome_loss(y_true, y_pred)
     
     loss = {
         'pressure': partial(pressure_loss, H),
-        'gender': gender_loss,
-        'died': died_loss,
         'diagnosis': diagnosis_loss,
     }
     

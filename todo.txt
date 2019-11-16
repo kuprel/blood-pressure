@@ -1,17 +1,7 @@
-buffet
-  drop "other" column
-  combine into diagnosis
-    hypertensive?
-  fill missing
-    height
-    age
-    weight
-    diagnosis
-  data_pipeline
-  loss_metrics.code_names
+reduce mean over ecg features
+input mask = sig_index != 0
+make sure only validation_sigs get through during validation
 
-plot examples for reliable diagnoses
-plot diagnosis over full icu stay
 
 matched data with missing bp
   generate rsync file list
@@ -20,16 +10,9 @@ matched data with missing bp
   sbatch download
   sbatch convert to flac
   integrate with current dataset
-
-segment -> seg_id
-ethnicity -> race
-
-evenly distribute by subject_id
-  set subject_id when missing rec_id
-
-predict
-  age, height, weight
-  race
+  
+plot examples for reliable diagnoses
+plot diagnosis over full icu stay
 
 run extensive sanity checks
   
@@ -42,8 +25,6 @@ smooth bp
 
 tensorboard
   correlation plot
-  4 stage classification
-  percent within 15, 10, 5
 
 data augmentation
   randomly slide ppg and resp
@@ -57,8 +38,6 @@ hyperglycemic SS
 halve chunk_size
 
 :1024:2 finetuned on :512:1
-validate by subject_id, hadm_id
-normalize to account for varying waveform counts
 
 curriculum
   512:1 -> 1024:2 -> 1024:1
@@ -69,7 +48,7 @@ read
   https://deepmind.com/blog/article/wavenet-generative-model-raw-audio
   https://arxiv.org/pdf/1910.10683.pdf (T5)
 
-share ecg weights
+all functions in libs to build from original mimic data
 
 dilated convolution
 finetune speech to text model

@@ -46,10 +46,18 @@ def convert_flac_to_serial(rec_seg):
     except:
         print(rec_seg, 'failed')
 
+        
 def get_downloaded():
     rec_segs = os.listdir(flacdb.ROOT)
     to_tuple = lambda i: flacdb.rec_seg_to_tuple(i.split('.')[0])
-    rec_segs = [to_tuple(i) for i in rec_segs if '_x.flac' in i]
+    rec_segs = sorted({to_tuple(i) for i in rec_segs if '_x.flac' in i})
+    return rec_segs
+        
+    
+def get_serialized():
+    rec_segs = os.listdir(ROOT_SERIAL)
+    to_tuple = lambda i: flacdb.rec_seg_to_tuple(i.split('.')[0][:-5])
+    rec_segs = sorted({to_tuple(i) for i in rec_segs})
     return rec_segs
 
 def filter_serialized(metadata):    
@@ -71,8 +79,8 @@ def filter_serialized(metadata):
 
 if __name__ == '__main__':
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-    metadata = pandas.read_csv('/scr-ssd/mimic/metadata.csv')
-    metadata.set_index(['rec_id', 'segment'], inplace=True)
+    metadata = pandas.read_hdf('/scr-ssd/mimic/metadata.hdf')
+    metadata.set_index(['rec_id', 'seg_id'], inplace=True)
     filtered = metadata.reindex(metadata.index & get_downloaded())
     filtered = filter_downloaded(metadata)
     filtered = filtered[filtered['sig_len'] > CHUNK_SIZE]
