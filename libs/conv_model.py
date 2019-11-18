@@ -9,27 +9,24 @@ compose = lambda *F: reduce(lambda f, g: lambda x: f(g(x)), F)
 
 def resnet_block_a(H, mask, x):
     
-#     mask = ~tf.reduce_all(x == 0, axis=[1, 2], keepdims=True)
-#     mask = tf.cast(mask, dtype=x.dtype)
-    
     conv_args = {
         'filters': H['filter_count'], 
         'activation': None,
         'padding': 'same',
         'use_bias': False,
-        'kernel_size': H['kernel_sizes'][1], 
-        'strides': H['strides'][1],   
+        'kernel_size': (H['kernel_sizes'][1], 1), 
+        'strides': (H['strides'][1], 1),   
     }
     
     layers = [
         K.layers.BatchNormalization(),
         partial(tf.multiply, mask),
         K.layers.Activation('relu'),
-        K.layers.Conv1D(**conv_args),
+        K.layers.Conv2D(**conv_args),
         K.layers.BatchNormalization(),
         partial(tf.multiply, mask),
         K.layers.Activation('relu'),
-        K.layers.Conv1D(**conv_args),
+        K.layers.Conv2D(**conv_args),
     ]
     
     f = compose(*layers[::-1])
@@ -59,42 +56,6 @@ def resnet_block_b(H):
     block = lambda x: f(x) + x
     return block
     
-
-def resnet_block_ab(H, mask):
-    
-    conv_args = {
-        'filters': H['filter_count'], 
-        'activation': None,
-        'padding': 'same',
-        'use_bias': False,
-    }
-    
-    conv_args_a = {
-        'kernel_size': (H['kernel_sizes'][2], len(H['input_sigs'])), 
-        'strides': (1, len(H['input_sigs'])),
-        **conv_args
-    }
-
-    conv_args_b = {
-        'kernel_size': H['kernel_sizes'][2],
-        **conv_args
-    }
-    
-    layers = [
-        K.layers.BatchNormalization(),
-        partial(tf.multiply, mask),
-        K.layers.Activation('relu'),
-        K.layers.Conv2D(**conv_args_a),
-        partial(tf.squeeze, axis=2),
-        K.layers.BatchNormalization(),
-        K.layers.Activation('relu'),
-        K.layers.Conv1D(**conv_args_b)
-    ]
-    
-    f = compose(*layers[::-1])
-    block = lambda x: f(x) + tf.reduce_sum(x, axis=2)
-    return block
-
 
 def first_layer(H, mask):
     args = {
@@ -135,53 +96,48 @@ def final_layer(H):
     return layer
 
 
-def build(H, diagnosis_codes):
+def build(H, diagnosis_priors):
 
     input_shape = (H['window_size'], len(H['input_sigs']))
-    signals = K.layers.Input(
-        shape = input_shape, 
-        batch_size = H['batch_size'],
-        name = 'signals'
-    )
+    signals = K.layers.Input(input_shape, name='signals')
+    mask = K.layers.Input(input_shape[1], name = 'mask')
     
-#     mask = ~tf.reduce_all(signals == 0, axis=1, keepdims=True)
-
-    mask = K.layers.Input(
-        shape = len(H['input_sigs']),
-        batch_size = H['batch_size'],
-        name = 'mask'
-    )
-        
-    signals_mask = tf.expand_dims(tf.expand_dims(mask, axis=1), axis=-1)
-    signals_mask = tf.cast(signals_mask, dtype=signals.dtype)
+    float_mask = tf.expand_dims(tf.expand_dims(mask, axis=1), axis=-1)
+    float_mask = tf.cast(float_mask, dtype=signals.dtype)
     
     pressure_layer = K.layers.Dense(2 * len(H['output_sigs']))
     
-    split = partial(tf.split, axis=2, num_or_size_splits=len(H['input_sigs']))
-    squeeze = partial(map, partial(tf.squeeze, axis=2))
-    stack = partial(tf.stack, axis=2)
-        
-    layers = [
-        first_layer(H, signals_mask),
-        split, squeeze,
-        partial(map, partial(resnet_block_a, H, signals_mask)), 
-        list, stack,
-        resnet_block_ab(H, signals_mask),
-        *[resnet_block_b(H) for i in range(H['layer_count'])],
-        dense_layer(H),
-    ]
+    z = first_layer(H, float_mask)(signals)
     
-    net = compose(*layers[::-1])
-    z = net(signals)
+    sig_groups = [slice(0, 1), slice(1, 2), slice(2, None)]
+    Z = [z[:, :, G] for G in sig_groups]
+    
+    for i in range(H['layer_count_a']):
+        for j, (G, z) in enumerate(zip(sig_groups, Z)):
+            Z[j] = resnet_block_a(H, float_mask[:, :, G], z)
+    
+    norm = lambda w: w / tf.maximum(tf.reduce_sum(w, axis=2, keepdims=True), 1)
+    weights = H['signal_feature_weight']
+    weights = [weights['PLETH'], weights['RESP'], weights['ECG']]
+    W = [norm(float_mask[:, :, G]) * w for G, w in zip(sig_groups, weights)]
+    w = norm(tf.concat(W, axis=2))
+    z = tf.concat(Z, axis=2)
+    z = tf.reduce_sum(w * z, axis=2)
+
+    for i in range(H['layer_count_b']):
+        z = resnet_block_b(H)(z)
+
+    features = dense_layer(H)(z)
     
     reshape = K.layers.Reshape([2, len(H['output_sigs'])], name='pressure')
-    pressure = compose(reshape, pressure_layer)(z)
+    pressure = compose(reshape, pressure_layer)(features)
     
-    diagnosis = K.layers.Dense(
-        len(diagnosis_codes), 
+    diagnosis_layer = K.layers.Dense(
+        len(diagnosis_priors), 
         name='diagnosis', 
         activation='sigmoid'
-    )(z)
+    )
+    diagnosis = diagnosis_layer(features)
         
     model = K.models.Model(
         inputs=[signals, mask], 
@@ -194,13 +150,19 @@ def build(H, diagnosis_codes):
     pressure_layer.set_weights([
         pressure_layer.get_weights()[0],
         tf.constant(mean_pressure.flatten())
-    ])  
+    ])
+    
+    diagnosis_layer.set_weights([
+        diagnosis_layer.get_weights()[0],
+        tf.math.log(diagnosis_priors) - tf.math.log(1 - diagnosis_priors)
+    ])
 
     lr_schedule = K.optimizers.schedules.PiecewiseConstantDecay(
         boundaries = [H['steps_per_epoch'] * i for i in H['lr_boundaries']],
         values = [H['learning_rate'] / i for i in H['lr_divisors']]
     )
     
+    diagnosis_codes = list(diagnosis_priors.index)
     loss, metrics = loss_metrics.build(H, diagnosis_codes)
     
     loss_weights = H['loss_weights']['output']

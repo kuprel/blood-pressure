@@ -1,12 +1,12 @@
 {
-  "input_sigs": ["I", "II", "III", "V", "AVR", "MCL", "PLETH", "RESP"],
-  "input_sigs_validation": ["II", "PLETH"],
+  "input_sigs": ["PLETH", "RESP", "I", "II", "III", "V", "AVR", "MCL", "MCL1", "AVL", "AVF"],
+  "input_sigs_validation": ["PLETH", "II"],
   "output_sigs": ["ABP", "CVP", "ICP", "PAP"],
   "icd_codes": [
     "4019", "4280", "42731", "41401", "2724", "25000", "5859", "5849",
     "51881", "2859", "4240", "4241", "78552", "99592", "2762", "5119",
     "41071", "27800", "27651", "4275", "5715", "42732", "42832", "42833",
-    "79902", "27652", "431"
+    "79902", "27652", "431", "2720", "4917", "2761", "V5867", "4160"
   ],
   "input_stride": 1,
   "pressure_window": 512,
@@ -15,8 +15,9 @@
   "steps_per_epoch": 128,
   "window_size": 512,
   "filter_count": 128,
-  "layer_count": 10,
-  "strides": [4, 2],
+  "layer_count_a": 2,
+  "layer_count_b": 10,
+  "strides": [2, 2],
   "kernel_sizes": [16, 8, 4],
   "dense_units": 256,
   "dropout": 0.1,
@@ -27,13 +28,14 @@
     "PAP": [43.2, 14.6]
   },
   "batch_buffer_size": 4,
+  "signal_feature_weight": {"PLETH": 0.4, "RESP": 0.2, "ECG": 0.4},
   "loss_weights": {
-    "output": {"pressure": 0.6, "diagnosis": 0.3},
+    "output": {"pressure": 0.4, "diagnosis": 0.6},
     "sig": {"ABP": 0.6, "CVP": 0.2, "ICP": 0.1, "PAP": 0.1},
     "metric": {"systolic": 0.6, "diastolic": 0.4}
   },
   "relative_target_radius": 0.02,
-  "learning_rate": 0.0003,
-  "lr_boundaries": [10, 25, 150, 300, 500, 1000],
+  "learning_rate": 0.00001,
+  "lr_boundaries": [100, 200, 300, 1000, 1500, 2000],
   "lr_divisors": [9, 3, 1, 2, 4, 8, 16]
 }

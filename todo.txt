@@ -1,7 +1,14 @@
-reduce mean over ecg features
-input mask = sig_index != 0
-make sure only validation_sigs get through during validation
+generate report from ecg+ppg sample
+    diagnosis histograms
+    positive diagnosis examples
+    pressure correlation plots
+    diagnosis histograms after averaging probability over rec_seg
 
+report over full icu stay
+plot examples for reliable diagnoses
+
+memory problem
+smoother validation plots
 
 matched data with missing bp
   generate rsync file list
@@ -10,15 +17,8 @@ matched data with missing bp
   sbatch download
   sbatch convert to flac
   integrate with current dataset
-  
-plot examples for reliable diagnoses
-plot diagnosis over full icu stay
 
-run extensive sanity checks
-  
-logit bias
-  binary
-  multiclass
+write test cases for all functions
     
 plot bp vs ptt
 smooth bp

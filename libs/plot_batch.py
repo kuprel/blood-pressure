@@ -14,8 +14,8 @@ SIG_COLORS = {
 }
 
 
-def init(H, x, Y):    
-    x, y = x.numpy(), Y['pressure'].numpy()
+def init(H, X, Y):    
+    x, y = X['signals'].numpy(), Y['pressure'].numpy()
     fig, axes, lines = plot_example(H, x, y, 0)
     slider = IntSlider(min=0, max=H['batch_size']-1, value=0)
     def _update(i):

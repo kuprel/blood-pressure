@@ -26,7 +26,8 @@ def process_example(H, part, validation_mask, example):
     sig_counts = [len(H['input_sigs']), len(H['output_sigs'])]
     
     sig_is_bad = sig_has_nan | sig_diff_is_small | sig_is_saturated
-    input_is_bad = sig_is_bad[:sig_counts[0]]
+    input_is_bad  = sig_is_bad[:sig_counts[0]]
+    output_is_bad = sig_is_bad[sig_counts[0]:]
     
     if part == 'train':
         example_is_bad = tf.reduce_all(input_is_bad)
@@ -34,13 +35,16 @@ def process_example(H, part, validation_mask, example):
         val_input_is_bad = tf.boolean_mask(input_is_bad, validation_mask)
         example_is_bad = tf.reduce_any(val_input_is_bad)
     
-    bp = sigs[:, sig_counts[0]]
-    bp_too_small = tf.reduce_any(bp < 20)
-    bp_diff_is_small = tf.reduce_max(bp) - tf.reduce_min(bp) < 5
-    bp_sig_is_bad = sig_is_bad[sig_counts[0]]
     
-    example_is_bad |= bp_sig_is_bad | bp_too_small | bp_diff_is_small
+    j_abp, j_pap = [H['output_sigs'].index(s) for s in ['ABP', 'PAP']]
     
+    abp = sigs[:, sig_counts[j_abp]]
+    abp_too_small = tf.reduce_any(abp < 20)
+    abp_diff_too_small = tf.reduce_max(abp) - tf.reduce_min(abp) < 5
+    abp_sig_is_bad = sig_is_bad[sig_counts[j_abp]]
+    abp_is_bad = abp_sig_is_bad | abp_too_small | abp_diff_too_small
+    
+    example_is_bad |= abp_is_bad
     example_is_good = ~example_is_bad
     
     if example_is_good and tf.reduce_any(sig_is_bad):
@@ -51,13 +55,26 @@ def process_example(H, part, validation_mask, example):
     x, y = tf.split(sigs, sig_counts, axis=1)
     y = y[-H['pressure_window']:]
     
+    hypertensive = [
+        tf.reduce_max(y[:, j_abp]) > 140 or tf.reduce_min(y[:, 0]) > 90,
+        tf.reduce_mean(y[:, j_pap]) > 30
+    ]
+    hypertensive = [1 if i else -1 for i in hypertensive]
+    hypertensive[0] = 0 if abp_is_bad else hypertensive[0]
+    hypertensive[1] = 0 if output_is_bad[j_abp] else hypertensive[1]
+            
     y = tf.stack([tf.reduce_max(y, axis=0), tf.reduce_min(y, axis=0)])
     
     if example_is_good and part != 'train':
-        x = tf.where(validation_mask, x, tf.constant(0, dtype=x.dtype))
+        x = tf.where(validation_mask, x, 0.0)
     
-    x = {'signals': x, 'mask': example.pop('mask')}
+    mask = tf.where(sig_is_bad, False, example.pop('mask'))
+    mask = mask[:sig_counts[0]]
+    
+    x = {'signals': x, 'mask': mask}
     y = {**example, 'pressure': y, 'is_good': example_is_good}
+    
+    y['diagnosis'] = tf.concat([y['diagnosis'], hypertensive], axis=0)
         
     return x, y
 
@@ -108,16 +125,16 @@ def get_examples(H, W, example):
     )
     window_ids = tf.cast(window_ids, 'uint16')
 
-    rec_id = rec_ids[i]
-    seg_id = seg_ids[i][j]
+    example['rec_id'] = rec_id = rec_ids[i]
+    example['seg_id'] = seg_id = seg_ids[i][j]
     adc_gain  = example.pop('adc_gain')[i][j]
     baseline  = example.pop('baseline')[i][j]
     sig_index = example.pop('sig_index')[i][j]
-    example['mask'] = sig_index[:len(H['input_sigs'])] > 0
+    example['mask'] = sig_index > 0
     
     for key in ['diagnosis', 'age', 'weight', 'height']:
         example[key] = example[key][0][i]
-        
+    
     chunk_name = tf.as_string(rec_id) 
     chunk_name += '_' + zfill(seg_id, 4)
     chunk_name += '_' + zfill(chunk_id, 4)
@@ -150,7 +167,7 @@ def filter_example(x, y):
 
 def build(H, tensors, part):
     n = next(iter(tensors.values())).shape[0]
-    m = H['batch_size'] if part == 'train' else 2**16
+    batch_size = H['batch_size'] if part == 'train' else 2**15
     buffer_size = H['batch_buffer_size'] if part == 'train' else 1
     dataset = tf.data.Dataset.from_tensor_slices(tensors)
     dataset = dataset.shuffle(n)
@@ -158,7 +175,7 @@ def build(H, tensors, part):
     dataset = dataset.interleave(
         partial(get_examples, H, window_index_matrix), 
         block_length = 1, 
-        cycle_length = buffer_size * m,
+        cycle_length = buffer_size * batch_size,
         num_parallel_calls = tf.data.experimental.AUTOTUNE,
     )
     
@@ -167,6 +184,6 @@ def build(H, tensors, part):
     
     dataset = dataset.map(partial(process_example, H, part, validation_mask))
     dataset = dataset.filter(filter_example)
-    buffer_size *= m * H['windows_per_chunk']
-    dataset = dataset.shuffle(buffer_size).batch(m).repeat()
+    buffer_size *= batch_size * H['windows_per_chunk']
+    dataset = dataset.shuffle(buffer_size).batch(batch_size).repeat()
     return dataset
