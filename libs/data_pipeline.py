@@ -28,6 +28,7 @@ def process_example(H, part, validation_mask, example):
     sig_is_bad = sig_has_nan | sig_diff_is_small | sig_is_saturated
     input_is_bad  = sig_is_bad[:sig_counts[0]]
     output_is_bad = sig_is_bad[sig_counts[0]:]
+    output_is_bad |= tf.math.reduce_any(sigs[:, sig_counts[0]:] < 0, axis=0)
     
     if part == 'train':
         example_is_bad = tf.reduce_all(input_is_bad)
@@ -37,11 +38,12 @@ def process_example(H, part, validation_mask, example):
     
     
     j_abp, j_pap = [H['output_sigs'].index(s) for s in ['ABP', 'PAP']]
+    abp = sigs[:, sig_counts[0] + j_abp]
+    pap = sigs[:, sig_counts[0] + j_pap]
     
-    abp = sigs[:, sig_counts[j_abp]]
     abp_too_small = tf.reduce_any(abp < 20)
     abp_diff_too_small = tf.reduce_max(abp) - tf.reduce_min(abp) < 5
-    abp_sig_is_bad = sig_is_bad[sig_counts[j_abp]]
+    abp_sig_is_bad = output_is_bad[j_abp]
     abp_is_bad = abp_sig_is_bad | abp_too_small | abp_diff_too_small
     
     example_is_bad |= abp_is_bad
@@ -49,20 +51,18 @@ def process_example(H, part, validation_mask, example):
     
     if example_is_good and tf.reduce_any(sig_is_bad):
         sigs *= tf.cast(~sig_is_bad, sigs.dtype)
-        zero = tf.constant(0, dtype=sigs.dtype)
-        sigs = tf.where(tf.math.is_nan(sigs), zero, sigs)
-    
-    x, y = tf.split(sigs, sig_counts, axis=1)
-    y = y[-H['pressure_window']:]
+        sigs = tf.where(tf.math.is_nan(sigs), 0.0, sigs)
     
     hypertensive = [
-        tf.reduce_max(y[:, j_abp]) > 140 or tf.reduce_min(y[:, 0]) > 90,
-        tf.reduce_mean(y[:, j_pap]) > 30
+        tf.reduce_max(abp) > 140 or tf.reduce_min(abp) > 90,
+        tf.reduce_mean(pap) > 30
     ]
     hypertensive = [1 if i else -1 for i in hypertensive]
     hypertensive[0] = 0 if abp_is_bad else hypertensive[0]
     hypertensive[1] = 0 if output_is_bad[j_abp] else hypertensive[1]
             
+    x, y = tf.split(sigs, sig_counts, axis=1)
+    y = y[-2**H['pressure_window_log2']:]
     y = tf.stack([tf.reduce_max(y, axis=0), tf.reduce_min(y, axis=0)])
     
     if example_is_good and part != 'train':
@@ -80,15 +80,15 @@ def process_example(H, part, validation_mask, example):
 
 
 def get_window_index_matrix(H):
-    I_heart = tf.range(-H['window_size'], 0) + 1
+    I_heart = tf.range(-2**H['window_size_log2'], 0) + 1
     I_resp = I_heart * initialize.RESP_SCALE
     S = H['input_sigs'] + H['output_sigs']
     I_samp = tf.gather([I_heart, I_resp], [int(s == 'RESP') for s in S])
     I_samp = tf.transpose(I_samp)
     I_sig = tf.range(len(S))
-    I_sig = tf.broadcast_to(I_sig, [H['window_size']] + I_sig.shape)
+    I_sig = tf.broadcast_to(I_sig, [2**H['window_size_log2']] + I_sig.shape)
     I = tf.stack([I_samp, I_sig], axis=-1)
-    I = tf.broadcast_to(I, [H['windows_per_chunk']] + I.shape)
+    I = tf.broadcast_to(I, [2**H['windows_per_chunk_log2']] + I.shape)
     return I
 
 
@@ -118,8 +118,8 @@ def get_examples(H, W, example):
     chunk_id = rand_int(chunk_count)
     
     window_ids = tf.random.uniform(
-        shape = [H['windows_per_chunk']],
-        minval = H['window_size'] * initialize.RESP_SCALE, 
+        shape = [2**H['windows_per_chunk_log2']],
+        minval = 2**H['window_size_log2'] * initialize.RESP_SCALE, 
         maxval = prepare_data.CHUNK_SIZE, 
         dtype = 'int32'
     )
@@ -153,7 +153,7 @@ def get_examples(H, W, example):
     dW = tf.cast(get_offsets(window_ids), 'int32')
     windows = tf.gather_nd(sigs, W + dW)
     metadata = {
-        key: tf.stack([example[key]] * H['windows_per_chunk']) 
+        key: tf.stack([example[key]] * 2**H['windows_per_chunk_log2']) 
         for key in example
     }
     examples = {'sigs': windows, **metadata}
@@ -167,8 +167,9 @@ def filter_example(x, y):
 
 def build(H, tensors, part):
     n = next(iter(tensors.values())).shape[0]
-    batch_size = H['batch_size'] if part == 'train' else 2**15
-    buffer_size = H['batch_buffer_size'] if part == 'train' else 1
+    key = 'batch_size' if part == 'train' else 'batch_size_validation'
+    batch_size = 2 ** H[key + '_log2']
+    buffer_size = 2 ** H['batch_buffer_size_log2'] if part == 'train' else 1
     dataset = tf.data.Dataset.from_tensor_slices(tensors)
     dataset = dataset.shuffle(n)
     window_index_matrix = get_window_index_matrix(H)
@@ -184,6 +185,9 @@ def build(H, tensors, part):
     
     dataset = dataset.map(partial(process_example, H, part, validation_mask))
     dataset = dataset.filter(filter_example)
-    buffer_size *= batch_size * H['windows_per_chunk']
-    dataset = dataset.shuffle(buffer_size).batch(batch_size).repeat()
+    buffer_size *= batch_size * 2 ** H['windows_per_chunk_log2']
+    dataset = dataset.shuffle(buffer_size)
+    if part == 'validation' and batch_size > 2**9:
+        dataset = dataset.repeat(2 ** (H['batch_size_validation_log2'] - 9))
+    dataset = dataset.batch(batch_size).repeat()
     return dataset

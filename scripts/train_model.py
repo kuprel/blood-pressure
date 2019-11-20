@@ -39,10 +39,9 @@ log_dir = '/scr-ssd/tflogs/' + model_id
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir)
 
 checkpoint_args = {
-    'filepath': '/scr1/checkpoints/' + model_id + '{epoch:05d}.ckpt',
+    'filepath': '/scr1/checkpoints/' + model_id + '_{epoch:05d}.ckpt',
     'save_weights_only': True,
-#     'save_freq': 100 * H['steps_per_epoch'] * H['batch_size'],
-    'period': 500
+    'period': 2**7
 }
 checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(**checkpoint_args)        
     
@@ -50,7 +49,7 @@ model.fit(
     dataset['train'],
     validation_data = dataset['validation'],
     epochs = 2**20,
-    steps_per_epoch = H['steps_per_epoch'],
+    steps_per_epoch = 2**H['steps_per_epoch_log2'],
     validation_steps = 1,
     validation_freq = 2**4,
     callbacks = [tensorboard_callback, checkpoint_callback],

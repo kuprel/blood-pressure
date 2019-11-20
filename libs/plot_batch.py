@@ -17,10 +17,10 @@ SIG_COLORS = {
 def init(H, X, Y):    
     x, y = X['signals'].numpy(), Y['pressure'].numpy()
     fig, axes, lines = plot_example(H, x, y, 0)
-    slider = IntSlider(min=0, max=H['batch_size']-1, value=0)
-    def _update(i):
-        return update(H, fig, lines, axes, x, y, i)
-    plotter = lambda: interact(_update, i=slider)
+    slider = IntSlider(min=0, max=(2 ** H['batch_size_log2'])-1, value=0)
+    def update(i):
+        return update_plot(H, fig, lines, axes, x, y, i)
+    plotter = lambda: interact(update, i=slider)
     return plotter
 
 
@@ -33,7 +33,7 @@ def plot_example(H, x, y, i):
     axes = {}
     
     def plot_y(s, j, is_diastolic):
-        xs = [0, H['window_size']]
+        xs = [0, 2 ** H['window_size_log2']]
         ys = [y[i, int(is_diastolic), j]] * 2
         line = axes[s].plot(xs, ys, '--', c='gray')[0]
         return line
@@ -53,7 +53,7 @@ def plot_example(H, x, y, i):
     
     return fig, axes, lines
 
-def update(H, fig, lines, axes, x, y, i):
+def update_plot(H, fig, lines, axes, x, y, i):
     for j, s in enumerate(H['input_sigs']):
         lines['sigs'][s].set_ydata(x[i, :, j])
         low, high = x[i, :, j].min(), x[i, :, j].max()

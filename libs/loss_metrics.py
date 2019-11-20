@@ -3,7 +3,7 @@ from tensorflow import keras as K
 from functools import partial
 
 
-MIN_PPV = 0.9
+MIN_PPV = 0.8
 
 
 CODE_NAMES = {
@@ -51,10 +51,10 @@ def accuracy(y_true, y_pred, threshold=0.5):
     return p
 
 
-def sensitivity(y_true, y_pred):
+def sensitivity(y_true, y_pred, threshold=0.5):
     mask = lambda y: tf.boolean_mask(y, y_true == 1)
     y_true, y_pred = mask(y_true), mask(y_pred)
-    return accuracy(y_true, y_pred)
+    return accuracy(y_true, y_pred, threshold)
 
 
 def specificity(y_true, y_pred):
@@ -78,16 +78,39 @@ def diagnosis_specificity(j, y_true, y_pred):
     return specificity(y_true[:, j], y_pred[:, j])
 
 
-def diagnosis_loss(y_true, y_pred):
-    y_pred = tf.clip_by_value(y_pred, 1e-7, 1 - 1e-7)
-    mask_pos = tf.cast(y_true ==  1, 'float32')
-    mask_neg = tf.cast(y_true == -1, 'float32')
-    xent_pos = -tf.math.log(y_pred) * mask_pos
-    xent_neg = -tf.math.log(1 - y_pred) * mask_neg
-    cross_entropy = xent_pos + xent_neg
-    counts = tf.maximum(tf.reduce_sum(mask_pos + mask_neg, axis=0), 1)
+def positive_diagnosis_loss(y_true, y_pred):
+    mask = tf.cast(y_true == 1, 'float32')
+    cross_entropy = -tf.math.log(y_pred) * mask
+    counts = tf.maximum(tf.reduce_sum(mask, axis=0), 1)
     loss = tf.reduce_mean(tf.reduce_sum(cross_entropy, axis=0) / counts)
     return loss
+
+
+def negative_diagnosis_loss(y_true, y_pred):
+    mask = tf.cast(y_true == -1, 'float32')
+    cross_entropy = -tf.math.log(1 - y_pred) * mask
+    counts = tf.maximum(tf.reduce_sum(mask, axis=0), 1)
+    loss = tf.reduce_mean(tf.reduce_sum(cross_entropy, axis=0) / counts)
+    return loss
+
+
+def diagnosis_loss(y_true, y_pred):
+    y_pred = tf.clip_by_value(y_pred, 1e-7, 1 - 1e-7)
+    loss_positive = positive_diagnosis_loss(y_true, y_pred)
+    loss_negative = negative_diagnosis_loss(y_true, y_pred)
+    return (loss_positive + loss_negative) / 2
+
+
+# def diagnosis_loss(H, y_true, y_pred, sample_weight=None):
+#     y_pred = tf.clip_by_value(y_pred, 1e-7, 1 - 1e-7)
+#     mask_pos = tf.cast(y_true ==  1, 'float32')
+#     mask_neg = tf.cast(y_true == -1, 'float32')
+#     xent_pos = -tf.math.log(y_pred) * mask_pos
+#     xent_neg = -tf.math.log(1 - y_pred) * mask_neg
+#     cross_entropy = xent_pos + xent_neg / H['positive_example_weight']
+#     counts = tf.maximum(tf.reduce_sum(mask_pos + mask_neg, axis=0), 1)
+#     loss = tf.reduce_mean(tf.reduce_sum(cross_entropy, axis=0) / counts)
+#     return loss
 
 
 def systolic_error(j, y_true, y_pred):
@@ -126,21 +149,19 @@ def precise_threshold(j, y_true, y_pred):
     mask = lambda y: tf.boolean_mask(y[:, j], y_true[:, j] != 0)
     y_true, y_pred = mask(y_true), mask(y_pred)
     y_true = y_true == 1
-    return _precise_threshold(y_true, y_pred)
-
-
-def _precise_sensitivity(y_true, y_pred):
-    threshold = _precise_threshold(y_true, y_pred)
-    mask = lambda y: tf.boolean_mask(y, y_true)
-    y_true, y_pred = mask(y_true), mask(y_pred)
-    return accuracy(y_true, y_pred, threshold)
+    I = tf.argsort(y_pred, direction='DESCENDING')
+    y_true, y_pred = tf.gather(y_true, I), tf.gather(y_pred, I)
+    ppv = tf.math.cumsum(tf.cast(y_true, 'float32'))
+    ppv /= tf.cast(tf.range(tf.shape(y_true)[0]) + 1, 'float32')
+    i_thresh = tf.reduce_sum(tf.cast(ppv > MIN_PPV, 'int32'))
+    i_thresh = tf.minimum(i_thresh, tf.shape(y_true)[0] - 1)
+    threshold = tf.cond(i_thresh <= 0, lambda: 1., lambda: y_pred[i_thresh])
+    return threshold
 
 
 def precise_sensitivity(j, y_true, y_pred):
-    mask = lambda y: tf.boolean_mask(y[:, j], y_true[:, j] != 0)
-    y_true, y_pred = mask(y_true), mask(y_pred)
-    y_true = y_true == 1
-    return _precise_sensitivity(y_true, y_pred)
+    threshold = precise_threshold(j, y_true, y_pred)
+    return sensitivity(y_true[:, j], y_pred[:, j], threshold)
 
 
 def get_pressure_weight_matrix(H):
@@ -203,6 +224,7 @@ def build(H, diagonsis_codes):
     loss = {
         'pressure': partial(pressure_loss, H, W),
         'diagnosis': diagnosis_loss,
+#         'diagnosis': partial(diagnosis_loss, H),
     }
     
     return loss, metrics

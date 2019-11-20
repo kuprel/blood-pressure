@@ -1,11 +1,15 @@
 generate report from ecg+ppg sample
     diagnosis histograms
+      log yscale checkbox
+      precision slider
     positive diagnosis examples
     pressure correlation plots
     diagnosis histograms after averaging probability over rec_seg
 
 report over full icu stay
 plot examples for reliable diagnoses
+
+resnet_a, resnet_b, resnet_bc, resnet_c
 
 memory problem
 smoother validation plots
