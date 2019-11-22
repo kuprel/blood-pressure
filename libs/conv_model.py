@@ -7,6 +7,14 @@ import loss_metrics
 compose = lambda *F: reduce(lambda f, g: lambda x: f(g(x)), F)
 
 
+MEAN_PRESSURE = {
+    'ABP': [127, 58],
+    'CVP': [18, 5.9],
+    'ICP': [12.8, 6.4],
+    'PAP': [43.2, 14.6]
+}
+
+
 def resnet_block_a(H, mask):
     
     conv_args = {
@@ -15,7 +23,11 @@ def resnet_block_a(H, mask):
         'padding': 'same',
         'use_bias': False,
         'kernel_size': (2 ** H['kernel_sizes_log2'][1], 1), 
-        'strides': (2 ** H['strides_log2'][1], 1),   
+        'strides': (2 ** H['strides_log2'][1], 1),
+        'kernel_initializer': K.initializers.RandomNormal(
+            mean=0.0, 
+            stddev=2**H['initial_weights_std_log2']
+        ),
     }
     
     layers = [
@@ -41,6 +53,10 @@ def resnet_block_b(H):
         'padding': 'same',
         'use_bias': False,
         'kernel_size': 2 ** H['kernel_sizes_log2'][2],
+        'kernel_initializer': K.initializers.RandomNormal(
+            mean=0.0, 
+            stddev=2**H['initial_weights_std_log2']
+        ),
     }
     
     layers = [
@@ -64,6 +80,10 @@ def resnet_block_ab(H, mask, group_count):
         'activation': None,
         'padding': 'same',
         'use_bias': False,
+        'kernel_initializer': K.initializers.RandomNormal(
+            mean=0.0, 
+            stddev=2**H['initial_weights_std_log2']
+        ),
     }
 
     conv_args_a = {
@@ -100,6 +120,10 @@ def first_layer(H, mask):
         'activation': 'relu',
         'kernel_size': (2 ** H['kernel_sizes_log2'][0], 1), 
         'strides': (2 ** H['strides_log2'][0], 1),
+        'kernel_initializer': K.initializers.RandomNormal(
+            mean=0.0, 
+            stddev=2**H['initial_weights_std_log2']
+        ),
     }
     layers = [
         partial(tf.expand_dims, axis=-1),
@@ -113,11 +137,17 @@ def first_layer(H, mask):
 def dense_layer(H):
     layers = [
         K.layers.Flatten(),
-        K.layers.Dense(2 ** H['dense_units_log2'], activation='relu'),
+        K.layers.Dense(
+            2 ** H['dense_units_log2'], 
+            activation='relu',
+            kernel_initializer = K.initializers.RandomNormal(
+                mean=0.0, 
+                stddev=2**H['initial_weights_std_log2']
+            ),
+        ),
     ]
     
-    if H['dropout'] > 0:
-        layers.append(K.layers.Dropout(H['dropout']))
+    layers.append(K.layers.Dropout(2**H['dropout_log2']))
     
     layer = compose(*layers[::-1])
     return layer
@@ -142,7 +172,7 @@ def build(H, diagnosis_priors):
     for i in range(2**H['layer_count_a_log2']):
         for j, (G, z) in enumerate(zip(sig_groups, Z)):
             Z[j] = resnet_block_a(H, float_mask[:, :, G])(z)
-    
+       
     norm = lambda w: w / tf.maximum(tf.reduce_sum(w, axis=2, keepdims=True), 1)
     W = [norm(float_mask[:, :, G]) for G in sig_groups]
     Z = [tf.reduce_sum(w * z, axis=2, keepdims=True) for w, z in zip(W, Z)]
@@ -152,7 +182,6 @@ def build(H, diagnosis_priors):
         tf.reduce_any(float_mask[:, :, G] > 0, axis=2, keepdims=True) 
         for G in sig_groups
     ], axis=2)
-#     group_mask = tf.expand_dims(tf.expand_dims(group_mask, axis=1), axis=-1)
     group_mask = tf.cast(group_mask, dtype=signals.dtype)
     
     z = resnet_block_ab(H, group_mask, group_count=len(sig_groups))(z)
@@ -177,7 +206,7 @@ def build(H, diagnosis_priors):
         outputs=[pressure, diagnosis]
     )
     
-    mean_pressure = [H['mean_pressure'][s] for s in H['output_sigs']]
+    mean_pressure = [MEAN_PRESSURE[s] for s in H['output_sigs']]
     mean_pressure = numpy.array(mean_pressure, dtype='float32').T
                                 
     pressure_layer.set_weights([
@@ -192,21 +221,22 @@ def build(H, diagnosis_priors):
         ])
 
     boundaries = [2**H['steps_per_epoch_log2'] * i for i in H['lr_boundaries']]
+    values = [2**(H['learning_rate_log2'] - i) for i in H['lr_divisors_log2']]
     lr_schedule = K.optimizers.schedules.PiecewiseConstantDecay(
         boundaries = boundaries,
-        values = [H['learning_rate'] / i for i in H['lr_divisors']]
+        values = values
     )
     
     diagnosis_codes = list(diagnosis_priors.index)
     loss, metrics = loss_metrics.build(H, diagnosis_codes)
     
-    loss_weights = H['loss_weights']['output']
+    w = H['loss_weights_log2']['output']
     
     model.compile(
         optimizer = K.optimizers.Adam(learning_rate=lr_schedule),
         loss = loss,
         metrics = metrics,
-        loss_weights = {k: loss_weights[k] for k in ['pressure', 'diagnosis']}
+        loss_weights = {k: 2 ** w[k] for k in ['pressure', 'diagnosis']}
     )
 
     return model

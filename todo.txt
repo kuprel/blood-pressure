@@ -7,7 +7,6 @@ generate report from ecg+ppg sample
     diagnosis histograms after averaging probability over rec_seg
 
 report over full icu stay
-plot examples for reliable diagnoses
 
 resnet_a, resnet_b, resnet_bc, resnet_c
 

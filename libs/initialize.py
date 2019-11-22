@@ -55,13 +55,12 @@ def check_partition(train, val):
     assert(mutually_exclusive and collectively_exhaustive)
 
 
-def load_partition(H, sig_data):
+def load_partition(val_sigs, sig_data):
     subject_ids = sig_data.index.to_frame()['subject_id']
     test_subject_ids = load_test_subject_ids()
     partition = {'validation': subject_ids.isin(test_subject_ids)}
     partition['train'] = ~partition['validation']
-    S = [s for s in H['input_sigs_validation'] if s not in H['output_sigs']]
-    has_validation_sigs = (sig_data['sig_index'][S] > 0).all(axis=1)
+    has_validation_sigs = (sig_data['sig_index'][val_sigs] > 0).all(axis=1)
     partition['validation'] &= has_validation_sigs
     partition['train'] |= ~has_validation_sigs.any(level=0)
     check_partition(partition['train'], partition['validation'])

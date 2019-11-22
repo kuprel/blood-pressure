@@ -171,6 +171,8 @@ def build(H, tensors, part):
     batch_size = 2 ** H[key + '_log2']
     buffer_size = 2 ** H['batch_buffer_size_log2'] if part == 'train' else 1
     dataset = tf.data.Dataset.from_tensor_slices(tensors)
+    if part == 'validation' and H['batch_size_validation_log2'] > 9:
+        dataset = dataset.repeat(2 ** (H['batch_size_validation_log2'] - 9))
     dataset = dataset.shuffle(n)
     window_index_matrix = get_window_index_matrix(H)
     dataset = dataset.interleave(
@@ -187,7 +189,6 @@ def build(H, tensors, part):
     dataset = dataset.filter(filter_example)
     buffer_size *= batch_size * 2 ** H['windows_per_chunk_log2']
     dataset = dataset.shuffle(buffer_size)
-    if part == 'validation' and batch_size > 2**9:
-        dataset = dataset.repeat(2 ** (H['batch_size_validation_log2'] - 9))
+
     dataset = dataset.batch(batch_size).repeat()
     return dataset

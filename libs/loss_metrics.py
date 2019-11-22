@@ -3,9 +3,6 @@ from tensorflow import keras as K
 from functools import partial
 
 
-MIN_PPV = 0.8
-
-
 CODE_NAMES = {
     '4019':  'hypertensive',
     '4280':  'congestive_heart_failure',
@@ -78,6 +75,25 @@ def diagnosis_specificity(j, y_true, y_pred):
     return specificity(y_true[:, j], y_pred[:, j])
 
 
+def precise_threshold(j, y_true, y_pred, precision=0.8):
+    mask = lambda y: tf.boolean_mask(y[:, j], y_true[:, j] != 0)
+    y_true, y_pred = mask(y_true), mask(y_pred)
+    y_true = y_true == 1
+    I = tf.argsort(y_pred, direction='DESCENDING')
+    y_true, y_pred = tf.gather(y_true, I), tf.gather(y_pred, I)
+    precisions = tf.math.cumsum(tf.cast(y_true, 'float32'))
+    precisions /= tf.cast(tf.range(tf.shape(y_true)[0]) + 1, 'float32')
+    i_thresh = tf.reduce_sum(tf.cast(precisions > precision, 'int32'))
+    i_thresh = tf.minimum(i_thresh, tf.shape(y_true)[0] - 1)
+    threshold = tf.cond(i_thresh <= 0, lambda: 1., lambda: y_pred[i_thresh])
+    return threshold
+
+
+def precise_sensitivity(j, y_true, y_pred, precision=0.8):
+    threshold = precise_threshold(j, y_true, y_pred, precision)
+    return sensitivity(y_true[:, j], y_pred[:, j], threshold)
+
+
 def positive_diagnosis_loss(y_true, y_pred):
     mask = tf.cast(y_true == 1, 'float32')
     cross_entropy = -tf.math.log(y_pred) * mask
@@ -134,39 +150,10 @@ def pulse_error(j, y_true, y_pred):
     return error
 
 
-def _precise_threshold(y_true, y_pred):
-    I = tf.argsort(y_pred, direction='DESCENDING')
-    y_true, y_pred = tf.gather(y_true, I), tf.gather(y_pred, I)
-    ppv = tf.math.cumsum(tf.cast(y_true, 'float32'))
-    ppv /= tf.cast(tf.range(tf.shape(y_true)[0]) + 1, 'float32')
-    i_thresh = tf.reduce_sum(tf.cast(ppv > MIN_PPV, 'int32'))
-    i_thresh = tf.minimum(i_thresh, tf.shape(y_true)[0] - 1)
-    thresh = tf.cond(i_thresh <= 0, lambda: 1., lambda: y_pred[i_thresh])
-    return thresh
-
-
-def precise_threshold(j, y_true, y_pred):
-    mask = lambda y: tf.boolean_mask(y[:, j], y_true[:, j] != 0)
-    y_true, y_pred = mask(y_true), mask(y_pred)
-    y_true = y_true == 1
-    I = tf.argsort(y_pred, direction='DESCENDING')
-    y_true, y_pred = tf.gather(y_true, I), tf.gather(y_pred, I)
-    ppv = tf.math.cumsum(tf.cast(y_true, 'float32'))
-    ppv /= tf.cast(tf.range(tf.shape(y_true)[0]) + 1, 'float32')
-    i_thresh = tf.reduce_sum(tf.cast(ppv > MIN_PPV, 'int32'))
-    i_thresh = tf.minimum(i_thresh, tf.shape(y_true)[0] - 1)
-    threshold = tf.cond(i_thresh <= 0, lambda: 1., lambda: y_pred[i_thresh])
-    return threshold
-
-
-def precise_sensitivity(j, y_true, y_pred):
-    threshold = precise_threshold(j, y_true, y_pred)
-    return sensitivity(y_true[:, j], y_pred[:, j], threshold)
-
-
 def get_pressure_weight_matrix(H):
-    w1 = [H['loss_weights']['metric'][k] for k in ['systolic', 'diastolic']]
-    w2 = [H['loss_weights']['sig'][s] for s in H['output_sigs']]
+    w = H['loss_weights_log2']
+    w1 = [2 ** w['metric'][k] for k in ['systolic', 'diastolic']]
+    w2 = [2 ** w['sig'][s] for s in H['output_sigs']]
     w1 = tf.constant(w1, dtype='float32')
     w2 = tf.constant(w2, dtype='float32')
     W = tf.expand_dims(w1, axis=1) * tf.expand_dims(w2, axis=0)
@@ -174,7 +161,7 @@ def get_pressure_weight_matrix(H):
 
 
 def pressure_loss(H, W, y_true, y_pred, sample_weight=None):
-    eps = H['relative_target_radius']
+    eps = 2**H['relative_target_radius_log2']
     L1 = tf.abs(y_pred - (1 - eps) * y_true)
     L2 = tf.abs(y_pred - (1 + eps) * y_true)
     mask = tf.cast(y_true != 0, 'float32')
