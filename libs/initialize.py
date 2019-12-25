@@ -198,7 +198,7 @@ def dataframe_to_ragged_tensor(row_lengths, dataframe, name, nested):
     return t
 
 
-def get_tensors(H, metadata, sig_data, diagnosis, row_lengths):
+def to_tensors(H, metadata, sig_data, diagnosis, row_lengths):
     
     to_ragged_tensor = partial(dataframe_to_ragged_tensor, row_lengths)
     
@@ -246,3 +246,25 @@ def partition_subject_ids():
     i = round(0.2*len(subject_ids))
     with open('/scr-ssd/mimic/test_subject_ids.txt', 'w') as f:
         f.write('\n'.join(subject_ids[:i].astype('str')))
+
+        
+def run(H, parts):
+    load_path = '/scr1/mimic/initial_data/'
+    sig_data, metadata = load_initial_data(load_path=load_path)
+    diagnosis = load_diagnosis(H['icd_codes'], metadata)
+    diagnosis = augment_diagnosis(diagnosis, metadata)
+    diagnosis = fix_diagnosis(diagnosis)
+    priors = (diagnosis == 1).sum() / (diagnosis != 0).sum()
+    priors['measured_systemic_hypertension'] = 0.5
+    priors['measured_pulmonary_hypertension'] = 0.5
+    diagnosis = conform_diagnosis(diagnosis, metadata)
+    partition = load_partition(H['input_sigs_validation'], sig_data)
+    
+    tensors = {}
+    for part in parts:
+        I = partition[part]
+        row_lengths = get_row_lengths(metadata[I])
+        args = [metadata[I], sig_data[I], diagnosis[I], row_lengths]
+        tensors[part] = to_tensors(H, *args)
+        
+    return tensors, metadata, priors 

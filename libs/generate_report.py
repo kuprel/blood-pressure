@@ -1,8 +1,15 @@
 import numpy
+import json
+import pickle
+import os
 import ipywidgets
 from matplotlib import pyplot
 import loss_metrics
+import initialize
+import data_pipeline
+import conv_model
 
+import tensorflow as tf
 
 def compute_predictions(model, dataset, batch_count, fix_input=None):
     X, Y, P = [], [], []
@@ -30,7 +37,6 @@ def get_code_name(code):
 
 def plot_diagnosis(axis, p_neg, p_pos, threshold, sensitivity, name):
     axis.clear()
-#     axis.set_facecolor('black')
     bins = numpy.linspace(0, 1, 101)
     axis.hist(p_neg, bins=bins, alpha=1, color='green');
     axis.hist(p_pos, bins=bins, alpha=.5, color='red');
@@ -161,4 +167,53 @@ def get_diagnoses_plotter(x, y_true, y_pred, codes, subject_ids):
     )
     
     return fig, plot_diagnoses
+
+
+def get_predictions(H, model, dataset, weights_path, batch_count):
     
+    fix_input = lambda x: {**x, 'mask': tf.cast(x['mask'], 'float')}
+    if os.path.isfile(weights_path):
+        print('loading predictions')
+        with open(checkpoint_path + '.pkl', 'rb') as f:
+            X, Y, P = pickle.load(f)
+    else:
+        print('computing predictions')
+        X, Y, P = compute_predictions(model, dataset, batch_count, fix_input)
+        with open(weights_path + '.pkl', 'wb') as f:
+            pickle.dump([X, Y, P], f)
+    return X, Y, P
+
+
+def run(model_id, checkpoint_index, example_count_log2):
+    
+    ckpts = os.listdir('/scr1/checkpoints')
+    ckpts = sorted(i for i in ckpts if 'index' in i and str(model_id) in i)
+    hypes_path = '../hypes/{}.json'.format(ckpts[0].split('.')[0][:-6])
+    weights_path = '/scr1/checkpoints/' + ckpts[checkpoint_index]
+    assert(os.path.isfile(hypes_path) and os.path.isfile(weights_path))
+    weights_path = weights_path.replace('.index', '')
+    print('found hypes', hypes_path, '\nfound weights', weights_path)
+    
+    H0 = json.load(open(hypes_path))
+    H = initialize.load_hypes()
+    H = {**H, **H0}
+    H['batch_size_validation_log2'] = 7
+
+    part = 'validation'
+    tensors, metadata, priors = initialize.run(H, parts=[part])
+    dataset = data_pipeline.build(H, tensors[part], part)
+    
+    batch_count = 2 ** (example_count_log2 - H['batch_size_validation_log2'])
+    model = conv_model.build(H, priors)
+    model.load_weights(weights_path)
+    X, Y, P = get_predictions(H, model, dataset, weights_path, batch_count)
+            
+    y_true, y_pred = Y['diagnosis'], P['diagnosis']
+    x = X['signals'][:, :, [H['input_sigs'].index(i) for i in ['PLETH', 'II']]]
+    M = metadata.reset_index()[['subject_id', 'rec_id']].drop_duplicates()
+    M = M.set_index('rec_id', verify_integrity=True)
+    subject_ids = M.loc[Y['rec_id']].values[:, 0]
+    codes = priors.index.to_list()
+    fig, plotter = get_diagnoses_plotter(x, y_true, y_pred, codes, subject_ids)
+    
+    return plotter, model

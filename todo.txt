@@ -1,25 +1,23 @@
-generate report from ecg+ppg sample
-    diagnosis histograms
-      log yscale checkbox
-      precision slider
-    positive diagnosis examples
-    pressure correlation plots
-    diagnosis histograms after averaging probability over rec_seg
-
-report over full icu stay
-
-resnet_a, resnet_b, resnet_bc, resnet_c
-
-memory problem
-smoother validation plots
-
-matched data with missing bp
+double data
   generate rsync file list
     include accidentally deleted data
     clinic data ok?
   sbatch download
   sbatch convert to flac
   integrate with current dataset
+
+diagnosis histograms after reducing predictions by subject
+any diagnosis histogram reduced by subject
+
+by subject/example toggle
+breakdown of TP, FP, TN, FN
+  for specific disease
+  for all diseases
+
+resnet_a, resnet_b, resnet_bc, resnet_c
+
+memory problem
+smoother validation plots
 
 write test cases for all functions
     
@@ -35,16 +33,10 @@ data augmentation
 prescriptions
 inputs
 glucose, hematocrit, creatinine,
-electrolytes: potassium, magnesium, calcium, sodium
-hyperglycemic SS
 
 halve chunk_size
 
 :1024:2 finetuned on :512:1
-
-curriculum
-  512:1 -> 1024:2 -> 1024:1
-  shrink target region over time
   
 read
   http://www.onlinejacc.org/content/70/5/572
@@ -53,6 +45,5 @@ read
 
 all functions in libs to build from original mimic data
 
-dilated convolution
 finetune speech to text model
-check masks
+pressure correlation plots

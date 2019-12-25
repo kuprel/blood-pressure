@@ -13,25 +13,9 @@ model_id = sys.argv[1] + '_' + time_str
 
 H = initialize.load_hypes(model_id)
 
-initial_data_path = '/scr1/mimic/initial_data/'
-sig_data, metadata = initialize.load_initial_data(load_path=initial_data_path)
-diagnosis = initialize.load_diagnosis(H['icd_codes'], metadata)
-diagnosis = initialize.augment_diagnosis(diagnosis, metadata)
-diagnosis = initialize.fix_diagnosis(diagnosis)
-priors = (diagnosis == 1).sum() / (diagnosis != 0).sum()
-priors['measured_systemic_hypertension'] = 0.5
-priors['measured_pulmonary_hypertension'] = 0.5
-diagnosis = initialize.conform_diagnosis(diagnosis, metadata)
-partition = initialize.load_partition(H['input_sigs_validation'], sig_data)
-
-dataset = {}
-for part in ['train', 'validation']:
-    I = partition[part]
-    row_lengths = initialize.get_row_lengths(metadata[I])
-    args = [metadata[I], sig_data[I], diagnosis[I], row_lengths]
-    tensors = initialize.get_tensors(H, *args)
-    dataset[part] = data_pipeline.build(H, tensors, part)
-
+parts = ['train', 'validation']
+tensors, metadata, priors = initialize.run(H, parts=parts)
+dataset = {part: data_pipeline.build(H, tensors[part], part) for part in parts}
 model = conv_model.build(H, priors)
 model.summary()
 
@@ -50,7 +34,7 @@ model.fit(
     validation_data = dataset['validation'],
     epochs = 2**20,
     steps_per_epoch = 2**H['steps_per_epoch_log2'],
-    validation_steps = 1,
+    validation_steps = 2**H['validation_steps_log2'],
     validation_freq = range(0, 2**20, 2**H['validation_frequency_log2']),
     callbacks = [tensorboard_callback, checkpoint_callback],
     verbose = 0,
