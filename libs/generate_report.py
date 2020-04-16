@@ -3,8 +3,7 @@ import json
 import pickle
 import os
 import ipywidgets
-from matplotlib import pyplot
-import loss_metrics
+from matplotlib import pyplotimport loss_metrics
 import initialize
 import data_pipeline
 import conv_model
@@ -55,7 +54,7 @@ def plot_diagnosis(axis, p_neg, p_pos, threshold, sensitivity, name):
 
     
 def get_diagnoses_plotter(x, y_true, y_pred, codes, subject_ids):    
-    precisions = [0.75, 0.8, 0.9, 0.95, 0.99]
+    precisions = [0.01, 0.1, 0.25, 0.5, 0.75, 0.8, 0.9, 0.95, 0.99]
     
     condition_names = [get_code_name(code) for code in codes]
     

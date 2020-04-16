@@ -6,6 +6,9 @@ double data
   sbatch convert to flac
   integrate with current dataset
 
+halve chunk_size
+all functions in libs to build from original mimic data
+
 diagnosis histograms after reducing predictions by subject
 any diagnosis histogram reduced by subject
 
@@ -18,8 +21,6 @@ resnet_a, resnet_b, resnet_bc, resnet_c
 
 memory problem
 smoother validation plots
-
-write test cases for all functions
     
 plot bp vs ptt
 smooth bp
@@ -34,7 +35,6 @@ prescriptions
 inputs
 glucose, hematocrit, creatinine,
 
-halve chunk_size
 
 :1024:2 finetuned on :512:1
   
@@ -42,8 +42,6 @@ read
   http://www.onlinejacc.org/content/70/5/572
   https://deepmind.com/blog/article/wavenet-generative-model-raw-audio
   https://arxiv.org/pdf/1910.10683.pdf (T5)
-
-all functions in libs to build from original mimic data
 
 finetune speech to text model
 pressure correlation plots

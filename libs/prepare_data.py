@@ -8,20 +8,26 @@ import flacdb
 
 
 ROOT_SERIAL = '/scr-ssd/mimic/waveforms/'
-CHUNK_SIZE = 2**16
-MAX_CHUNK_COUNT = 16
+# CHUNK_SIZE = 2**16
+# MAX_CHUNK_COUNT = 16
+CHUNK_SIZE = 2**12
+CHUNK_SKIP_SIZE = 2**15
+# MAX_CHUNK_COUNT = 1
 
 def get_chunk_path(rec, i):
-    chunk_id = rec.record_name + '_' + str(i).zfill(4)
-    return ROOT_SERIAL + chunk_id + '.tfrec'
+    return ROOT_SERIAL + rec.record_name + '/' + str(i).zfill(4) + '.tfrec'
+
+# def get_chunk_count(sig_len):
+#     return min(MAX_CHUNK_COUNT, sig_len // CHUNK_SIZE)
 
 def get_chunk_count(sig_len):
-    return min(MAX_CHUNK_COUNT, sig_len // CHUNK_SIZE)
+    return max(1, sig_len // CHUNK_SKIP_SIZE)
 
 def get_chunks(rec):
     chunk_count = get_chunk_count(rec.sig_len)
     di = rec.sig_len // chunk_count
-    X = [rec.d_signal[i*di:i*di+CHUNK_SIZE] for i in range(chunk_count)]
+    i0 = CHUNK_SKIP_SIZE // 2
+    X = [rec.d_signal[i0+i*di:i0+i*di+CHUNK_SIZE] for i in range(chunk_count)]
     return X
 
 def write_chunks(rec):
@@ -37,12 +43,17 @@ def check_chunks(rec):
         x_ = x_.numpy()
         assert((x_ == x).all())
 
+def _serialize(rec_seg):
+    rec = flacdb.read_record(rec_seg, compute_physical=False)
+    assert(rec.sig_len == rec.d_signal.shape[0])
+    if not os.path.isdir(ROOT_SERIAL + rec.record_name):
+        os.makedirs(ROOT_SERIAL + rec.record_name)
+    write_chunks(rec)
+    check_chunks(rec)
+        
 def convert_flac_to_serial(rec_seg):
     try:
-        rec = flacdb.read_record(rec_seg, compute_physical=False)
-        assert(rec.sig_len == rec.d_signal.shape[0])
-        write_chunks(rec)
-        check_chunks(rec)
+        _serialize(rec_seg)
     except:
         print(rec_seg, 'failed')
 
@@ -50,14 +61,13 @@ def convert_flac_to_serial(rec_seg):
 def get_downloaded():
     rec_segs = os.listdir(flacdb.ROOT)
     to_tuple = lambda i: flacdb.rec_seg_to_tuple(i.split('.')[0])
-    rec_segs = sorted({to_tuple(i) for i in rec_segs if '_x.flac' in i})
+    rec_segs = sorted({to_tuple(i) for i in rec_segs if '.flac' in i})
     return rec_segs
         
     
 def get_serialized():
     rec_segs = os.listdir(ROOT_SERIAL)
-    to_tuple = lambda i: flacdb.rec_seg_to_tuple(i.split('.')[0][:-5])
-    rec_segs = sorted({to_tuple(i) for i in rec_segs})
+    rec_segs = sorted({flacdb.rec_seg_to_tuple(i) for i in rec_segs})
     return rec_segs
 
 def filter_serialized(metadata):    
@@ -80,13 +90,14 @@ def filter_serialized(metadata):
 if __name__ == '__main__':
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
     metadata = pandas.read_hdf('/scr-ssd/mimic/metadata.hdf')
-    metadata.set_index(['rec_id', 'seg_id'], inplace=True)
     filtered = metadata.reindex(metadata.index & get_downloaded())
-    filtered = filter_downloaded(metadata)
-    filtered = filtered[filtered['sig_len'] > CHUNK_SIZE]
+#     filtered = filter_downloaded(metadata)
+    filtered = filtered[filtered['sig_len'] > CHUNK_SKIP_SIZE]
     print(len(filtered), 'records')
-    serialized = filter_serialized(filtered)
-    filtered = filtered.reindex(set(filtered.index) - set(serialized.index))
-    print(len(filtered), 'left to serialize')
+#     serialized = filter_serialized(filtered)
+#     filtered = filtered.reindex(set(filtered.index) - set(serialized.index))
+#     print(len(filtered), 'left to serialize')
+#     for i in filtered.index:
+#         _serialize(i)
     pool = multiprocessing.Pool(multiprocessing.cpu_count())
     pool.map(convert_flac_to_serial, filtered.index)

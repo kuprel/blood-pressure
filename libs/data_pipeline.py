@@ -46,7 +46,7 @@ def process_example(H, part, validation_mask, example):
     abp_sig_is_bad = output_is_bad[j_abp]
     abp_is_bad = abp_sig_is_bad | abp_too_small | abp_diff_too_small
     
-    example_is_bad |= abp_is_bad
+#     example_is_bad |= abp_is_bad
     example_is_good = ~example_is_bad
     
     if example_is_good and tf.reduce_any(sig_is_bad):
@@ -137,7 +137,7 @@ def get_examples(H, W, example):
     
     chunk_name = tf.as_string(rec_id) 
     chunk_name += '_' + zfill(seg_id, 4)
-    chunk_name += '_' + zfill(chunk_id, 4)
+    chunk_name += '/' + zfill(chunk_id, 4)
         
     sigs_path = prepare_data.ROOT_SERIAL + chunk_name + '.tfrec'
     sigs = tf.io.read_file(sigs_path)

@@ -176,15 +176,15 @@ def build(H, diagonsis_codes):
     pressure_metrics = {
         'systolic': systolic_error,
         'diastolic': diastolic_error,
-        'pulse': pulse_error,
+#         'pulse': pulse_error,
     }
     
     diagnosis_metrics = {
         'sensitivity': diagnosis_sensitivity,
         'specificity': diagnosis_specificity,
         'accuracy': diagnosis_accuracy,
-        'precise_sensitivity': precise_sensitivity,
-        'precise_threshold': precise_threshold
+#         'precise_sensitivity': precise_sensitivity,
+#         'precise_threshold': precise_threshold
     }
     
     get_code_name = lambda c: c + '_' + CODE_NAMES[c] if c in CODE_NAMES else c

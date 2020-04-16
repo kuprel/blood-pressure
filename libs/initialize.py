@@ -10,7 +10,8 @@ import tensorflow as tf
 import flacdb
 import prepare_data
 
-RESP_SCALE = 5
+# RESP_SCALE = 5
+RESP_SCALE = 1
 HOME = '/sailhome/kuprel/blood-pressure/'
 
 TENSOR_DTYPES = {
@@ -28,7 +29,7 @@ TENSOR_DTYPES = {
     'diagnosis':   'int8',
     'rec_id':      'int32',
     'seg_id':     'int16',
-    'chunk_count': 'uint8'
+    'chunk_count': 'uint16'
 }
 
 clinic_file = lambda i: '/scr1/mimic/clinic/{}.csv'.format(i.upper())
@@ -67,23 +68,24 @@ def load_partition(val_sigs, sig_data):
     return partition  
 
 
-def load_initial_data(load_path=None, save_path=False):
+def load_initial_data(load_path=None, save_path=None, must_have_bp=True):
     if load_path is not None:
         metadata = pandas.read_pickle(load_path + 'metadata.pkl')
         sig_data = pandas.read_pickle(load_path + 'sig_data.pkl')
         return sig_data, metadata
     metadata = pandas.read_hdf('/scr-ssd/mimic/metadata.hdf')
-    metadata = metadata[metadata['sig_len'] > prepare_data.CHUNK_SIZE]
+    metadata = metadata.reindex(metadata.index & prepare_data.get_serialized())
+    metadata = metadata[metadata['sig_len'] > prepare_data.CHUNK_SKIP_SIZE]
     chunk_counts = metadata['sig_len'].apply(prepare_data.get_chunk_count)
-    metadata.at[:, 'chunk_count'] = chunk_counts.astype('uint8')
-    index = (metadata.index & prepare_data.get_serialized()).sort_values()
-    metadata = metadata.reindex(index)
+    metadata.at[:, 'chunk_count'] = chunk_counts.astype('uint16')
+#     index = (metadata.index & prepare_data.get_serialized()).sort_values()
+#     metadata = metadata.reindex(index)
     missing = metadata['subject_id'] == -1
     fake_ids = -metadata.loc[missing].index.get_level_values(0)
     metadata.at[missing, 'subject_id'] = fake_ids
     subject_ids = metadata['subject_id']
     metadata = metadata.reset_index()
-    metadata.set_index(['subject_id', 'rec_id', 'seg_id'], inplace=True, verify_integrity=True)
+    metadata.set_index(['subject_id', 'rec_id', 'seg_id'], inplace=True)
     metadata.sort_index(inplace=True)
     index_names = ['rec_id', 'seg_id', 'sig_name']
     columns = index_names + ['sig_index', 'baseline', 'adc_gain']
@@ -100,7 +102,8 @@ def load_initial_data(load_path=None, save_path=False):
     sig_data.set_index(['subject_id'] + index_names, inplace=True, verify_integrity=True)
     sig_data = sig_data.unstack(fill_value=0)
     sig_data = sig_data.astype({(k, s): dtypes[k] for k, s in sig_data})
-    sig_data = sig_data[sig_data['sig_index']['ABP'] > 0]
+    if must_have_bp:
+        sig_data = sig_data[sig_data['sig_index']['ABP'] > 0]
     index = (metadata.index & sig_data.index).sort_values()
     metadata = metadata.reindex(index)
     sig_data = sig_data.reindex(index)
@@ -110,7 +113,7 @@ def load_initial_data(load_path=None, save_path=False):
     return sig_data, metadata
 
 
-def load_diagnosis(codes, metadata):
+def load_diagnosis(codes):
     diagnosis = pandas.read_csv(clinic_file('diagnoses_icd'))
     new_names = {i.upper(): i for i in ['subject_id', 'hadm_id']}
     new_names['ICD9_CODE'] = 'code'
@@ -250,8 +253,8 @@ def partition_subject_ids():
         
 def run(H, parts):
     load_path = '/scr1/mimic/initial_data/'
-    sig_data, metadata = load_initial_data(load_path=load_path)
-    diagnosis = load_diagnosis(H['icd_codes'], metadata)
+    sig_data, metadata = load_initial_data(load_path=load_path, must_have_bp=False)
+    diagnosis = load_diagnosis(H['icd_codes'])
     diagnosis = augment_diagnosis(diagnosis, metadata)
     diagnosis = fix_diagnosis(diagnosis)
     priors = (diagnosis == 1).sum() / (diagnosis != 0).sum()
