@@ -6,15 +6,6 @@ import loss_metrics
 
 compose = lambda *F: reduce(lambda f, g: lambda x: f(g(x)), reversed(F))
 
-
-PRESSURE_MEAN = {
-    'ABP': [127, 58],
-    'CVP': [18, 5.9],
-    'ICP': [12.8, 6.4],
-    'PAP': [43.2, 14.6]
-}
-
-
 def first_layer(H):
     args = {
         'filters': 2 ** H['filter_count_log2'],
@@ -25,6 +16,7 @@ def first_layer(H):
             mean=0.0, 
             stddev=2**H['initial_weights_std_log2']
         ),
+        'kernel_regularizer': K.regularizers.l2(2**H['kernel_reg_log2'])
     }
     
     downsample = (2 ** H['strides_log2'][0], 1)
@@ -50,6 +42,7 @@ def resnet_block_a(H, mask):
             mean=0.0, 
             stddev=2**H['initial_weights_std_log2']
         ),
+        'kernel_regularizer': K.regularizers.l2(2**H['kernel_reg_log2'])
     }
     
     f = compose(
@@ -78,6 +71,7 @@ def resnet_block_ab(H, mask, group_count):
             mean=0.0, 
             stddev=2**H['initial_weights_std_log2']
         ),
+        'kernel_regularizer': K.regularizers.l2(2**H['kernel_reg_log2'])
     }
     
     conv_args_a = {
@@ -122,6 +116,7 @@ def resnet_block_b(H):
             mean=0.0, 
             stddev=2**H['initial_weights_std_log2']
         ),
+        'kernel_regularizer': K.regularizers.l2(2**H['kernel_reg_log2'])
     }
     
     f = compose(
@@ -144,14 +139,17 @@ def dense_layer(H):
         'kernel_initializer': K.initializers.RandomNormal(
             mean=0.0, 
             stddev=2**H['initial_weights_std_log2']
-        )
+        ),
+        'kernel_regularizer': K.regularizers.l2(2**H['kernel_reg_log2'])
     }
     layer = compose(K.layers.Flatten(), K.layers.Dense(**args))
     return layer
 
 
-def build(H, priors):
+def build(H, priors, output_activations=False):
 
+    outputs = []
+    
     input_shape = (2**H['window_size_log2'], len(H['input_sigs']))
     signals = K.layers.Input(input_shape, name='signals')
     mask = K.layers.Input(input_shape[1], name = 'mask')
@@ -162,7 +160,7 @@ def build(H, priors):
     z = tf.expand_dims(signals, axis=-1)
     z = first_layer(H)(z) * float_mask
     
-    sig_groups = [slice(0, 1), slice(1, 2), slice(2, None)]
+    sig_groups = [slice(0, 1), slice(1, 2), slice(2, 6), slice(6, None)]
     Z = [z[:, :, G] for G in sig_groups]
     
     for i in range(2**H['layer_counts_log2'][0]):
@@ -173,6 +171,7 @@ def build(H, priors):
     W = [norm(float_mask[:, :, G]) for G in sig_groups]
     Z = [tf.reduce_sum(w * z, axis=2, keepdims=True) for w, z in zip(W, Z)]
     z = tf.concat(Z, axis=2)
+    if output_activations: outputs.append(z)
     
     group_mask = tf.concat([
         tf.reduce_any(float_mask[:, :, G] > 0, axis=2, keepdims=True) 
@@ -181,38 +180,34 @@ def build(H, priors):
     group_mask = tf.cast(group_mask, dtype=signals.dtype)
     
     z = resnet_block_ab(H, group_mask, group_count=len(sig_groups))(z)
+    if output_activations: outputs.append(z)
 
     for i in range(2**H['layer_counts_log2'][0]):
         z = resnet_block_b(H)(z)
+        if output_activations: outputs.append(z)
 
     features = dense_layer(H)(z)
-    features = K.layers.Dropout(2**H['dropout_log2'])(features)
-    
-    pressure_layer = K.layers.Dense(2 * len(H['output_sigs']))
-    
+    if output_activations: outputs.append(features)
+    features_dropped = K.layers.Dropout(2**H['dropout_log2'])(features)
+        
     diagnosis_layer = K.layers.Dense(
         len(priors), 
         name='diagnosis', 
-        activation='sigmoid'
+        activation='sigmoid',
+        kernel_initializer=K.initializers.RandomNormal(
+            mean=0.0, 
+            stddev=2**H['initial_weights_std_log2']
+        ),
+        kernel_regularizer=K.regularizers.l2(2**H['kernel_reg_log2'])
     )
     
-    reshape = K.layers.Reshape([2, len(H['output_sigs'])], name='pressure')
-    pressure = compose(pressure_layer, reshape)(features)
+    diagnosis = diagnosis_layer(features_dropped)
+    outputs.append(diagnosis)
     
-    diagnosis = diagnosis_layer(features)
-        
     model = K.models.Model(
         inputs=[signals, mask], 
-        outputs=[pressure, diagnosis]
+        outputs=outputs[::-1]
     )
-    
-    mean_pressure = [PRESSURE_MEAN[s] for s in H['output_sigs']]
-    mean_pressure = numpy.array(mean_pressure, dtype='float32').T
-                                
-    pressure_layer.set_weights([
-        pressure_layer.get_weights()[0],
-        tf.constant(mean_pressure.flatten())
-    ])
     
     if H['use_diagnosis_priors'] and priors is not None:
         diagnosis_layer.set_weights([
@@ -229,14 +224,11 @@ def build(H, priors):
     
     codes = list(priors.index)
     loss, metrics = loss_metrics.build(H, codes)
-    
-    w = H['loss_weights_log2']['output']
-    
+        
     model.compile(
         optimizer = K.optimizers.Adam(learning_rate=lr_schedule),
         loss = loss,
-        metrics = metrics,
-        loss_weights = {k: 2 ** w[k] for k in ['pressure', 'diagnosis']}
+        metrics = metrics
     )
 
     return model

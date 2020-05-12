@@ -5,6 +5,7 @@ import initialize
 import data_pipeline
 import conv_model
 import sys
+import os
 
 tf.debugging.set_log_device_placement(True)
 
@@ -14,7 +15,9 @@ model_id = sys.argv[1] + '_' + time_str
 H = initialize.load_hypes(model_id)
 
 parts = ['train', 'validation']
-tensors, metadata, priors = initialize.run(H, parts=parts)
+path = '/scr1/mimic/initial_data_{}/'.format(sys.argv[1])
+os.mkdir(path)
+tensors, metadata, priors = initialize.run(H, parts, save_path=path)
 dataset = {part: data_pipeline.build(H, tensors[part], part) for part in parts}
 model = conv_model.build(H, priors)
 model.summary()

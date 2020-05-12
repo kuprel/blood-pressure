@@ -3,11 +3,13 @@ import json
 import pickle
 import os
 import ipywidgets
-from matplotlib import pyplotimport loss_metrics
+from matplotlib import pyplot
+import loss_metrics
 import initialize
 import data_pipeline
 import conv_model
-
+import icd_util
+from sklearn.metrics import roc_auc_score
 import tensorflow as tf
 
 def compute_predictions(model, dataset, batch_count, fix_input=None):
@@ -18,61 +20,55 @@ def compute_predictions(model, dataset, batch_count, fix_input=None):
         if fix_input is not None:
             x = fix_input(x)
         P.append(model.predict(x))
-    keys = enumerate(['pressure', 'diagnosis'])
-    P = {k: numpy.concatenate([p[i] for p in P]) for i, k in keys}
     X = {k: numpy.concatenate([x[k] for x in X]) for k in X[0].keys()}
     Y = {k: numpy.concatenate([y[k] for y in Y]) for k in Y[0].keys()}
+    P = numpy.concatenate(P)
     return X, Y, P
-
-
-def get_code_name(code):
-    if code in loss_metrics.CODE_NAMES:
-        name = loss_metrics.CODE_NAMES[code]
-    else:
-        name = code
-    name = name.replace('_', ' ').title()
-    return name    
     
 
-def plot_diagnosis(axis, p_neg, p_pos, threshold, sensitivity, name):
+def plot_diagnosis(axis, y_true, y_pred, threshold, name, dark):
+    p_neg = y_pred[y_true == -1] 
+    p_pos = y_pred[y_true ==  1]
+    p_all = y_pred[y_true !=  0]
     axis.clear()
     bins = numpy.linspace(0, 1, 101)
-    axis.hist(p_neg, bins=bins, alpha=1, color='green');
-    axis.hist(p_pos, bins=bins, alpha=.5, color='red');
-    axis.plot([threshold] * 2, [0, 2**10], '--', color='white')
-#     axis.set_xlabel('Probability', color='white')
-    axis.tick_params(axis='x', colors='white')
-    axis.tick_params(axis='y', colors='white')
+    axis.hist(p_neg, bins=bins, alpha=1 if dark else 0.5, color='green');
+    axis.hist(p_pos, bins=bins, alpha=0.5, color='red');
+    axis.plot([threshold] * 2, [0, 2**8], '--', color='white' if dark else 'black')
     axis.set_xlim([0, 1])
-    legend = ['Threshold', 'Negative', 'Positive']
-    legend = axis.legend(legend, facecolor='black')
-    for text in legend.get_texts():
-        text.set_color('white')
-    pct = round(sensitivity * 100, 2)
-    subtitle = '{}% of cases detected'.format(pct)
-    axis.set_title(name + '\n' + subtitle, color='white')    
+    prior = len(p_pos) / len(p_all)
+    prior = round(prior * 100, 1)
+    precision = sum(p_pos > threshold) / max(1, sum(p_all > threshold))
+    precision = round(precision * 100, 1)
+    sensitivity = sum(p_pos > threshold) / len(p_pos)
+    sensitivity = round(sensitivity * 100, 1)
+    auc = loss_metrics._roc_auc(y_true, y_pred).numpy()
+    auc = round(auc * 100, 1)
+    sub1 = '{}% prior -> {}% precison'.format(prior, precision)
+    sub2 = '{}% detected'.format(sensitivity)
+    sub3 = '{}% AUC'.format(auc)
+    axis.set_title(name + '\n' + sub1 + ', ' + sub2 + '\n' + sub3)
+#     axis.set_xlabel('Probability')
 
     
-def get_diagnoses_plotter(x, y_true, y_pred, codes, subject_ids):    
-    precisions = [0.01, 0.1, 0.25, 0.5, 0.75, 0.8, 0.9, 0.95, 0.99]
+def get_plotter(x, y_true, y_pred, codes, subject_ids, sigs, dark):    
+        
+    group_names = icd_util.load_group_strings()
     
-    condition_names = [get_code_name(code) for code in codes]
-    
-    sensitivities = {p: {
-        name: loss_metrics.precise_sensitivity(j, y_true, y_pred, p).numpy()
-        for j, name in enumerate(condition_names)
-    } for p in precisions}
-    
-    thresholds = {p: {
-        name: loss_metrics.precise_threshold(j, y_true, y_pred, p)
-        for j, name in enumerate(condition_names)
-    } for p in precisions}
-    
-    scores = [sensitivities[0.9][name] for name in condition_names]
+    def get_code_name(code):
+        if code not in group_names:
+            return code
+        name = group_names[code].replace("'", '').title()
+        return name
+        
+    scores = [
+        loss_metrics.roc_auc_score(j, y_true, y_pred).numpy()
+        for j in range(y_true.shape[1])
+    ]
     I = numpy.argsort(scores)[::-1]
     
     condition_slider = ipywidgets.SelectionSlider(
-        options = [condition_names[i] for i in I],
+        options = [codes[i] for i in I],
         description = 'Condition:',
         continuous_update = False,
         readout = True,
@@ -82,85 +78,85 @@ def get_diagnoses_plotter(x, y_true, y_pred, codes, subject_ids):
     example_slider = ipywidgets.IntSlider(
         min = 0,
         max = x.shape[0] - 1,
+        value = 3 * x.shape[0] // 4,
         continuous_update = False,
         description = 'Example:',
         layout = ipywidgets.Layout(width='90%')
     )
     
-    precision_slider = ipywidgets.SelectionSlider(
-        options = precisions,
-        value = 0.9,
-        description = 'Precision:',
+    threshold_slider = ipywidgets.SelectionSlider(
+        options = numpy.arange(0, 1, 0.005),
+        value = 0.5,
+        description = 'Threshold:',
         continuous_update = False,
-        readout = True
+        readout = True,
+        layout = ipywidgets.Layout(width='90%')
     )
-
     
     logscale_button = ipywidgets.ToggleButton(
         value=False,
         description='Log Scale',
     )
     
+    if dark:
+        pyplot.style.use('dark_background')
+    
     fig, axes = pyplot.subplots(
-        nrows=4, 
-        facecolor='black', 
-        gridspec_kw={'height_ratios': [8, 1, 2, 2]}
+        nrows=len(sigs) + 2,
+        gridspec_kw={'height_ratios': [8, 2] + [2] * len(sigs)}
     )
+
+    for axis in axes[1:]:
+        for spine in axis.spines.values():
+            spine.set_visible(False)
     
-    for axis in axes:
-        axis.set_facecolor('black')
-    
-    spines = list(axes[0].spines.values())
-    spines[0].set_edgecolor('white')
-    spines[2].set_edgecolor('white')
-    
-    axes[1].plot(list(range(10)), 'k')
+    axes[1].plot(list(range(10)), 'k' if dark else 'w')
+    axes[1].set_xticks([])
+    axes[1].set_yticks([])
     
     for axis in axes[2:]:
         axis.yaxis.tick_right()
         axis.tick_params(axis='y', colors='gray')
+        axis.set_xticks([])
+        
+    I = [numpy.argsort(y_pred[:, j]) for j in range(len(codes))]
     
-    def update(name, precision, example_index, log_scale):
-        j = condition_names.index(name)
+    def update(code, threshold, example_index, log_scale):
+        j = codes.index(code)
+                
+        i = I[j][example_index]
+        for s in range(len(sigs)):
+            axes[s+2].clear()
+            axes[s+2].plot(x[i, :, s], ['b', 'y', 'y', 'y', 'g', 'r'][s])
+            axes[s+2].set_ylabel(sigs[s])
+            axes[s+2].set_xticks([])
+
+        axes[1].set_xlabel('Subject ' + str(subject_ids[i]))
         
         plot_diagnosis(
             axes[0],
-            y_pred[y_true[:, j] == -1, j], 
-            y_pred[y_true[:, j] ==  1, j], 
-            thresholds[precision][name], 
-            sensitivities[precision][name], 
-            name
+            y_true[:, j],
+            y_pred[:, j],
+            threshold,
+            get_code_name(code),
+            dark
         )
         
-        if log_scale:
-            axes[0].set_yscale('log')
-        else:
-            axes[0].set_yscale('linear')
-                
-        i = numpy.argsort(-y_pred[:, j])[example_index]
-        for s in [0, 1]:
-            axes[s+2].clear()
-            axes[s+2].plot(x[i, :, s], ['b', 'y'][s])
-        
-        colors = {-1: 'g', 0: 'b', 1: 'r'}
-        height = 2**5 if log_scale else 2**9
-        bar_x, bar_y = [y_pred[i, j]] * 2, [0, height]
-        axes[0].plot(bar_x, bar_y, '-', color='white')
-        axes[0].plot(bar_x, bar_y, '--' + colors[y_true[i, j]])
-        
-        axes[2].set_ylabel('PLETH', color='white')
-        axes[3].set_ylabel('II', color='white')
-        axes[3].set_xlabel('Subject ' + str(subject_ids[i]), color='white')
+        axes[0].set_yscale('log' if log_scale else 'linear')
+    
+        colors = {-1: 'gray', 0: 'gray', 1: 'white' if dark else 'black'}
+        color = colors[y_true[i, j]]
+        axes[0].plot(y_pred[i, j], 1, color=color, marker=7, markersize=4)
         
         pyplot.tight_layout(pad=1)
         pyplot.subplots_adjust(hspace=0.3)
-        fig.canvas.layout.height = '600px'
+        fig.canvas.layout.height = '1000px'
         fig.canvas.draw()
         
     plot_diagnoses = lambda: ipywidgets.interact(
         update,
-        name = condition_slider,
-        precision= precision_slider,
+        code = condition_slider,
+        threshold = threshold_slider,
         example_index = example_slider,
         log_scale = logscale_button
     )
@@ -171,9 +167,9 @@ def get_diagnoses_plotter(x, y_true, y_pred, codes, subject_ids):
 def get_predictions(H, model, dataset, weights_path, batch_count):
     
     fix_input = lambda x: {**x, 'mask': tf.cast(x['mask'], 'float')}
-    if os.path.isfile(weights_path):
+    if os.path.isfile(weights_path + '.pkl'):
         print('loading predictions')
-        with open(checkpoint_path + '.pkl', 'rb') as f:
+        with open(weights_path + '.pkl', 'rb') as f:
             X, Y, P = pickle.load(f)
     else:
         print('computing predictions')
@@ -183,7 +179,7 @@ def get_predictions(H, model, dataset, weights_path, batch_count):
     return X, Y, P
 
 
-def run(model_id, checkpoint_index, example_count_log2):
+def run(model_id, checkpoint_index, example_count_log2, dark=True):
     
     ckpts = os.listdir('/scr1/checkpoints')
     ckpts = sorted(i for i in ckpts if 'index' in i and str(model_id) in i)
@@ -199,7 +195,8 @@ def run(model_id, checkpoint_index, example_count_log2):
     H['batch_size_validation_log2'] = 7
 
     part = 'validation'
-    tensors, metadata, priors = initialize.run(H, parts=[part])
+    path = '/scr1/mimic/initial_data_{}/'.format(model_id)
+    tensors, metadata, priors = initialize.run(H, parts=[part], load_path=path)
     dataset = data_pipeline.build(H, tensors[part], part)
     
     batch_count = 2 ** (example_count_log2 - H['batch_size_validation_log2'])
@@ -207,12 +204,16 @@ def run(model_id, checkpoint_index, example_count_log2):
     model.load_weights(weights_path)
     X, Y, P = get_predictions(H, model, dataset, weights_path, batch_count)
             
-    y_true, y_pred = Y['diagnosis'], P['diagnosis']
-    x = X['signals'][:, :, [H['input_sigs'].index(i) for i in ['PLETH', 'II']]]
+    y_true, y_pred = Y['diagnosis'], P
+    sigs = ['PLETH', 'II', 'V', 'AVR', 'RESP', 'ABP']
+    sig_index = [H['input_sigs'].index(i) for i in sigs]
+    x = X['signals'][:, :, sig_index]
     M = metadata.reset_index()[['subject_id', 'rec_id']].drop_duplicates()
     M = M.set_index('rec_id', verify_integrity=True)
     subject_ids = M.loc[Y['rec_id']].values[:, 0]
     codes = priors.index.to_list()
-    fig, plotter = get_diagnoses_plotter(x, y_true, y_pred, codes, subject_ids)
+    print(y_pred.shape, 'predictions shape')
     
-    return plotter, model
+    fig, plotter = get_plotter(x, y_true, y_pred, codes, subject_ids, sigs, dark)
+    
+    return plotter, model, X, Y, P, priors

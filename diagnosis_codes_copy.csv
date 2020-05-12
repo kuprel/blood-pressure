@@ -1,0 +1,789 @@
+	use	count	index	name
+0	 	 1684	001-009	Intestinal Infectious Diseases 
+1		14535	001-139	Infectious And Parasitic Diseases 
+2	 	 1610	    008	Intestinal Infections Due To Other Organisms
+3	 	 1447	  008.4	Other Specified Bacteria
+4	 	 1444	 008.45	Clostridium Difficile
+5	 	10032	030-041	Other Bacterial Diseases 
+6	+	 6265	    038	Septicemia
+7	 	  376	  038.0	Streptococcal Septicemia
+8	 	  825	  038.1	Staphylococcal Septicemia
+9	 	  515	 038.11	Methicillin Susceptible Staphylococcus Aureus Septicemia
+10	 	 1050	  038.4	Septicemia Due To Other Gram-Negative Organisms
+11	+	  467	 038.42	Escherichia Coli [E. Coli]
+12	 	  395	 038.49	Other
+13	 	 3725	  038.9	Unspecified Septicemia
+14	+	 4449	    041	Bacterial Infection In Conditions Classified Elsewhere And O
+15	+	  899	  041.0	Streptococcus
+16	+	  614	 041.04	Group D [Enterococcus]
+17	+	 1282	  041.1	Staphylococcus
+18	 	  703	 041.11	Methicillin Susceptible Staphylococcus Aureus
+19	 	  293	 041.19	Other Staphylococcus
+20	 	  473	  041.3	Friedländer'S Bacillus
+21	+	 1158	  041.4	Escherichia Coli [E.Coli]
+22	 	  404	  041.7	Pseudomonas
+23	 	  636	  041.8	Other Specified Bacterial Infections
+24	 	  300	 041.85	Other Gram-Negative Organisms
+25	 	  538	    042	Human Immunodeficiency Virus [Hiv] Disease
+26	 	  398	050-059	Viral Diseases Accompanied By Exanthem 
+27	+	 2553	    070	Viral Hepatitis
+28	 	 2775	070-079	Other Diseases Due To Viruses And Chlamydiae 
+29	 	  468	  070.3	Viral Hepatitis B Without Mention Of Hepatic Coma
+30	 	 1314	  070.5	Other Specified Viral Hepatitis Without Mention Of Hepatic C
+31	 	 1218	 070.54	Chronic Hepatitis C Without Mention Of Hepatic Coma
+32	 	  740	  070.7	Unspecified Viral Hepatitis C
+33	 	  674	 070.70	Unspecified Viral Hepatitis C Without Hepatic Coma
+34	 	 1971	110-118	Mycoses 
+35	 	 1598	    112	Candidiasis
+36	 	  646	  112.0	Of Mouth
+37	 	  337	  112.2	Of Other Urogenital Sites
+38	 	  261	    117	Other Mycoses
+39	 	  390	130-136	Other Infectious And Parasitic Diseases 
+40	+	  254	    135	Sarcoidosis
+41	+	 8912	140-239	Neoplasms 
+42		 1570	150-159	Malignant Neoplasm Of Digestive Organs And Peritoneum 
+43	+	  454	    155	Malignant Neoplasm Of Liver And Intrahepatic Bile Ducts
+44	+	  337	  155.0	Liver, Primary
+45		  276	    157	Malignant Neoplasm Of Pancreas
+46		 1247	160-165	Malignant Neoplasm Of Respiratory And Intrathoracic Organs 
+47	+	 1171	    162	Malignant Neoplasm Of Trachea, Bronchus, And Lung
+48	 	  335	  162.3	Upper Lobe, Bronchus Or Lung
+49	 	  391	  162.8	Other Parts Of Bronchus Or Lung
+50	 	  318	170-176	Malignant Neoplasm Of Bone, Connective Tissue, Skin, And Bre
+51		  788	179-189	Malignant Neoplasm Of Genitourinary Organs 
+52	 	  302	    185	Malignant Neoplasm Of Prostate
+53		 3401	190-199	Malignant Neoplasm Of Other And Unspecified Sites 
+54	+	  280	    191	Malignant Neoplasm Of Brain
+55	+	  709	    196	Secondary And Unspecified Malignant Neoplasm Of Lymph Nodes
+56	 	  254	  196.1	Intrathoracic Lymph Nodes
+57	 	  251	  196.2	Intra-Abdominal Lymph Nodes
+58	 	 1748	    197	Secondary Malignant Neoplasm Of Respiratory And Digestive Sy
+59	 	  754	  197.0	Lung
+60	 	  317	  197.6	Retroperitoneum And Peritoneum
+61	+	  794	  197.7	Liver, Specified As Secondary
+62	 	 1810	    198	Secondary Malignant Neoplasm Of Other Specified Sites
+63	+	  767	  198.3	Brain And Spinal Cord
+64	 	  843	  198.5	Bone And Bone Marrow
+65	 	  465	  198.8	Other Specified Sites
+66	 	  437	 198.89	Other
+67	+	 1481	200-208	Malignant Neoplasm Of Lymphatic And Hematopoietic Tissue 
+68	 	  498	    202	Other Malignant Neoplasms Of Lymphoid And Histiocytic Tissue
+69	 	  410	  202.8	Other Lymphomas
+70	 	  251	    204	Lymphoid Leukemia
+71	 	  311	    205	Myeloid Leukemia
+72	+	 1285	210-229	Benign Neoplasms 
+73	 	  489	    211	Benign Neoplasm Of Other Parts Of Digestive System
+74	 	  321	  211.3	Colon
+75	 	  267	    225	Benign Neoplasm Of Brain And Other Parts Of Nervous System
+76	 	  819	235-238	Neoplasms Of Uncertain Behavior 
+77	 	  696	    238	Neoplasm Of Uncertain Behavior Of Other And Unspecified Site
+78	 	  565	  238.7	Other Lymphatic And Hematopoietic Tissues
+79	 	 5828	240-246	Disorders Of Thyroid Gland 
+80	 	35606	240-279	Endocrine, Nutritional And Metabolic Diseases, And Immunity 
+81		 5237	    244	Acquired Hypothyroidism
+82	 	 4914	  244.9	Unspecified Hypothyroidism
+83	 	15786	249-259	Diseases Of Other Endocrine Glands 
+84	+	14222	    250	Diabetes Mellitus
+85	 	 9854	  250.0	Diabetes Mellitus Without Mention Of Complication
+86	 	  874	  250.1	Diabetes With Ketoacidosis
+87	+	 1590	  250.4	Diabetes With Renal Manifestations
+88	 	  982	  250.5	Diabetes With Ophthalmic Manifestations
+89	+	 2026	  250.6	Diabetes With Neurological Manifestations
+90	 	  711	  250.8	Diabetes With Other Specified Manifestations
+91	 	  369	    251	Other Disorders Of Pancreatic Internal Secretion
+92	 	  681	    253	Disorders Of The Pituitary Gland And Its Hypothalamic Contro
+93	 	  505	  253.6	Other Disorders Of Neurohypophysis
+94	 	  610	    255	Disorders Of Adrenal Glands
+95	 	  511	  255.4	Corticoadrenal Insufficiency
+96	 	 2153	260-269	Nutritional Deficiencies 
+97	 	 1454	    263	Other And Unspecified Protein-Calorie Malnutrition
+98	 	 1259	  263.9	Unspecified Protein-Calorie Malnutrition
+99	 	28210	270-279	Other Metabolic And Immunity Disorders 
+100	 	14558	    272	Disorders Of Lipoid Metabolism
+101		 5930	  272.0	Pure Hypercholesterolemia
+102	 	 8689	  272.4	Other And Unspecified Hyperlipidemia
+103	 	  288	    273	Disorders Of Plasma Protein Metabolism
+104		 2346	    274	Gout
+105	 	  253	  274.0	Gouty Arthropathy
+106	 	 2082	  274.9	Gout, Unspecified
+107	 	 1350	    275	Disorders Of Mineral Metabolism
+108	 	  265	  275.2	Disorders Of Magnesium Metabolism
+109	 	  458	  275.3	Disorders Of Phosphorus Metabolism
+110	 	  695	  275.4	Disorders Of Calcium Metabolism
+111	 	  380	 275.41	Hypocalcemia
+112	 	  254	 275.42	Hypercalcemia
+113		15101	    276	Disorders Of Fluid, Electrolyte, And Acid-Base Balance
+114		 2272	  276.0	Hyperosmolality And/Or Hypernatremia
+115		 3039	  276.1	Hyposmolality And/Or Hyponatremia
+116	+	 4528	  276.2	Acidosis
+117		  984	  276.3	Alkalosis
+118	 	  536	  276.4	Mixed Acid-Base Balance Disorder
+119	 	 4391	  276.5	Volume Depletion
+120	 	  332	 276.50	Volume Depletion, Unspecified
+121	 	 1384	 276.51	Dehydration
+122	 	 1374	 276.52	Hypovolemia
+123	 	  945	  276.6	Fluid Overload
+124	 	 2167	  276.7	Hyperpotassemia
+125	 	 1425	  276.8	Hypopotassemia
+126	 	  352	    277	Other And Unspecified Disorders Of Metabolism
+127	 	 2715	    278	Overweight, Obesity And Other Hyperalimentation
+128		 2704	  278.0	Overweight And Obesity
+129	 	 1511	 278.00	Obesity, Unspecified
+130	 	 1170	 278.01	Morbid Obesity
+131	 	 2183	    280	Iron Deficiency Anemias
+132		19366	280-289	Diseases Of The Blood And Blood-Forming Organs 
+133	 	  299	    281	Other Deficiency Anemias
+134	 	 1040	    284	Aplastic Anemia And Other Bone Marrow Failure Syndromes
+135	 	12606	    285	Other And Unspecified Anemias
+136	 	 2028	    286	Coagulation Defects
+137	 	 3960	    287	Purpura And Other Hemorrhagic Conditions
+138		 1754	    288	Diseases Of White Blood Cells
+139	 	  587	    289	Other Diseases Of Blood And Blood-Forming Organs
+140	 	  268	    290	Dementias
+141	 	 5221	290-294	Organic Psychotic Conditions 
+142	 	 6907	290-299	Psychoses 
+143	 	16245	290-319	Mental Disorders 
+144	 	 1155	    291	Alcohol-Induced Mental Disorders
+145	 	  303	  291.0	Alcohol Withdrawal Delirium
+146	 	  812	  291.8	Other Specified Alcohol-Induced Mental Disorders
+147	 	  812	 291.81	Alcohol Withdrawal
+148	 	  586	    292	Drug-Induced Mental Disorders
+149	 	  380	  292.8	Other Specified Drug-Induced Mental Disorders
+150	 	  363	 292.81	Drug-Induced Delirium
+151	 	 1587	    293	Transient Mental Disorders Due To Conditions Classified Else
+152	 	 1445	  293.0	Delirium Due To Conditions Classified Elsewhere
+153	 	 1986	    294	Persistent Mental Disorders Due To Conditions Classified Els
+154	 	  648	  294.1	Dementia In Conditions Classified Elsewhere
+155	 	  613	 294.10	Dementia In Conditions Classified Elsewhere Without Behavior
+156	 	 1125	  294.8	Other Persistent Mental Disorders Due To Conditions Classifi
+157	 	  700	    295	Schizophrenic Disorders
+158	 	 2094	295-299	Other Psychoses 
+159	 	  252	  295.7	Schizoaffective Disorder
+160	 	  253	  295.9	Unspecified Schizophrenia
+161	 	 1341	    296	Episodic Mood Disorders
+162	 	  660	  296.8	Other And Unspecified Bipolar Disorders
+163	 	  603	 296.80	Bipolar Disorder, Unspecified
+164	 	 2924	    300	Anxiety, Dissociative And Somatoform Disorders
+165	 	12067	300-316	Neurotic Disorders, Personality Disorders, And Other Nonpsyc
+166	 	 1706	  300.0	Anxiety States
+167	 	 1580	 300.00	Anxiety State, Unspecified
+168	 	 1109	  300.4	Dysthymic Disorder
+169	+	 2109	    303	Alcohol Dependence Syndrome
+170	 	  469	  303.0	Acute Alcoholic Intoxication
+171	 	 1648	  303.9	Other And Unspecified Alcohol Dependence
+172	 	  689	    304	Drug Dependence
+173	 	  412	  304.0	Opioid Type Dependence
+174	+	 5213	    305	Nondependent Abuse Of Drugs
+175	+	 1518	  305.0	Alcohol Abuse
+176	 	 3358	  305.1	Tobacco Use Disorder
+177	 	  264	  305.5	Opioid Abuse
+178	 	  542	  305.6	Cocaine Abuse
+179	 	  255	  305.9	Other, Mixed, Or Unspecified Drug Abuse
+180	 	  430	    309	Adjustment Reaction
+181	 	  291	  309.8	Other Specified Adjustment Reactions
+182	 	  287	 309.81	Posttraumatic Stress Disorder
+183	 	 3431	    311	Depressive Disorder, Not Elsewhere Classified
+184	+	  305	317-319	Mental Retardation 
+185	+	  494	320-326	Inflammatory Diseases Of The Central Nervous System 
+186		15828	320-389	Diseases Of The Nervous System And Sense Organs 
+187	 	 2402	    327	Organic Sleep Disorders
+188	 	 2397	  327.2	Organic Sleep Apnea
+189	 	 2380	 327.23	Obstructive Sleep Apnea (Adult) (Pediatric)
+190	 	 2889	330-337	Hereditary And Degenerative Diseases Of The Central Nervous 
+191	 	 1360	    331	Other Cerebral Degenerations
+192		  569	  331.0	Alzheimer'S Disease
+193	 	  576	  331.4	Obstructive Hydrocephalus
+194		  510	    332	Parkinson'S Disease
+195	 	  506	  332.0	Paralysis Agitans
+196	 	  571	    333	Other Extrapyramidal Disease And Abnormal Movement Disorders
+197	 	  299	  333.9	Other And Unspecified Extrapyramidal Diseases And Abnormal M
+198	 	 1138	    338	Pain, Not Elsewhere Classified
+199	 	  271	  338.1	Acute Pain
+200	 	  710	  338.2	Chronic Pain
+201	 	  692	 338.29	Other Chronic Pain
+202	 	  307	    340	Multiple Sclerosis
+203	 	 6805	340-349	Other Disorders Of The Central Nervous System 
+204	 	  790	    342	Hemiplegia And Hemiparesis
+205	 	  632	  342.9	Hemiplegia, Unspecified
+206	 	  521	    344	Other Paralytic Syndromes
+207		 1618	    345	Epilepsy And Recurrent Seizures
+208	 	 1006	  345.9	Epilepsy, Unspecified
+209	 	  579	    346	Migraine
+210	 	  530	  346.9	Migraine, Unspecified
+211	 	 3261	    348	Other Conditions Of Brain
+212	+	  453	  348.1	Anoxic Brain Damage
+213	 	 1249	  348.3	Encephalopathy, Not Elsewhere Classified
+214	 	  674	 348.30	Encephalopathy, Unspecified
+215	 	  277	 348.31	Metabolic Encephalopathy
+216	 	  280	 348.39	Other Encephalopathy
+217	+	  711	  348.4	Compression Of Brain
+218	+	  978	  348.5	Cerebral Edema
+219	 	  305	  348.8	Other Conditions Of Brain
+220	 	  733	    349	Other And Unspecified Disorders Of The Nervous System
+221	 	  664	  349.8	Other Specified Disorders Of Nervous System
+222	+ 	  642	 349.82	Toxic Encephalopathy
+223		 3079	350-359	Disorders Of The Peripheral Nervous System 
+224	 	  263	    355	Mononeuritis Of Lower Limb
+225	 	  465	    356	Hereditary And Idiopathic Peripheral Neuropathy
+226	 	  433	  356.9	Unspecified
+227	+	 1759	    357	Inflammatory And Toxic Neuropathy
+228	 	 1584	  357.2	Polyneuropathy In Diabetes
+229	 	 3364	360-379	Disorders Of The Eye And Adnexa 
+230	 	 1406	    362	Other Retinal Disorders
+231	+	  908	  362.0	Diabetic Retinopathy
+232	+	  875	 362.01	Background Diabetic Retinopathy
+233	+	  742	    365	Glaucoma
+234	 	  711	  365.9	Unspecified Glaucoma
+235	 	  270	    368	Visual Disturbances
+236	 	  417	    369	Blindness And Low Vision
+237	 	  523	380-389	Diseases Of The Ear And Mastoid Process 
+238	 	  295	    389	Hearing Loss
+239	 	42650	390-459	Diseases Of The Circulatory System 
+240	 	 1738	393-398	Chronic Rheumatic Heart Disease 
+241	+	  906	    396	Diseases Of Mitral And Aortic Valves
+242	 	  386	  396.2	Mitral Valve Insufficiency And Aortic Valve Stenosis
+243	 	  341	  396.3	Mitral Valve Insufficiency And Aortic Valve Insufficiency
+244	 	  780	    397	Diseases Of Other Endocardial Structures
+245	+	  779	  397.0	Diseases Of Tricuspid Valve
+246	 	  499	    398	Other Rheumatic Heart Disease
+247	 	  499	  398.9	Other And Unspecified Rheumatic Heart Diseases
+248	 	  437	 398.91	Rheumatic Heart Failure (Congestive)
+249		21305	    401	Essential Hypertension
+250		27912	401-405	Hypertensive Disease 
+251	 	  454	  401.1	Benign
+252	 	20696	  401.9	Unspecified
+253	+	 6438	    403	Hypertensive Chronic Kidney Disease
+254	 	 6051	  403.9	Unspecified
+255	+	 5430	    410	Acute Myocardial Infarction
+256	+	16854	410-414	Ischemic Heart Disease 
+257	 	  574	  410.1	Of Other Anterior Wall
+258	 	  602	  410.4	Of Other Inferior Wall
+259	+	 3317	  410.7	Subendocardial Infarction
+260	 	  406	  410.9	Unspecified Site
+261	 	 1922	    411	Other Acute And Subacute Forms Of Ischemic Heart Disease
+262		 1663	  411.1	Intermediate Coronary Syndrome
+263		 3278	    412	Old Myocardial Infarction
+264	 	 1115	    413	Angina Pectoris
+265	 	 1100	  413.9	Other And Unspecified Angina Pectoris
+266	 	14410	    414	Other Forms Of Chronic Ischemic Heart Disease
+267	+	13999	  414.0	Coronary Atherosclerosis
+268	 	 1494	 414.00	Of Unspecified Type Of Vessel, Native Or Graft
+269		12428	 414.01	Of Native Coronary Artery
+270	 	  474	 414.02	Of Autologous Biological Bypass Graft
+271	 	  292	  414.2	Chronic Total Occlusion Of Coronary Artery
+272	 	  865	  414.8	Other Specified Forms Of Chronic Ischemic Heart Disease
+273	+	 1116	    415	Acute Pulmonary Heart Disease
+274	+	 3713	415-417	Diseases Of Pulmonary Circulation 
+275	+	 1109	  415.1	Pulmonary Embolism And Infarction
+276	 	  859	 415.19	Other
+277	+	 2674	    416	Chronic Pulmonary Heart Disease
+278		  401	  416.0	Primary Pulmonary Hypertension
+279	 	 2148	  416.8	Other Chronic Pulmonary Heart Diseases
+280	 	  260	    420	Acute Pericarditis
+281	 	26025	420-429	Other Forms Of Heart Disease 
+282	 	  393	    421	Acute And Subacute Endocarditis
+283	 	  385	  421.0	Acute And Subacute Bacterial Endocarditis
+284	 	  826	    423	Other Diseases Of Pericardium
+285	 	  445	  423.9	Unspecified Disease Of Pericardium
+286	 	 5488	    424	Other Diseases Of Endocardium
+287	+	 2924	  424.0	Mitral Valve Disorders
+288	+	 2550	  424.1	Aortic Valve Disorders
+289	+	 2106	    425	Cardiomyopathy
+290	 	 1709	  425.4	Other Primary Cardiomyopathies
+291	+	 1460	    426	Conduction Disorders
+292	 	  530	  426.0	Atrioventricular Block, Complete
+293	 	  342	  426.1	Atrioventricular Block, Other And Unspecified
+294	 	  284	  426.3	Other Left Bundle Branch Block
+295	+	17226	    427	Cardiac Dysrhythmias
+296	+	 1811	  427.1	Paroxysmal Ventricular Tachycardia
+297		13274	  427.3	Atrial Fibrillation And Flutter
+298	+	12886	 427.31	Atrial Fibrillation
+299		 1217	 427.32	Atrial Flutter
+300	 	  571	  427.4	Ventricular Fibrillation And Flutter
+301	+	  568	 427.41	Ventricular Fibrillation
+302	+	 1361	  427.5	Cardiac Arrest
+303	 	 2836	  427.8	Other Specified Cardiac Dysrhythmias
+304	+	  389	 427.81	Sinoatrial Node Dysfunction
+305	 	 2453	 427.89	Other
+306	+	13608	    428	Heart Failure
+307	+	13111	  428.0	Congestive Heart Failure, Unspecified
+308	+	 3136	  428.2	Systolic Heart Failure
+309	 	  416	 428.20	Unspecified
+310	 	  492	 428.21	Acute
+311	 	 1097	 428.22	Chronic
+312	 	 1143	 428.23	Acute On Chronic
+313	+	 3674	  428.3	Diastolic Heart Failure
+314	 	  800	 428.30	Unspecified
+315	 	  432	 428.31	Acute
+316	 	 1240	 428.32	Chronic
+317	 	 1220	 428.33	Acute On Chronic
+318		  689	  428.4	Combined Systolic And Diastolic Heart Failure
+319	 	  327	 428.43	Acute On Chronic
+320	 	  543	    429	Ill-Defined Descriptions And Complications Of Heart Disease
+321	+	  658	    430	Subarachnoid Hemorrhage
+322		 6324	430-438	Cerebrovascular Disease 
+323	+	 1367	    431	Intracerebral Hemorrhage
+324		  471	    432	Other And Unspecified Intracranial Hemorrhage
+325	+	  392	  432.1	Subdural Hemorrhage
+326	+	 1200	    433	Occlusion And Stenosis Of Precerebral Arteries
+327	+	  959	  433.1	Carotid Artery
+328	 	  316	  433.3	Multiple And Bilateral
+329	+	 1470	    434	Occlusion Of Cerebral Arteries
+330	+	  654	  434.1	Cerebral Embolism
+331	 	  761	  434.9	Cerebral Artery Occlusion, Unspecified
+332	 	  790	    437	Other And Ill-Defined Cerebrovascular Disease
+333	+	  413	  437.3	Cerebral Aneurysm, Nonruptured
+334	 	 1316	    438	Late Effects Of Cerebrovascular Disease
+335	 	  330	  438.1	Speech And Language Deficits
+336		  483	  438.2	Hemiplegia/Hemiparesis
+337	 	  437	 438.20	Hemiplegia Affecting Unspecified Side
+338	 	  608	  438.8	Other Late Effects Of Cerebrovascular Disease
+339	 	  465	 438.89	Other Late Effects Of Cerebrovascular Disease
+340	+	 1853	    440	Atherosclerosis
+341		 5828	440-449	Diseases Of Arteries, Arterioles, And Capillaries 
+342	+	  283	  440.0	Of Aorta
+343	 	 1384	  440.2	Of Native Arteries Of The Extremities
+344	 	  435	 440.20	Atherosclerosis Of The Extremities, Unspecified
+345	 	  257	 440.21	Atherosclerosis Of The Extremities With Intermittent Claudic
+346	 	  264	 440.23	Atherosclerosis Of The Extremities With Ulceration
+347	 	  327	 440.24	Atherosclerosis Of The Extremities With Gangrene
+348	+	 1706	    441	Aortic Aneurysm And Dissection
+349	+	  404	  441.0	Dissection Of Aorta
+350	 	  490	  441.2	Thoracic Aneurysm Without Mention Of Rupture
+351	 	  660	  441.4	Abdominal Aneurysm Without Mention Of Rupture
+352	+	  333	    442	Other Aneurysm
+353	 	 1776	    443	Other Peripheral Vascular Disease
+354	 	 1401	  443.9	Peripheral Vascular Disease, Unspecified
+355	+	  479	    444	Arterial Embolism And Thrombosis
+356	 	  259	  444.2	Of Arteries Of The Extremities
+357	 	  300	    447	Other Disorders Of Arteries And Arterioles
+358	 	  386	    451	Phlebitis And Thrombophlebitis
+359		 8792	451-459	Diseases Of Veins And Lymphatics, And Other Diseases Of Circ
+360	 	  359	  451.8	Of Other Sites
+361	 	  257	    452	Portal Vein Thrombosis
+362	 	 1556	    453	Other Venous Embolism And Thrombosis
+363	 	  536	  453.4	Venous Embolism And Thrombosis Of Deep Vessels Of Lower Extr
+364	 	  331	 453.41	Venous Embolism And Thrombosis Of Deep Vessels Of Proximal L
+365	 	  886	  453.8	Of Other Specified Veins
+366	 	  504	    455	Hemorrhoids
+367	 	 1000	    456	Varicose Veins Of Other Sites
+368	 	  770	  456.2	Esophageal Varices In Diseases Classified Elsewhere
+369	 	  352	 456.20	With Bleeding
+370	 	  418	 456.21	Without Mention Of Bleeding
+371		 5045	    458	Hypotension
+372	 	  286	  458.0	Orthostatic Hypotension
+373		 2453	  458.2	Iatrogenic Hypotension
+374	 	 2121	 458.29	Other Iatrogenic Hypotension
+375	 	  279	  458.8	Other Specified Hypotension
+376	 	 2051	  458.9	Hypotension, Unspecified
+377	 	  828	    459	Other Disorders Of Circulatory System
+378	 	  530	  459.8	Other Specified Disorders Of Circulatory System
+379	 	  503	 459.81	Venous (Peripheral) Insufficiency, Unspecified
+380		  429	460-466	Acute Respiratory Infections 
+381		25260	460-519	Diseases Of The Respiratory System 
+382	 	  819	470-478	Other Diseases Of The Upper Respiratory Tract 
+383	 	  530	    478	Other Diseases Of Upper Respiratory Tract
+384	+	 7491	480-488	Pneumonia And Influenza 
+385	 	 2222	    482	Other Bacterial Pneumonia
+386	 	  430	  482.1	Pneumonia Due To Pseudomonas
+387	 	  993	  482.4	Pneumonia Due To Staphylococcus
+388	 	  789	 482.41	Methicillin Susceptible Pneumonia Due To Staphylococcus Aure
+389	 	  414	  482.8	Pneumonia Due To Other Specified Bacteria
+390	 	  264	 482.83	Other Gram-Negative Bacteria
+391	 	 4838	    486	Pneumonia, Organism Unspecified
+392		10133	490-496	Chronic Obstructive Pulmonary Disease And Allied Conditions 
+393		 1359	    491	Chronic Bronchitis
+394	 	 1307	  491.2	Obstructive Chronic Bronchitis
+395	 	 1198	 491.21	With (Acute) Exacerbation
+396		  684	    492	Emphysema
+397	 	  641	  492.8	Other Emphysema
+398		 3515	    493	Asthma
+399	 	 1059	  493.2	Chronic Obstructive Asthma
+400	 	 2409	  493.9	Asthma, Unspecified
+401	 	 4431	    496	Chronic Airway Obstruction, Not Elsewhere Classified
+402	 	 3851	500-508	Pneumoconioses And Other Lung Diseases Due To External Agent
+403	+	 3696	    507	Pneumonitis Due To Solids And Liquids
+404	 	 3680	  507.0	Due To Inhalation Of Food Or Vomitus
+405	 	16273	510-519	Other Diseases Of Respiratory System 
+406	+	 3268	    511	Pleurisy
+407	 	  475	  511.8	Other Specified Forms Of Effusion, Except Tuberculous
+408	 	 2734	  511.9	Unspecified Pleural Effusion
+409		  980	    512	Pneumothorax
+410	 	  786	  512.1	Iatrogenic Pneumothorax
+411		  544	    515	Postinflammatory Pulmonary Fibrosis
+412	 	13346	    518	Other Diseases Of Lung
+413	+	 2165	  518.0	Pulmonary Collapse
+414		  305	  518.4	Acute Edema Of Lung, Unspecified
+415	 	 2065	  518.5	Pulmonary Insufficiency Following Trauma And Surgery
+416	 	 9794	  518.8	Other Diseases Of Lung
+417	+	 7497	 518.81	Acute Respiratory Failure
+418	 	  761	 518.82	Other Pulmonary Insufficiency, Not Elsewhere Classified
+419	 	  331	 518.83	Chronic Respiratory Failure
+420	 	  684	 518.84	Acute And Chronic Respiratory Failure
+421	 	  694	 518.89	Other Diseases Of Lung, Not Elsewhere Classified
+422	 	 1107	    519	Other Diseases Of Respiratory System
+423	 	  284	  519.0	Tracheostomy Complications
+424	 	  788	  519.1	Other Diseases Of Trachea And Bronchus, Not Elsewhere Classi
+425	 	  534	 519.19	Other Diseases Of Trachea And Bronchus
+426	 	  591	520-529	Diseases Of Oral Cavity, Salivary Glands, And Jaws 
+427	 	21010	520-579	Diseases Of The Digestive System 
+428	 	 7392	    530	Diseases Of Esophagus
+429	 	 9880	530-538	Diseases Of Esophagus, Stomach, And Duodenum 
+430	 	  475	  530.1	Esophagitis
+431	 	 6644	  530.8	Other Specified Disorders Of Esophagus
+432	 	 6324	 530.81	Esophageal Reflux
+433	 	  303	 530.85	Barrett'S Esophagus
+434	 	  549	    531	Gastric Ulcer
+435	 	  272	  531.4	Chronic Or Unspecified With Hemorrhage
+436	 	  513	    532	Duodenal Ulcer
+437	 	  276	  532.4	Chronic Or Unspecified With Hemorrhage
+438	 	 1068	    535	Gastritis And Duodenitis
+439	 	  588	  535.5	Unspecified Gastritis And Gastroduodenitis
+440	 	  685	    536	Disorders Of Function Of Stomach
+441	 	  509	  536.3	Gastroparesis
+442	 	  730	    537	Other Disorders Of Stomach And Duodenum
+443	 	  556	  537.8	Other Specified Disorders Of Stomach And Duodenum
+444	 	  337	 537.89	Other
+445		 1520	550-553	Hernia Of Abdominal Cavity 
+446	 	 1129	    553	Other Hernia Of Abdominal Cavity Without Mention Of Obstruct
+447	 	  266	  553.2	Ventral Hernia
+448	 	  663	  553.3	Diaphragmatic Hernia
+449	 	  363	    555	Regional Enteritis
+450	 	 1629	555-558	Noninfectious Enteritis And Colitis 
+451	 	  273	  555.9	Unspecified Site
+452	 	  321	    556	Ulcerative Colitis
+453	 	  736	    557	Vascular Insufficiency Of Intestine
+454	 	  496	  557.0	Acute Vascular Insufficiency Of Intestine
+455	 	 1799	    560	Intestinal Obstruction Without Mention Of Hernia
+456	 	 6175	560-569	Other Diseases Of Intestines And Peritoneum 
+457	 	 1072	  560.1	Paralytic Ileus
+458	 	  417	  560.8	Other Specified Intestinal Obstruction
+459	 	  270	  560.9	Unspecified Intestinal Obstruction
+460		 1479	    562	Diverticula Of Intestine
+461	 	 1440	  562.1	Colon
+462	 	  849	 562.10	Diverticulosis Of Colon (Without Mention Of Hemorrhage)
+463	 	  335	 562.12	Diverticulosis Of Colon With Hemorrhage
+464	 	 1440	    564	Functional Digestive Disorders, Not Elsewhere Classified
+465	 	 1168	  564.0	Constipation
+466	 	  830	 564.00	Constipation, Unspecified
+467	 	  333	 564.09	Other Constipation
+468	 	 1064	    567	Peritonitis And Retroperitoneal Infections
+469	 	  838	  567.2	Other Suppurative Peritonitis
+470	 	  685	    568	Other Disorders Of Peritoneum
+471	 	  404	  568.0	Peritoneal Adhesions (Postoperative) (Postinfection)
+472	 	  288	  568.8	Other Specified Disorders Of Peritoneum
+473	 	 1096	    569	Other Disorders Of Intestine
+474	 	  632	  569.8	Other Specified Disorders Of Intestine
+475	 	 1067	    570	Acute And Subacute Necrosis Of Liver
+476	 	 8791	570-579	Other Diseases Of Digestive System 
+477	+	 2951	    571	Chronic Liver Disease And Cirrhosis
+478	+	  310	  571.1	Acute Alcoholic Hepatitis
+479	+	 1202	  571.2	Alcoholic Cirrhosis Of Liver
+480	 	 1287	  571.5	Cirrhosis Of Liver Without Mention Of Alcohol
+481	 	  273	  571.8	Other Chronic Nonalcoholic Liver Disease
+482	+	 1742	    572	Liver Abscess And Sequelae Of Chronic Liver Disease
+483	 	  666	  572.2	Hepatic Coma
+484	+	 1007	  572.3	Portal Hypertension
+485	+	  346	  572.4	Hepatorenal Syndrome
+486	 	  441	    573	Other Disorders Of Liver
+487		 1100	    574	Cholelithiasis
+488	 	  358	  574.2	Calculus Of Gallbladder Without Mention Of Cholecystitis
+489	 	  266	  574.5	Calculus Of Bile Duct Without Mention Of Cholecystitis
+490	 	  432	    575	Other Disorders Of Gallbladder
+491	 	 1104	    576	Other Disorders Of Biliary Tract
+492	 	  662	  576.1	Cholangitis
+493	 	  360	  576.2	Obstruction Of Bile Duct
+494	 	  281	  576.8	Other Specified Disorders Of Biliary Tract
+495	+	 1477	    577	Diseases Of Pancreas
+496	+	  961	  577.0	Acute Pancreatitis
+497	 	  431	  577.1	Chronic Pancreatitis
+498	+	 2451	    578	Gastrointestinal Hemorrhage
+499	 	  428	  578.0	Hematemesis
+500	 	  690	  578.1	Blood In Stool
+501	 	 1397	  578.9	Hemorrhage Of Gastrointestinal Tract, Unspecified
+502	 	  268	    579	Intestinal Malabsorption
+503		15401	580-589	Nephritis, Nephrotic Syndrome, And Nephrosis 
+504	 	21779	580-629	Diseases Of The Genitourinary System 
+505	 	  710	    583	Nephritis And Nephropathy, Not Specified As Acute Or Chronic
+506	 	  617	  583.8	With Other Specified Pathological Lesion In Kidney
+507	 	  594	 583.81	Nephritis And Nephropathy, Not Specified As Acute Or Chronic
+508	+	11422	    584	Acute Renal Failure
+509	 	 2287	  584.5	With Lesion Of Tubular Necrosis
+510	 	 9118	  584.9	Acute Renal Failure, Unspecified
+511	+	 6918	    585	Chronic Kidney Disease (Ckd)
+512	 	  735	  585.3	Chronic Kidney Disease, Stage Iii (Moderate)
+513	 	  334	  585.4	Chronic Kidney Disease, Stage Iv (Severe)
+514		 1926	  585.6	End Stage Renal Disease
+515	 	 3435	  585.9	Chronic Kidney Disease, Unspecified
+516	 	  277	    588	Disorders Resulting From Impaired Renal Function
+517	 	 8857	590-599	Other Diseases Of Urinary System 
+518	+	  413	    591	Hydronephrosis
+519	 	  298	    592	Calculus Of Kidney And Ureter
+520	 	 1009	    593	Other Disorders Of Kidney And Ureter
+521	 	  679	  593.9	Unspecified Disorder Of Kidney And Ureter
+522	 	  434	    596	Other Disorders Of Bladder
+523	 	  255	  596.5	Other Functional Disorders Of Bladder
+524	 	 7329	    599	Other Disorders Of Urethra And Urinary Tract
+525	 	 6555	  599.0	Urinary Tract Infection, Site Not Specified
+526	+	  937	  599.7	Hematuria
+527	 	 1929	    600	Hyperplasia Of Prostate
+528	 	 2234	600-608	Diseases Of Male Genital Organs 
+529	 	 1892	  600.0	Hypertrophy (Benign) Of Prostate
+530	 	 1490	 600.00	Hypertrophy (Benign) Of Prostate Without Urinary Obstruction
+531	 	  314	 600.01	Hypertrophy (Benign) Of Prostate With Urinary Obstruction An
+532	 	  375	617-629	Other Disorders Of Female Genital Tract 
+533	 	 1790	680-686	Infections Of Skin And Subcutaneous Tissue 
+534	 	 6076	680-709	Diseases Of The Skin And Subcutaneous Tissue 
+535	 	 1655	    682	Other Cellulitis And Abscess
+536	 	  394	  682.2	Trunk
+537	 	  732	  682.6	Leg, Except Foot
+538	 	 1452	690-698	Other Inflammatory Conditions Of Skin And Subcutaneous Tissu
+539	 	  547	    693	Dermatitis Due To Substances Taken Internally
+540	 	  543	  693.0	Due To Drugs And Medicines
+541	 	  362	    696	Psoriasis And Similar Disorders
+542	 	  287	  696.1	Other Psoriasis
+543	 	 3527	700-709	Other Diseases Of Skin And Subcutaneous Tissue 
+544	 	 3186	    707	Chronic Ulcer Of Skin
+545	 	 2107	  707.0	Pressure Ulcer
+546	 	 1289	 707.03	Lower Back
+547	 	  310	 707.05	Buttock
+548	 	  295	 707.07	Heel
+549	 	 1131	  707.1	Ulcer Of Lower Limbs, Except Pressure Ulcer
+550	 	  385	 707.14	Ulcer Of Heel And Midfoot
+551	 	  437	 707.15	Ulcer Of Other Part Of Foot
+552	 	  945	  707.2	Pressure Ulcer Stages
+553	 	  435	 707.22	Pressure Ulcer Stage Ii
+554	 	  507	    710	Diffuse Diseases Of Connective Tissue
+555	 	 3678	710-719	Arthropathies And Related Disorders 
+556	 	10053	710-739	Diseases Of The Musculoskeletal System And Connective Tissue
+557	+	  328	  710.0	Systemic Lupus Erythematosus
+558	 	  693	    714	Rheumatoid Arthritis And Other Inflammatory Polyarthropathie
+559	 	  649	  714.0	Rheumatoid Arthritis
+560	 	 1453	    715	Osteoarthrosis And Allied Disorders
+561	 	  286	  715.3	Osteoarthrosis, Localized, Not Specified Whether Primary Or 
+562	 	 1139	  715.9	Osteoarthrosis, Unspecified Whether Generalized Or Localized
+563	 	  388	    716	Other And Unspecified Arthropathies
+564	 	  372	  716.9	Arthropathy, Unspecified
+565	 	  491	    719	Other And Unspecified Disorders Of Joint
+566	 	  333	  719.4	Pain In Joint
+567	 	 2438	720-724	Dorsopathies 
+568	 	  513	    721	Spondylosis And Allied Disorders
+569	 	  425	    722	Intervertebral Disc Disorders
+570	 	 1354	    724	Other And Unspecified Disorders Of Back
+571	 	  388	  724.0	Spinal Stenosis, Other Than Cervical
+572	 	  487	  724.2	Lumbago
+573	 	  357	  724.5	Backache, Unspecified
+574	 	  271	    725	Polymyalgia Rheumatica
+575	 	 2207	725-729	Rheumatism, Excluding The Back 
+576	 	  798	    728	Disorders Of Muscle, Ligament, And Fascia
+577	 	  752	  728.8	Other Disorders Of Muscle, Ligament, And Fascia
+578	+	  390	 728.88	Rhabdomyolysis
+579	 	 1040	    729	Other Disorders Of Soft Tissues
+580	 	  359	  729.1	Myalgia And Myositis, Unspecified
+581	 	  308	  729.8	Other Musculoskeletal Symptoms Referable To Limbs
+582	 	  620	    730	Osteomyelitis, Periostitis, And Other Infections Involving B
+583	 	 3794	730-739	Osteopathies, Chondropathies, And Acquired Musculoskeletal D
+584	 	 2799	    733	Other Disorders Of Bone And Cartilage
+585		 1986	  733.0	Osteoporosis
+586	 	 1946	 733.00	Osteoporosis, Unspecified
+587	 	  370	  733.1	Pathologic Fracture
+588	 	  302	 733.13	Pathologic Fracture Of Vertebrae
+589	 	  458	  733.9	Other And Unspecified Disorders Of Bone And Cartilage
+590	 	  418	 733.90	Disorder Of Bone And Cartilage, Unspecified
+591	 	  331	    737	Curvature Of Spine
+592	 	 3205	740-759	Congenital Anomalies 
+593	 	  876	    745	Bulbus Cordis Anomalies And Anomalies Of Cardiac Septal Clos
+594	 	  573	    746	Other Congenital Anomalies Of Heart
+595	 	  678	    747	Other Congenital Anomalies Of Circulatory System
+596	 	  331	    753	Congenital Anomalies Of Urinary System
+597	 	  338	760-763	Maternal Causes Of Perinatal Morbidity And Mortality 
+598	 	 5488	760-779	Certain Conditions Originating In The Perinatal Period 
+599	 	  311	    764	Slow Fetal Growth And Fetal Malnutrition
+600	 	 5458	764-779	Other Conditions Originating In The Perinatal Period 
+601	 	 3430	    765	Disorders Relating To Short Gestation And Low Birthweight
+602	 	  279	  765.0	Extreme Immaturity
+603	 	 3052	  765.1	Other Preterm Infants
+604	 	 2923	  765.2	Weeks Of Gestation
+605	 	  283	 765.25	29-30 Weeks Of Gestation
+606	 	  487	 765.26	31-32 Weeks Of Gestation
+607	 	  881	 765.27	33-34 Weeks Of Gestation
+608	 	  874	 765.28	35-36 Weeks Of Gestation
+609	 	  472	    766	Disorders Relating To Long Gestation And High Birthweight
+610	 	  410	  766.1	"Other ""Heavy-For-Dates"" Infants"
+611		 1314	    769	Respiratory Distress Syndrome
+612	 	 2775	    770	Other Respiratory Conditions Of Fetus And Newborn
+613	 	  754	  770.6	Transitory Tachypnea Of Newborn
+614	 	 1947	  770.8	Other Respiratory Problems After Birth
+615	 	 1043	 770.81	Primary Apnea Of Newborn
+616	 	  583	 770.89	Other Respiratory Problems After Birth
+617	 	  442	    771	Infections Specific To The Perinatal Period
+618	 	  322	  771.8	Other Infections Specific To The Perinatal Period
+619	 	  306	    772	Fetal And Neonatal Hemorrhage
+620	 	 2928	    774	Other Perinatal Jaundice
+621	 	 2264	  774.2	Neonatal Jaundice Associated With Preterm Delivery
+622	 	  659	  774.6	Unspecified Fetal And Neonatal Jaundice
+623	 	  755	    775	Endocrine And Metabolic Disturbances Specific To The Fetus A
+624	 	  357	  775.6	Neonatal Hypoglycemia
+625	 	  532	    776	Hematological Disorders Of Newborn
+626	 	  407	  776.6	Anemia Of Prematurity
+627	 	  396	    778	Conditions Involving The Integument And Temperature Regulati
+628	 	 1662	    779	Other And Ill-Defined Conditions Originating In The Perinata
+629	 	 1068	  779.3	Feeding Problems In Newborn
+630	 	  963	  779.8	Other Specified Conditions Originating In The Perinatal Peri
+631	 	  606	 779.81	Neonatal Bradycardia
+632	 	  458	 779.89	Other Specified Conditions Originating In The Perinatal Peri
+633	 	 5449	    780	General Symptoms
+634	 	16901	780-789	Symptoms 
+635	 	20182	780-799	Symptoms, Signs, And Ill-Defined Conditions 
+636	 	  749	  780.0	Alteration Of Consciousness
+637	 	  577	 780.09	Other
+638	 	  433	  780.2	Syncope And Collapse
+639	+	 1943	  780.3	Convulsions
+640	 	 1934	 780.39	Other Convulsions
+641	 	  907	  780.5	Sleep Disturbances
+642	 	  305	 780.52	Insomnia, Unspecified
+643	 	  581	 780.57	Unspecified Sleep Apnea
+644	 	 1132	  780.6	Fever And Other Physiologic Disturbances Of Temperature Regu
+645	 	  295	 780.60	Fever, Unspecified
+646	 	  343	  780.9	Other General Symptoms
+647	 	  603	    781	Symptoms Involving Nervous And Musculoskeletal Systems
+648	 	  794	    782	Symptoms Involving Skin And Other Integumentary Tissue
+649	 	  254	  782.1	Rash And Other Nonspecific Skin Eruption
+650		  276	  782.3	Edema
+651	 	  442	    783	Symptoms Concerning Nutrition, Metabolism, And Development
+652	 	 1396	    784	Symptoms Involving Head And Neck
+653	 	  276	  784.0	Headache
+654		  488	  784.3	Aphasia
+655		  303	  784.7	Epistaxis
+656	 	 5351	    785	Symptoms Involving Cardiovascular System
+657	 	  607	  785.0	Tachycardia, Unspecified
+658	 	 4283	  785.5	Shock Without Mention Of Trauma
+659	+	 1154	 785.51	Cardiogenic Shock
+660	+	 2586	 785.52	Septic Shock
+661	 	  535	 785.59	Other
+662	 	 1433	    786	Symptoms Involving Respiratory System And Other Chest Sympto
+663	 	  337	  786.0	Dyspnea And Respiratory Abnormalities
+664	 	  468	  786.3	Hemoptysis
+665	 	  426	  786.5	Chest Pain
+666	 	  253	 786.59	Other
+667	 	 2408	    787	Symptoms Involving Digestive System
+668	 	  449	  787.0	Nausea And Vomiting
+669	 	  292	 787.01	Nausea With Vomiting
+670	 	  913	  787.2	Dysphagia
+671	 	  499	 787.20	Dysphagia, Unspecified
+672	 	 1060	  787.9	Other Symptoms Involving Digestive System
+673	 	 1049	 787.91	Diarrhea
+674	 	 1975	    788	Symptoms Involving Urinary System
+675	 	 1247	  788.2	Retention Of Urine
+676	 	 1020	 788.20	Retention Of Urine, Unspecified
+677	 	  365	  788.3	Urinary Incontinence
+678	 	  296	 788.30	Urinary Incontinence, Unspecified
+679	 	  288	  788.5	Oliguria And Anuria
+680	 	 2017	    789	Other Symptoms Involving Abdomen And Pelvis
+681	 	  377	  789.0	Abdominal Pain
+682		 1566	  789.5	Ascites
+683	 	  978	 789.59	Other Ascites
+684	 	 3730	    790	Nonspecific Findings On Examination Of Blood
+685	 	 4586	790-796	Nonspecific Abnormal Findings 
+686	 	  300	  790.0	Abnormality Of Red Blood Cells
+687	 	  299	 790.01	Precipitous Drop In Hematocrit
+688	 	  357	  790.2	Abnormal Glucose
+689	 	  337	 790.29	Other Abnormal Glucose
+690	 	  434	  790.4	Nonspecific Elevation Of Levels Of Transaminase Or Lactic Ac
+691	 	 1478	  790.7	Bacteremia
+692	 	 1062	  790.9	Other Nonspecific Findings On Examination Of Blood
+693		  994	 790.92	Abnormal Coagulation Profile
+694	 	  296	    794	Nonspecific Abnormal Results Of Function Studies
+695	 	 1667	797-799	Ill-Defined And Unknown Causes Of Morbidity And Mortality 
+696	 	 1666	    799	Other Ill-Defined And Unknown Causes Of Morbidity And Mortal
+697		 1329	  799.0	Asphyxia And Hypoxemia
+698		 1298	 799.02	Hypoxemia
+699	 	  251	  799.4	Cachexia
+700		 1170	800-804	Fracture Of Skull 
+701	 	 3533	800-829	Fractures 
+702	 	22686	800-999	Injury And Poisoning 
+703	 	  647	    801	Fracture Of Base Of Skull
+704	 	  380	  801.2	Closed With Subarachnoid, Subdural, And Extradural Hemorrhag
+705	 	  634	    802	Fracture Of Face Bones
+706	 	 1009	    805	Fracture Of Vertebral Column Without Mention Of Spinal Cord 
+707	 	 2021	805-809	Fracture Of Neck And Trunk 
+708	 	  443	  805.0	Cervical, Closed
+709	 	  305	  805.2	Dorsal [Thoracic], Closed
+710	 	  310	  805.4	Lumbar, Closed
+711	 	 1072	    807	Fracture Of Rib(S), Sternum, Larynx, And Trachea
+712	 	  993	  807.0	Rib(S), Closed
+713	 	  472	    808	Fracture Of Pelvis
+714	 	  258	  808.2	Pubis, Closed
+715	 	  255	    810	Fracture Of Clavicle
+716	 	  913	810-819	Fracture Of Upper Limb 
+717	 	  310	    813	Fracture Of Radius And Ulna
+718	 	  366	    820	Fracture Of Neck Of Femur
+719	 	  966	820-829	Fracture Of Lower Limb 
+720	 	  283	    823	Fracture Of Tibia And Fibula
+721	+	 1853	850-854	Intracranial Injury, Excluding Those With Skull Fracture 
+722		  337	    851	Cerebral Laceration And Contusion
+723	+	 1237	    852	Subarachnoid, Subdural, And Extradural Hemorrhage, Following
+724		  465	  852.0	Subarachnoid Hemorrhage Following Injury Without Mention Of 
+725	 	  866	  852.2	Subdural Hemorrhage Following Injury Without Mention Of Open
+726	 	  673	    860	Traumatic Pneumothorax And Hemothorax
+727	 	 1592	860-869	Internal Injury Of Thorax, Abdomen, And Pelvis 
+728	 	  375	  860.0	Pneumothorax Without Mention Of Open Wound Into Thorax
+729	 	  476	    861	Injury To Heart And Lung
+730	 	  424	  861.2	Lung, Without Mention Of Open Wound Into Thorax
+731	 	  404	 861.21	Contusion
+732		  301	    864	Injury To Liver
+733	 	  306	    865	Injury To Spleen
+734	 	  286	  865.0	Without Mention Of Open Wound Into Cavity
+735	 	  278	    868	Injury To Other Intra-Abdominal Organs
+736	 	 1130	870-879	Open Wound Of Head, Neck, And Trunk 
+737		 1408	870-897	Open Wounds 
+738	 	  954	    873	Other Open Wound Of Head
+739	 	  365	  873.0	Scalp, Without Mention Of Complication
+740	 	  480	  83.4	Face, Without Mention Of Complication
+741	 	  285	 873.42	Forehead
+742	 	  258	880-887	Open Wound Of Upper Limb 
+743	 	  365	905-909	Late Effects Of Injuries, Poisonings, Toxic Effects, And Oth
+744	 	  489	920-924	Contusion With Intact Skin Surface 
+745	 	  628	930-939	Effects Of Foreign Body Entering Through Orifice 
+746	 	  298	    934	Foreign Body In Trachea, Bronchus, And Lung
+747	 	  295	    958	Certain Early Complications Of Trauma
+748	 	  370	958-959	Certain Traumatic Complications And Unspecified Injuries 
+749	 	  876	960-979	Poisoning By Drugs, Medicinal And Biological Substances 
+750	 	  401	    965	Poisoning By Analgesics, Antipyretics, And Antirheumatics
+751	 	  339	    969	Poisoning By Psychotropic Agents
+752	 	 5755	990-995	Other And Unspecified Effects Of External Causes 
+753	 	 5642	    995	Certain Adverse Effects Not Elsewhere Classified
+754	+	 5395	  995.9	Systemic Inflammatory Response Syndrome (Sirs)
+755		 1271	 995.91	Sepsis
+756	+	 3912	 995.92	Severe Sepsis
+757	 	 4356	    996	Complications Peculiar To Certain Specified Procedures
+758	 	12734	996-999	Complications Of Surgical And Medical Care, Not Elsewhere Cl
+759	 	  269	  996.5	Mechanical Complication Of Other Specified Prosthetic Device
+760	 	 1576	  996.6	Infection And Inflammatory Reaction Due To Internal Prosthet
+761	 	  950	 996.62	Due To Vascular Device, Implant And Graft
+762	 	 1424	  996.7	Other Complications Of Internal (Biological) (Synthetic) Pro
+763	 	  473	 996.72	Due To Other Cardiac Device, Implant, And Graft
+764	 	  576	 996.74	Due To Vascular Device, Implant, And Graft
+765	 	  861	  996.8	Complications Of Transplanted Organ
+766		  515	 996.81	Kidney
+767	 	 5158	    997	Complications Affecting Specified Body Systems, Not Elsewher
+768	 	  554	  997.0	Nervous System Complications
+769	 	  418	 997.02	Iatrogenic Cerebrovascular Infarction Or Hemorrhage
+770	+	 2343	  997.1	Cardiac Complications
+771	 	  269	  997.2	Peripheral Vascular Complications
+772	+	 1091	  997.3	Respiratory Complications
+773	 	  564	 997.31	Ventilator Associated Pneumonia
+774	 	  875	  997.4	Digestive System Complications
+775	 	  449	  997.5	Urinary Complications
+776	 	 5055	    998	Other Complications Of Procedures, Nec
+777	 	 2709	  998.1	Hemorrhage Or Hematoma Or Seroma Complicating A Procedure
+778	 	 1535	 998.11	Hemorrhage Complicating A Procedure
+779	 	 1224	 998.12	Hematoma Complicating A Procedure
+780	 	  929	  998.2	Accidental Puncture Or Laceration During A Procedure
+781	 	  443	  998.3	Disruption Of Wound
+782	 	 1208	  998.5	Postoperative Infection
+783	 	 1185	 998.59	Other Postoperative Infection
+784	 	  411	  998.8	Other Specified Complications Of Procedures, Not Elsewhere C
+785	 	  856	    999	Complications Of Medical Care, Not Elsewhere Classified
+786	 	  379	  999.3	Other Infection
+787	 	  281	 999.31	Infection Due To Central Venous Catheter

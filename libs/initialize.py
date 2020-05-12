@@ -4,11 +4,9 @@ import json
 import pandas
 import shutil
 import numpy
-from scipy import signal
 import tensorflow as tf
-
-import flacdb
 import prepare_data
+import load_diagnosis
 
 # RESP_SCALE = 5
 RESP_SCALE = 1
@@ -32,17 +30,25 @@ TENSOR_DTYPES = {
     'chunk_count': 'uint16'
 }
 
-clinic_file = lambda i: '/scr1/mimic/clinic/{}.csv'.format(i.upper())
-
-
 def load_hypes(model_id='tmp'):
     src = HOME + 'hypes.json'
     dst = HOME + 'hypes/' + model_id + '.json'
     shutil.copy(src, dst)
     with open(dst) as f:
         H = json.load(f)
+    src = HOME + 'diagnosis_codes.csv'
+    dst = HOME + 'diagnosis_codes/' + model_id + '.csv'
+    shutil.copy(src, dst)
     return H
 
+
+def partition_subject_ids():
+    metadata = pandas.read_hdf('/scr-ssd/mimic/metadata.hdf')
+    subject_ids = metadata['subject_id'].unique()
+    numpy.random.shuffle(subject_ids)
+    i = len(subject_ids) // 6
+    with open('/scr-ssd/mimic/test_subject_ids.txt', 'w') as f:
+        f.write('\n'.join(subject_ids[:i].astype('str')))
 
 def load_test_subject_ids():
     test_subject_ids = open('/scr-ssd/mimic/test_subject_ids.txt').readlines()
@@ -65,21 +71,32 @@ def load_partition(val_sigs, sig_data):
     partition['validation'] &= has_validation_sigs
     partition['train'] |= ~has_validation_sigs.any(level=0)
     check_partition(partition['train'], partition['validation'])
-    return partition  
+    return partition 
+
+def get_partition(val_sigs, sig_data):
+    subject_ids = sig_data.index.to_frame()['subject_id']
+    unique_ids = subject_ids.unique()
+    test_subject_ids = numpy.random.permutation(unique_ids)[:len(unique_ids)//5]
+    partition = {'validation': subject_ids.isin(test_subject_ids)}
+    partition['train'] = ~partition['validation']
+    has_validation_sigs = (sig_data['sig_index'][val_sigs] > 0).all(axis=1)
+    partition['validation'] &= has_validation_sigs
+    partition['train'] |= ~has_validation_sigs.any(level=0)
+    check_partition(partition['train'], partition['validation'])
+    return partition 
 
 
-def load_initial_data(load_path=None, save_path=None, must_have_bp=True):
+def load_initial_data(load_path=None, save_path=None):
     if load_path is not None:
         metadata = pandas.read_pickle(load_path + 'metadata.pkl')
         sig_data = pandas.read_pickle(load_path + 'sig_data.pkl')
-        return sig_data, metadata
+        diagnosis = pandas.read_pickle(load_path + 'diagnosis.pkl')
+        return sig_data, metadata, diagnosis
     metadata = pandas.read_hdf('/scr-ssd/mimic/metadata.hdf')
     metadata = metadata.reindex(metadata.index & prepare_data.get_serialized())
     metadata = metadata[metadata['sig_len'] > prepare_data.CHUNK_SKIP_SIZE]
     chunk_counts = metadata['sig_len'].apply(prepare_data.get_chunk_count)
     metadata.at[:, 'chunk_count'] = chunk_counts.astype('uint16')
-#     index = (metadata.index & prepare_data.get_serialized()).sort_values()
-#     metadata = metadata.reindex(index)
     missing = metadata['subject_id'] == -1
     fake_ids = -metadata.loc[missing].index.get_level_values(0)
     metadata.at[missing, 'subject_id'] = fake_ids
@@ -99,86 +116,18 @@ def load_initial_data(load_path=None, save_path=None, must_have_bp=True):
     sig_data.fillna({'subject_id': -1}, inplace=True)
     sig_data = sig_data.astype({'subject_id': 'int32'})
     sig_data.reset_index(inplace=True)
-    sig_data.set_index(['subject_id'] + index_names, inplace=True, verify_integrity=True)
+    sig_data.set_index(['subject_id'] + index_names, inplace=True)
     sig_data = sig_data.unstack(fill_value=0)
     sig_data = sig_data.astype({(k, s): dtypes[k] for k, s in sig_data})
-    if must_have_bp:
-        sig_data = sig_data[sig_data['sig_index']['ABP'] > 0]
     index = (metadata.index & sig_data.index).sort_values()
     metadata = metadata.reindex(index)
     sig_data = sig_data.reindex(index)
+    diagnosis = load_diagnosis.load_grouped()
     if save_path is not None:
         sig_data.to_pickle(save_path + 'sig_data.pkl')
         metadata.to_pickle(save_path + 'metadata.pkl')
-    return sig_data, metadata
-
-
-def load_diagnosis(codes):
-    diagnosis = pandas.read_csv(clinic_file('diagnoses_icd'))
-    new_names = {i.upper(): i for i in ['subject_id', 'hadm_id']}
-    new_names['ICD9_CODE'] = 'code'
-    diagnosis = diagnosis[new_names].rename(columns=new_names)
-    diagnosis.loc[~diagnosis['code'].isin(codes), 'code'] = 'other'
-    diagnosis.drop_duplicates(inplace=True)
-    diagnosis.set_index(['subject_id', 'hadm_id', 'code'], inplace=True)
-    diagnosis.sort_index(inplace=True)
-    diagnosis.at[:, 'present'] = True
-    diagnosis = diagnosis.unstack(fill_value=False)['present'].astype('bool')
-    return diagnosis
-
-
-def augment_diagnosis(diagnosis, metadata):
-    matched_data = metadata.reset_index()
-    matched_data = matched_data[matched_data['subject_id'] > 0]
-    matched_data.drop_duplicates(diagnosis.index.names, inplace=True)
-    matched_data.set_index(diagnosis.index.names, inplace=True)
-    matched_data.sort_index(inplace=True)
-        
-    diagnosis = diagnosis.reindex(matched_data.index)
-    
-    for i in ['gender', 'race']:
-        values = matched_data[i]
-        for j in values.dtype.categories:
-            diagnosis.at[values.notna(), i + '_' + j] = values == j
-    
-    thresholds = {'age': 75, 'height': 70, 'weight': 100}
-    
-    for k in thresholds:
-        is_int = numpy.issubdtype(matched_data[k].dtype, numpy.signedinteger)
-        is_given = matched_data[k] > 0 if is_int else matched_data[k].notna()
-        name = k + '_at_least_' + str(round(thresholds[k]))
-        diagnosis.at[is_given, name] = matched_data[k] >= thresholds[k]
-    
-    died = matched_data['death_time'].notna()
-    diagnosis.at[(slice(None), slice(0, None)), 'died'] = died
-    
-    bool_to_int = {True: 1, False: -1, numpy.nan: 0}
-    diagnosis = diagnosis.replace(bool_to_int).astype('int8')
-    
-    return diagnosis
-
-
-def fix_diagnosis(diagnosis):
-    is_negative_always = (diagnosis == -1).all(level=0)
-    is_diagnosed_always = (diagnosis.index.to_frame()['hadm_id'] > 0).all(level=0)
-    is_negative = is_negative_always[is_diagnosed_always]
-    diagnosis = diagnosis.replace({-1: 0})
-    I = is_negative.index
-    diagnosis.loc[I] = diagnosis.loc[I].mask(is_negative, -1)
-    diagnosis = diagnosis.drop(columns='other')
-    return diagnosis.astype('int8')
-
-
-def conform_diagnosis(diagnosis, metadata):
-    unindexed = metadata.reset_index()
-    I = pandas.MultiIndex.from_frame(unindexed[diagnosis.index.names])
-    diagnosis = diagnosis.reindex(I).fillna(0).astype('int8').reset_index()
-    frames = [diagnosis, unindexed[['rec_id', 'seg_id']]]
-    diagnosis = pandas.concat(frames, sort=False, axis=1)
-    diagnosis = diagnosis.set_index(metadata.index.names)
-    diagnosis = diagnosis.drop(columns='hadm_id')
-    assert((diagnosis.index == metadata.index).all())
-    return diagnosis
+        diagnosis.to_pickle(save_path + 'diagnosis.pkl')
+    return sig_data, metadata, diagnosis
 
 
 def get_row_lengths(metadata):
@@ -216,7 +165,7 @@ def to_tensors(H, metadata, sig_data, diagnosis, row_lengths):
     for k in ['seg_id', 'chunk_count']:
         tensors[k] = to_ragged_tensor(metadata[k], k, nested=True)
     
-    S = H['input_sigs'] + H['output_sigs']
+    S = H['input_sigs']
     for k in ['sig_index', 'adc_gain', 'baseline']:
         tensors[k] = to_ragged_tensor(sig_data[k][S], k, nested=True)
     
@@ -241,27 +190,15 @@ def describe_data_size(H, sig_data, metadata):
     years = sample_counts.sum() / (125 * 60 * 60 * 24 * 365)
     print(int(round(years)), 'years, ', len(metadata), 'record segments')
 
-    
-def partition_subject_ids():
-    metadata = pandas.read_hdf('/scr-ssd/mimic/metadata.hdf')
-    subject_ids = metadata['subject_id'].unique()
-    numpy.random.shuffle(subject_ids)
-    i = round(0.2*len(subject_ids))
-    with open('/scr-ssd/mimic/test_subject_ids.txt', 'w') as f:
-        f.write('\n'.join(subject_ids[:i].astype('str')))
-
         
-def run(H, parts):
-    load_path = '/scr1/mimic/initial_data/'
-    sig_data, metadata = load_initial_data(load_path=load_path, must_have_bp=False)
-    diagnosis = load_diagnosis(H['icd_codes'])
-    diagnosis = augment_diagnosis(diagnosis, metadata)
-    diagnosis = fix_diagnosis(diagnosis)
+def run(H, parts, load_path=None, save_path=None):
+    sig_data, metadata, diagnosis = load_initial_data(load_path, save_path)
+    diagnosis = load_diagnosis.augment(diagnosis, metadata)
+    diagnosis = load_diagnosis.fix(diagnosis)
     priors = (diagnosis == 1).sum() / (diagnosis != 0).sum()
-    priors['measured_systemic_hypertension'] = 0.5
-    priors['measured_pulmonary_hypertension'] = 0.5
-    diagnosis = conform_diagnosis(diagnosis, metadata)
-    partition = load_partition(H['input_sigs_validation'], sig_data)
+    diagnosis = load_diagnosis.conform(diagnosis, metadata)
+#     partition = load_partition(H['input_sigs_validation'], sig_data)
+    partition = get_partition(H['input_sigs_validation'], sig_data)
     
     tensors = {}
     for part in parts:

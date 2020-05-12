@@ -1,38 +1,29 @@
 {
-  "input_sigs": ["PLETH", "RESP", "I", "II", "III", "V", "AVR", "MCL", "MCL1", "AVL", "AVF"],
-  "input_sigs_validation": ["PLETH", "II"],
-  "output_sigs": ["ABP", "CVP", "ICP", "PAP"],
-  "icd_codes": [
-    "4019", "4280", "42731", "41401", "2724", "25000", "5859", "5849",
-    "51881", "2859", "4240", "4241", "78552", "99592", "2762", "5119",
-    "41071", "27800", "27651", "4275", "5715", "42732", "42832", "42833",
-    "79902", "27652", "431", "2720", "4917", "2761", "4160"
+  "input_sigs": [
+      "PLETH", "RESP",
+      "ABP", "CVP", "ICP", "PAP",
+      "I", "II", "III", "V", "AVR", "MCL", "MCL1", "AVL", "AVF"
   ],
-  "pressure_window_log2": 9,
-  "windows_per_chunk_log2": 0,
+  "input_sigs_validation": ["PLETH", "II", "V", "AVR", "ABP", "RESP"],
   "batch_size_log2": 5,
   "batch_size_validation_log2": 5,
-  "validation_steps_log2": 7,
+  "validation_steps_log2": 8,
   "validation_frequency_log2": 0,
-  "steps_per_epoch_log2": 7,
-  "window_size_log2": 12,
+  "steps_per_epoch_log2": 10,
+  "window_size_log2": 11,
   "filter_count_log2": 7,
-  "layer_counts_log2": [2, 4],
+  "layer_counts_log2": [2, 5],
   "strides_log2": [4, 2],
   "dilation_log2": 1,
   "kernel_sizes_log2": [4, 3, 3, 2],
   "dense_units_log2": 8,
-  "dropout_log2": -3,
+  "dropout_log2": -2,
   "batch_buffer_size_log2": 2,
-  "loss_weights_log2": {
-    "output": {"pressure": -1, "diagnosis": -1},
-    "sig": {"ABP": -1, "CVP": -2, "ICP": -3, "PAP": -3},
-    "metric": {"systolic": -1, "diastolic": -1}
-  },
   "use_diagnosis_priors": true,
-  "relative_target_radius_log2": -5,
   "learning_rate_log2": -13,
-  "lr_boundaries": [5, 10, 100, 200, 400, 800],
-  "lr_divisors_log2": [2, 1, 0, 1, 2, 3, 4],
-  "initial_weights_std_log2": -5
+  "lr_boundaries": [1, 100, 200, 400, 800],
+  "lr_divisors_log2": [2, 0, 1, 2, 3, 4],
+  "initial_weights_std_log2": -5,
+  "kernel_reg_log2": -20,
+  "windows_per_chunk_log2": 0
 }

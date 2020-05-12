@@ -1,0 +1,105 @@
+401-405 	Hypertensive Disease 	27912
+460-519 	Diseases Of The Respiratory System 	25260
+401 	Essential Hypertension 	21305
+280-289 	Diseases Of The Blood And Blood-Forming Organs 	19366
+427 	Cardiac Dysrhythmias 	17226
+410-414 	Ischemic Heart Disease 	16854
+320-389 	Diseases Of The Nervous System And Sense Organs 	15828
+580-589 	Nephritis, Nephrotic Syndrome, And Nephrosis 	15401
+001-139 	Infectious And Parasitic Diseases 	14535
+250 	Diabetes Mellitus 	14222
+414.0 	Coronary Atherosclerosis 	13999
+428 	Heart Failure 	13608
+427.3 	Atrial Fibrillation And Flutter 	13274
+428.0 	Congestive Heart Failure, Unspecified 	13111
+427.31 	Atrial Fibrillation 	12886
+414.01 	Of Native Coronary Artery 	12428
+584 	Acute Renal Failure 	11422
+490-496 	Chronic Obstructive Pulmonary Disease And Alli... 	10133
+451-459 	Diseases Of Veins And Lymphatics, And Other Di... 	8792
+518.81 	Acute Respiratory Failure 	7497
+480-488 	Pneumonia And Influenza 	7491
+585 	Chronic Kidney Disease (Ckd) 	6918
+403 	Hypertensive Chronic Kidney Disease 	6438
+430-438 	Cerebrovascular Disease 	6324
+038 	Septicemia 	6265
+272.0 	Pure Hypercholesterolemia 	5930
+440-449 	Diseases Of Arteries, Arterioles, And Capillar... 	5828
+410 	Acute Myocardial Infarction 	5430
+995.9 	Systemic Inflammatory Response Syndrome (Sirs) 	5395
+244 	Acquired Hypothyroidism 	5237
+305 	Nondependent Abuse Of Drugs 	5213
+458 	Hypotension 	5045
+276.2 	Acidosis 	4528
+995.92 	Severe Sepsis 	3912
+415-417 	Diseases Of Pulmonary Circulation 	3713
+507 	Pneumonitis Due To Solids And Liquids 	3696
+428.3 	Diastolic Heart Failure 	3674
+493 	Asthma 	3515
+190-199 	Malignant Neoplasm Of Other And Unspecified Si... 	3401
+410.7 	Subendocardial Infarction 	3317
+511 	Pleurisy 	3268
+428.2 	Systolic Heart Failure 	3136
+350-359 	Disorders Of The Peripheral Nervous System 	3079
+276.1 	Hyposmolality And/Or Hyponatremia 	3039
+571 	Chronic Liver Disease And Cirrhosis 	2951
+424.0 	Mitral Valve Disorders 	2924
+278.0 	Overweight And Obesity 	2704
+416 	Chronic Pulmonary Heart Disease 	2674
+785.52 	Septic Shock 	2586
+070 	Viral Hepatitis 	2553
+424.1 	Aortic Valve Disorders 	2550
+458.2 	Iatrogenic Hypotension 	2453
+274 	Gout 	2346
+276.0 	Hyperosmolality And/Or Hypernatremia 	2272
+518.0 	Pulmonary Collapse 	2165
+303 	Alcohol Dependence Syndrome 	2109
+425 	Cardiomyopathy 	2106
+733.0 	Osteoporosis 	1986
+780.3 	Convulsions 	1943
+585.6 	End Stage Renal Disease 	1926
+440 	Atherosclerosis 	1853
+288 	Diseases Of White Blood Cells 	1754
+441 	Aortic Aneurysm And Dissection 	1706
+411.1 	Intermediate Coronary Syndrome 	1663
+345 	Epilepsy And Recurrent Seizures 	1618
+250.4 	Diabetes With Renal Manifestations 	1590
+150-159 	Malignant Neoplasm Of Digestive Organs And Per... 	1570
+789.5 	Ascites 	1566
+550-553 	Hernia Of Abdominal Cavity 	1520
+305.0 	Alcohol Abuse 	1518
+200-208 	Malignant Neoplasm Of Lymphatic And Hematopoie... 	1481
+562 	Diverticula Of Intestine 	1479
+577 	Diseases Of Pancreas 	1477
+434 	Occlusion Of Cerebral Arteries 	1470
+426 	Conduction Disorders 	1460
+008.45 	Clostridium Difficile 	1444
+431 	Intracerebral Hemorrhage 	1367
+427.5 	Cardiac Arrest 	1361
+491 	Chronic Bronchitis 	1359
+799.0 	Asphyxia And Hypoxemia 	1329
+769 	Respiratory Distress Syndrome 	1314
+799.02 	Hypoxemia 	1298
+041.1 	Staphylococcus 	1282
+995.91 	Sepsis 	1271
+160-165 	Malignant Neoplasm Of Respiratory And Intratho... 	1247
+427.32 	Atrial Flutter 	1217
+433 	Occlusion And Stenosis Of Precerebral Arteries 	1200
+162 	Malignant Neoplasm Of Trachea, Bronchus, And Lung 	1171
+041.4 	Escherichia Coli [E.Coli] 	1158
+785.51 	Cardiogenic Shock 	1154
+415 	Acute Pulmonary Heart Disease 	1116
+415.1 	Pulmonary Embolism And Infarction 	1109
+790.92 	Abnormal Coagulation Profile 	994
+348.5 	Cerebral Edema 	978
+433.1 	Carotid Artery 	959
+179-189 	Malignant Neoplasm Of Genitourinary Organs 	788
+397.0 	Diseases Of Tricuspid Valve 	779
+430 	Subarachnoid Hemorrhage 	658
+331.0 	Alzheimers Disease 	569
+427.41 	Ventricular Fibrillation 	568
+332 	Parkinsons Disease 	510
+155 	Malignant Neoplasm Of Liver And Intrahepatic B... 	454
+185 	Malignant Neoplasm Of Prostate 	302
+157 	Malignant Neoplasm Of Pancreas 	276
+189 	Malignant Neoplasm Of Kidney And Other And Uns... 	236

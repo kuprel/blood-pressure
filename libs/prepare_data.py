@@ -11,7 +11,7 @@ ROOT_SERIAL = '/scr-ssd/mimic/waveforms/'
 # CHUNK_SIZE = 2**16
 # MAX_CHUNK_COUNT = 16
 CHUNK_SIZE = 2**12
-CHUNK_SKIP_SIZE = 2**15
+CHUNK_SKIP_SIZE = 2**14
 # MAX_CHUNK_COUNT = 1
 
 def get_chunk_path(rec, i):
@@ -90,14 +90,9 @@ def filter_serialized(metadata):
 if __name__ == '__main__':
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
     metadata = pandas.read_hdf('/scr-ssd/mimic/metadata.hdf')
-    filtered = metadata.reindex(metadata.index & get_downloaded())
-#     filtered = filter_downloaded(metadata)
-    filtered = filtered[filtered['sig_len'] > CHUNK_SKIP_SIZE]
-    print(len(filtered), 'records')
-#     serialized = filter_serialized(filtered)
-#     filtered = filtered.reindex(set(filtered.index) - set(serialized.index))
-#     print(len(filtered), 'left to serialize')
-#     for i in filtered.index:
-#         _serialize(i)
+    metadata = metadata.reindex(metadata.index & get_downloaded())
+    metadata = metadata[metadata['sig_len'] > CHUNK_SKIP_SIZE]
+    metadata = metadata[metadata['subject_id'] != -1]
+    print(len(metadata), 'records')
     pool = multiprocessing.Pool(multiprocessing.cpu_count())
-    pool.map(convert_flac_to_serial, filtered.index)
+    pool.map(convert_flac_to_serial, metadata.index)
