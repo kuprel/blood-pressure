@@ -25,8 +25,9 @@ TENSOR_DTYPES = {
     'race':        'int8',
     'died':        'int8',
     'diagnosis':   'int8',
+    'admission_diagnosis':  str,
     'rec_id':      'int32',
-    'seg_id':     'int16',
+    'seg_id':      'int16',
     'chunk_count': 'uint16'
 }
 
@@ -42,16 +43,19 @@ def load_hypes(model_id='tmp'):
     return H
 
 
-def partition_subject_ids():
+def partition_subject_ids(fold_count):
     metadata = pandas.read_hdf('/scr-ssd/mimic/metadata.hdf')
     subject_ids = metadata['subject_id'].unique()
     numpy.random.shuffle(subject_ids)
-    i = len(subject_ids) // 6
-    with open('/scr-ssd/mimic/test_subject_ids.txt', 'w') as f:
-        f.write('\n'.join(subject_ids[:i].astype('str')))
+    folds = numpy.array_split(subject_ids, fold_count)
+    for fold_index in range(fold_count):
+        path = '/scr-ssd/mimic/test_subject_ids_{}.txt'.format(fold_index)
+        with open(path, 'w') as f:
+            f.write('\n'.join(folds[fold_index].astype('str')))    
 
-def load_test_subject_ids():
-    test_subject_ids = open('/scr-ssd/mimic/test_subject_ids.txt').readlines()
+def load_test_subject_ids(fold_index):
+    path = '/scr-ssd/mimic/test_subject_ids_{}.txt'.format(fold_index)
+    test_subject_ids = open(path).readlines()
     test_subject_ids = [int(i.strip()) for i in test_subject_ids]
     return test_subject_ids
 
@@ -62,9 +66,9 @@ def check_partition(train, val):
     assert(mutually_exclusive and collectively_exhaustive)
 
 
-def load_partition(val_sigs, sig_data):
+def load_partition(val_sigs, sig_data, fold_index):
     subject_ids = sig_data.index.to_frame()['subject_id']
-    test_subject_ids = load_test_subject_ids()
+    test_subject_ids = load_test_subject_ids(fold_index)
     partition = {'validation': subject_ids.isin(test_subject_ids)}
     partition['train'] = ~partition['validation']
     has_validation_sigs = (sig_data['sig_index'][val_sigs] > 0).all(axis=1)
@@ -73,17 +77,17 @@ def load_partition(val_sigs, sig_data):
     check_partition(partition['train'], partition['validation'])
     return partition 
 
-def get_partition(val_sigs, sig_data):
-    subject_ids = sig_data.index.to_frame()['subject_id']
-    unique_ids = subject_ids.unique()
-    test_subject_ids = numpy.random.permutation(unique_ids)[:len(unique_ids)//5]
-    partition = {'validation': subject_ids.isin(test_subject_ids)}
-    partition['train'] = ~partition['validation']
-    has_validation_sigs = (sig_data['sig_index'][val_sigs] > 0).all(axis=1)
-    partition['validation'] &= has_validation_sigs
-    partition['train'] |= ~has_validation_sigs.any(level=0)
-    check_partition(partition['train'], partition['validation'])
-    return partition 
+# def get_partition(val_sigs, sig_data):
+#     subject_ids = sig_data.index.to_frame()['subject_id']
+#     unique_ids = subject_ids.unique()
+#     test_subject_ids = numpy.random.permutation(unique_ids)[:len(unique_ids)//5]
+#     partition = {'validation': subject_ids.isin(test_subject_ids)}
+#     partition['train'] = ~partition['validation']
+#     has_validation_sigs = (sig_data['sig_index'][val_sigs] > 0).all(axis=1)
+#     partition['validation'] &= has_validation_sigs
+#     partition['train'] |= ~has_validation_sigs.any(level=0)
+#     check_partition(partition['train'], partition['validation'])
+#     return partition 
 
 
 def load_initial_data(load_path=None, save_path=None):
@@ -177,7 +181,7 @@ def to_tensors(H, metadata, sig_data, diagnosis, row_lengths):
     k = 'diagnosis'
     tensors[k] = to_ragged_tensor(diagnosis, k, nested=False)
     
-    for k in ['rec_id', 'height', 'weight', 'age']:
+    for k in ['rec_id', 'height', 'weight', 'age', 'admission_diagnosis']:
         tensors[k] = to_ragged_tensor(metadata[k], k, nested=False)
     
     return tensors
@@ -197,8 +201,8 @@ def run(H, parts, load_path=None, save_path=None):
     diagnosis = load_diagnosis.fix(diagnosis)
     priors = (diagnosis == 1).sum() / (diagnosis != 0).sum()
     diagnosis = load_diagnosis.conform(diagnosis, metadata)
-#     partition = load_partition(H['input_sigs_validation'], sig_data)
-    partition = get_partition(H['input_sigs_validation'], sig_data)
+    partition = load_partition(H['input_sigs_validation'], sig_data, H['fold_index'])
+#     partition = get_partition(H['input_sigs_validation'], sig_data)
     
     tensors = {}
     for part in parts:

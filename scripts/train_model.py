@@ -15,7 +15,7 @@ model_id = sys.argv[1] + '_' + time_str
 H = initialize.load_hypes(model_id)
 
 parts = ['train', 'validation']
-path = '/scr1/mimic/initial_data_{}/'.format(sys.argv[1])
+path = '/scr1/mimic/initial_data_{}_fold_{}/'.format(sys.argv[1], H['fold_index'])
 os.mkdir(path)
 tensors, metadata, priors = initialize.run(H, parts, save_path=path)
 dataset = {part: data_pipeline.build(H, tensors[part], part) for part in parts}

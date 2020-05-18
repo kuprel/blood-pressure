@@ -25,5 +25,6 @@
   "lr_divisors_log2": [2, 0, 1, 2, 3, 4],
   "initial_weights_std_log2": -5,
   "kernel_reg_log2": -20,
-  "windows_per_chunk_log2": 0
+  "windows_per_chunk_log2": 0,
+  "fold_index": 2
 }

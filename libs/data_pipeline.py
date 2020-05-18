@@ -102,7 +102,7 @@ def get_examples(H, W, example):
     sig_index = example.pop('sig_index')[i][j]
     example['mask'] = sig_index > 0
     
-    for key in ['diagnosis', 'age', 'weight', 'height']:
+    for key in ['diagnosis', 'age', 'weight', 'height', 'admission_diagnosis']:
         example[key] = example[key][0][i]
     
     chunk_name = tf.as_string(rec_id) 
