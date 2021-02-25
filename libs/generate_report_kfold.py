@@ -98,8 +98,7 @@ def get_plotter(x, y_true, y_pred, codes, subject_ids, sigs, dark):
         description='Log Scale',
     )
     
-    if dark:
-        pyplot.style.use('dark_background')
+    pyplot.style.use('dark_background' if dark else 'default')
     
     fig, axes = pyplot.subplots(
         nrows=len(sigs) + 2,
@@ -127,8 +126,12 @@ def get_plotter(x, y_true, y_pred, codes, subject_ids, sigs, dark):
         i = I[j][example_index]
         for s in range(len(sigs)):
             axes[s+2].clear()
-            axes[s+2].plot(x[i, :, s], ['b', 'y', 'y', 'y', 'g', 'r'][s])
-            axes[s+2].set_ylabel(sigs[s])
+            axes[s+2].plot(
+                x[i, :, s], 
+                ['b', 'b', 'b', 'g', 'r', 'r'][s],
+                linewidth=1.5
+            )
+            axes[s+2].set_ylabel(sigs[s], fontsize=14)
             axes[s+2].set_xticks([])
 
         axes[1].set_xlabel('Subject ' + str(subject_ids[i]))
@@ -166,20 +169,21 @@ def get_plotter(x, y_true, y_pred, codes, subject_ids, sigs, dark):
 
 def get_predictions(H, priors, dataset, weights_path, batch_count):
     
-    fix_input = lambda x: {**x, 'mask': tf.cast(x['mask'], 'float')}
+    print('loading model')
+    model = conv_model.build(H, priors)
+    model.load_weights(weights_path)
+    
     if os.path.isfile(weights_path + '.pkl'):
         print('loading predictions')
         with open(weights_path + '.pkl', 'rb') as f:
             X, Y, P = pickle.load(f)
     else:
-        print('loading model')
-        model = conv_model.build(H, priors)
-        model.load_weights(weights_path)
         print('computing predictions')
+        fix_input = lambda x: {**x, 'mask': tf.cast(x['mask'], 'float')}
         X, Y, P = compute_predictions(model, dataset, batch_count, fix_input)
         with open(weights_path + '.pkl', 'wb') as f:
             pickle.dump([X, Y, P], f)
-    return X, Y, P
+    return X, Y, P, model
 
 
 def generate_predictions(model_id, fold_index, checkpoint_index, example_count_log2):
@@ -204,13 +208,13 @@ def generate_predictions(model_id, fold_index, checkpoint_index, example_count_l
     
     batch_count = 2 ** (example_count_log2 - H['batch_size_validation_log2'])
     
-    X, Y, P = get_predictions(H, priors, dataset, weights_path, batch_count)
+    X, Y, P, model = get_predictions(H, priors, dataset, weights_path, batch_count)
             
-    return H, X, Y, P, metadata, priors
+    return H, X, Y, P, metadata, priors, model
     
 def generate_plotter(H, X, Y, P, metadata, priors, dark=True):
     y_true, y_pred = Y['diagnosis'], P
-    sigs = ['PLETH', 'II', 'V', 'AVR', 'RESP', 'ABP']
+    sigs = ['II', 'V', 'AVR', 'RESP', 'PLETH', 'ABP']
     sig_index = [H['input_sigs'].index(i) for i in sigs]
     x = X['signals'][:, :, sig_index]
     M = metadata.reset_index()[['subject_id', 'rec_id']].drop_duplicates()
@@ -221,5 +225,3 @@ def generate_plotter(H, X, Y, P, metadata, priors, dark=True):
     
     fig, plotter = get_plotter(x, y_true, y_pred, codes, subject_ids, sigs, dark)
     return plotter
-    
-    

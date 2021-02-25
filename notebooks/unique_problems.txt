@@ -1,0 +1,5818 @@
+1007 Coronary Artery Disease
+382 Coronary Artery Bypass Graft
+126 Coronary Syndrome
+82 Coronary Artery Bypass Graft With Avr
+20 Rule Out Coronary Artery Disease
+16 Cad
+13 Coronary Artery Bypass Graft With Mvr
+
+653 Congestive Heart Failure
+44 Cardiomyopathy
+33 Heart Failure
+26 Chf
+12 Congestive Heart Failure Exacerbation
+
+596 Chest Pain
+116 Unstable Angina
+33 Angina
+
+538 Pneumonia
+23 Pna
+
+453 Sepsis
+46 Urosepsis
+32 Septic Shock
+
+441 Stroke
+
+427 Cath
+154 Cardiac Cath
+115 Left Heart Catheterization
+77 Cardiac Catheterization
+18 Right And Left Heart Catheterization
+17 Left Heart Cath
+14 Right And Left Heart Cath
+
+473 Intracranial Hemorrhage
+351 Subarachnoid Hemorrhage
+270 Subdural Hematoma
+82 Head Bleed
+61 Intraparenchymal Hemorrhage
+36 Subdural Hemorrhage
+26 Subarachnoid Hematoma
+25 Sah
+22 Intracranial Bleed
+17 Epidural Hematoma
+16 Subdural Bleed
+6 Intracerebral Hemorrhage
+
+334 Altered Mental Status
+13 Mental Status Changes
+10 Confusion
+
+282 Transient Ischemic Attack
+83 Tia
+
+276 Renal Failure
+34 Chronic Renal Failure
+
+272 Sp Fall
+17 Fall
+
+272 Myocardial Infarction
+76 Nonst Segment Elevation Myocardial Infarction
+76 St Elevated Myocardial Infarction
+51 Stemi
+43 Ruleout Myocardial Infarction
+39 Mi
+36 Ro Mi
+30 Sp Mi
+24 Nstemi
+22 Non Q Mi
+19 Stsegment Elevation Myocardial Infarction
+19 Inferior Myocardial Infarction
+19 Non St Elevation Myocardial Infarction
+16 St Segment Elevation Myocardial Infarction
+15 Nonqwave Myocardial Infarction
+12 Myocardial Infarct
+12 Chest Painro Myocardial Infarction
+12 Ro Myocardial Infarction
+
+267 Gastrointestinal Bleed
+264 Upper Gi Bleed
+181 Lower Gi Bleed
+86 Gi Bleed
+68 Upper Gastrointestinal Bleed
+52 Lower Gastrointestinal Bleed
+16 Lower Gastrintestinal Bleed
+
+253 Abdominal Pain
+
+228 Hypotension
+
+196 Seizure
+57 Seizures
+
+187 Fever
+17 Fevers
+
+426 Aortic Stenosis
+177 Aortic Valve Replacement
+109 Mitral Valve Replacement
+44 Mitral Regurgitation
+46 Mitral Stenosis
+31 Avr
+32 Mitral Valve Disorder
+27 Mr
+24 Mvr
+22 Aortic Valve
+17 Tricuspid Valve Replacement
+17 Transcatheter Aortic Valve Implant Tavi With Pump Standby Corevalve
+15 Tvr
+13 Critical Aortic Stenosis
+12 Tricuspid Regurgitation
+12 Transcatheter Aortic Valve Implant Tavi Percutaneous Approach
+12 Aortic And Mitral Valve Replacement
+10 Aortic Valve Replacement Redo
+10 Severe Aortic Stenosis
+
+176 Pancreatitis
+
+165 Brain Mass
+38 Meningioma
+37 Brain Tumor
+11 Head Mass
+10 New Brain Mass
+7 Intracranial Mass
+7 Intracranial Tumor
+
+134 Blunt Trauma
+45 Trauma
+
+132 Shortness Of Breath
+114 Dyspnea
+114 Respiratory Failure
+84 Asthma
+62 Respiratory Distress
+
+126 Liver Failure
+46 Cirrhosis
+22 Hepatitis
+19 Etoh Cirrhosis
+13 Hepatic Failure
+10 Alcoholic Hepatitis
+
+125 Diabetic Ketoacidosis
+
+116 Urinary Tract Infection
+69 Pyelonephritis
+
+84 Syncope
+
+84 Sp Motor Vehicle Accident
+47 Motor Vehicle Accident With Unspecified Injuries
+17 Sp Mvc
+16 Motor Vehicle Accident
+12 Sp Motor Vehicle Accidemt
+
+82 Cellulitis
+
+79 Hypoxia
+
+78 Anemia
+
+78 Cardiac Arrest
+60 Sp Cardiac Arrest
+28 Sp Arrest
+
+77 Hemoptysis
+
+76 Atrial Fibrillation
+28 Drug Refractory Atrial Fibrillation
+25 Afib
+
+76 Copd Exacerbation
+47 Chronic Obst Pulm Disease
+
+71 Ventricular Tachycardia
+22 Tachycardia
+10 Ventricular Tachycardia Ablationå
+
+70 Abdominal Aortic Aneurysm
+16 Aortic Aneurysm
+10 Thoracic Aneurysm
+5 Thoracic Aortic Aneurysm
+
+66 Hyponatremia
+
+65 Pericardial Effusion
+
+61 Bradycardia
+
+61 Pulmonary Edema
+
+61 Polytrauma
+
+60 Aortic Dissection
+11 Aortic Disection
+
+60 Pulmonary Embolis
+40 Pulmonary Embolism
+22 Pulmonary Embolus
+10 Pulmonary Emboli
+
+60 Headache
+
+58 Hyperkalemia
+
+51 Endocarditis
+
+50 Weakness
+
+48 Dehydration
+
+45 Small Bowel Obstruction
+41 Bowel Obstruction
+
+41 Aneurysm
+
+40 Pancreatic Mass
+
+40 Cholecystitis
+
+39 Brain Aneurysm
+37 Cerebral Aneurysm
+
+39 Overdose
+24 Tylenol Overdose
+16 Sp Overdose
+11 Cocaine Overdose
+7 Acetaminophen Overdose
+
+39 Vomiting
+
+35 Unresponsive
+
+34 Esophageal Cancer
+
+34 Pleural Effusion
+
+33 Pulmonary Vein Isolation Remote West
+
+33 Colitis
+
+33 Complete Heart Block
+17 Heart Block
+
+33 Lung Cancer
+
+31 Status Epilepticus
+
+30 Back Pain
+
+30 Hypoglycemia
+
+29 Morbid Obesity
+
+28 Sp Hanging
+
+28 Hyperglycemia
+
+27 Ett
+
+26 Hip Fracture
+
+26 Tracheal Stenosis
+
+26 Esophageal Ca
+
+25 Ascending Aorta Replacement
+
+25 Cerebrovascular Accident
+16 Cva
+12 Cerebral Vascular Accident
+
+25 Nausea
+
+24 Carotid Stenosis
+
+24 
+
+24 Airway Obstruction
+
+23 Femur Fracture
+
+22 Maze
+
+21 Epidural Abscess
+
+21 Scoliosis
+
+21 Etoh Withdrawal
+
+20 Variceal Bleed
+
+20 Pelvic Fracture
+
+20 Angioedema
+
+20 Hydrocephalus
+
+20 Spine Fracture
+
+20 Meningitis
+
+19 Ascites
+
+19 Sob
+
+19 Bental Procedure
+
+19 Bacteremia
+
+19 Lung Ca
+
+19 Lung Mass
+
+19 Pneumothorax
+
+19 Jaundice
+
+18 Encephalopathy
+
+18 Liver Mass
+
+17 Cardiogenic Shock
+
+17 Thrombocytopenia
+
+17 Hepatic Encephalopathy
+
+17 Bentall Procedure
+
+17 Tracheomalacia
+
+17 Wound Infection
+
+17 Clot
+
+16 Carotid Angiogram
+
+16 Gun Shot Wound
+
+16 Cholangitis
+
+16 Osteomyelitis
+
+16 Tracheobronchomalacia
+
+16 Sp Pedestrian Struck
+
+15 Hypertension
+
+15 Hydrothorax
+
+15 Cholycystitis
+
+15 Redo Sternotomy
+
+14 Retroperitoneal Bleed
+
+14 Epistaxis
+
+14 Lumbar Stenosis
+
+14 Imi
+
+14 Cholangiocarcinoma
+
+14 Malaise Sp Sleeve Gastrectomy
+
+14 Claudication
+
+14 Tamponade
+
+14 Sp Mcc
+
+14 Bronchoscopy Rigid
+
+14 Perforated Bowel
+
+14 Diverticulitis
+
+14 Sp Assault
+
+14 Type A Dissection
+
+13 Alcohol Intoxication
+
+13 Elevated Liver Function Tests
+
+13 Stent Placement
+
+13 Spontaneous Bacterial Peritonitis
+
+13 Liver Transplant
+
+13 Aspiration Pneumonia
+
+13 Pericardial Tap
+
+13 Septic Emboli
+
+12 Diarrhea
+
+12 Chiari Malformation
+
+12 Hypertensive Urgency
+
+12 Hemothorax
+
+12 Epilepsy
+
+12 Glass Ingestion
+
+12 Gi Scope
+
+12 Perforated Diverticulitis
+
+12 Sp Liver Transplant
+
+12 Vocal Cord Disfunction
+
+12 Abdominal Abscess
+
+12 Tracheobronchiomalacia
+
+12 Ugib
+
+12 Ventricular Arrest
+
+12 Stent Removal
+
+11 Bypass Femoral Pedal Artery Graft
+
+11 Shock
+
+11 Coronary Angiogram
+
+11 Abscess
+
+11 Left
+
+11 Hiatal Hernia
+
+11 Aaa
+
+11 Anxiety
+
+11 Carotid Artery Stenosis
+
+11 Elevated Inr
+
+11 Sternal Wound Infection
+
+11 Appendicitis
+
+11 Newborn
+
+11 Ventral Hernia
+
+11 Deep Vein Thrombosis
+
+11 C Fracture
+
+10 Cord Compression
+
+10 Bilateral Thoracoscopic Mini Maze Procedure With Left Atrial Appendage Resection
+
+10 R Hip Fx
+
+10 Sp Stabbing
+
+10 Cardiac Ischemia
+
+10 Uti
+
+10 Pulmonary Hypertension
+
+10 Heart Port Minimally Invasive
+
+10 Sp Renal Tx
+
+10 Chf Exacerbation
+
+10 Sp Gun Shot Wound
+
+10 Cadsp Fallsyncopal Episode
+
+10 Angioplasty
+
+10 Left Main Disease
+
+10 Hypokalemia
+
+10 Skull Fracture
+
+10 Sp Aaa
+
+10 Infected Graft
+
+10 Bronchoscopy With Stent
+
+10 Neck Mass
+
+10 Hypertensive Emergency
+
+10 Rib Fractures
+
+10 Ro Myocardial Infarctionsyncope
+
+10 D
+
+10 End Stage Liver Disease
+
+10 Vtach
+
+10 Abd Pain
+
+10 Ro Endocarditis
+
+10 Ro Viral Hepatitis
+
+9 Preop Liver
+
+9 Multitrauma
+
+9 Post Procedure Endoscopic Retrograde Cholangiopancreatography
+
+9 Hepatocellular Carcinoma
+
+9 Hepatorenal Syndrome
+
+9 Liver Laceration
+
+9 Right Pleural Effusion
+
+9 Peripheral Vascular Disease
+
+9 Presyncope
+
+9 Pericardial Tamponade
+
+9 Trachealmalacea
+
+9 Avr Coronary Artery Bypass Graft
+
+9 Perforated Gastric Ulcer
+
+9 Coronary Artery Bypass Graft Redo
+
+9 Ischemic Bowel
+
+9 Right Carotid Angiogram
+
+9 Pharmacological
+
+9 Hemorrhagic Stroke
+
+9 Ischemic Left Foot
+
+9 Stab Wound
+
+9 Mitral Valve Replacement Redo
+
+9 Bile Duct Obstruction
+
+9 V
+
+9 Redo
+
+9 Abnormal Stress Test
+
+9 Fever Of Unknown Origin
+
+8 Bowel Resection
+
+8 Lymphoma
+
+8 Stoke
+
+8 Head Injury
+
+8 Flail Chest
+
+8 Incisional Hernia
+
+8 T Spinal Cord Compression And Cellulitis
+
+8 Hematoma
+
+8 Elevated White Blood Count
+
+8 Cabg
+
+8 Choledocholithiasis
+
+8 Fulimant Liver Failure
+
+8 C Sectionrepeat
+
+8 Mitral Valve Insuffiency
+
+8 Recurrent Endocarditis Enlarged Aortic Root
+
+8 Bright Red Blood Per Rectum
+
+8 Rectal Bleeding
+
+8 Gastrointestinal Bleeding
+
+8 Ischemic Cardiomyopathy
+
+8 Occipital Mass
+
+8 Basilar Aneurysm
+
+8 N
+
+8 Ascities
+
+8 Failure To Thrive
+
+8 Bleed
+
+8 Tylenol Od
+
+8 Cardiac Cath Sp Myocardial Infarction
+
+8 Bleeding From Trach
+
+8 Bental Procedure Homograft Redo
+
+8 Atrial Tachycardia
+
+8 Cogiated Delirum
+
+8 Ro Hydrocephalus
+
+8 Cardiac Tamponade
+
+8 Ro Meningitisfever
+
+8 St Elevation Myocardial Infarction
+
+8 Dyspnea On Exertion
+
+8 Off Pump Coronary Artery Bypass
+
+8 Renal Insufficiency
+
+8 Severe Hypertrophic Cardiomyopathy
+
+8 Pnemonia
+
+8 Aspiration
+
+8 Alcohol Withdrawal
+
+8 Atherosclerosis
+
+8 Status Post Cardiac Arrest
+
+7 Aortic Insufficiency
+
+7 Kidney Failure
+
+7 Kidney Transplant
+
+7 Enlarged Pneumothorax
+
+7 Vt
+
+7 Cerebellar Mass
+
+7 A Fib
+
+7 Spina Bifida
+
+7 Non Pharm Mgmt Afib Ablation Remote West
+
+7 Mitral Valve Repair Replacement Tvr
+
+7 Non St Elevation Mi
+
+7 Aortic And Mitral Valve Replacement Coronary Artery Bypass Graft
+
+7 Spinal Fracture
+
+7 Leg Ulcers
+
+7 Mesenteric Ischemia
+
+7 Live Transplant List
+
+7 Atrial Fribillation
+
+7 Myasthenia Gravis Crisis
+
+7 Cervical Myelopathy
+
+7 Cdiffcolitis
+
+7 Right Sided Weakness
+
+7 With Avr
+
+7 Aorltic Stenosis
+
+7 Spinal Mass
+
+7 Rectus Sheath Hematoma
+
+7 Septal Ethanol Ablation
+
+7 Asd
+
+7 Septic
+
+7 Thoracoabdominal Aneurysm
+
+7 Hypothermia
+
+7 Retroperitoneal Hematoma
+
+7 Perineal Abscess
+
+7 Asthma Exacerbation
+
+7 Bowel Perforation
+
+7 Repair Atrialseptal Defect
+
+7 Preop Kidney
+
+7 Anterior Mi
+
+7 Transfemoral Approach
+
+7 Femur Fx
+
+7 Respiratory Arrest
+
+7 Proximal Arch
+
+7 Copd
+
+7 Replacement
+
+7 V Tach
+
+7 Rapid Atrial Fibrillation
+
+7 Chf Pneumonia
+
+7 Supraventricular Tachycardia
+
+7 Pancreatitis Etoh Withdrawal
+
+7 Interventricular Hemorrhage
+
+7 Intrahepatic Hematoma
+
+7 Copd Flare
+
+7 Bilateral Ankle Fracture
+
+6 Ventricular Septal Defect
+
+6 Aicd Firing
+
+6 Lumbar Fracture
+
+6 Cerebellar Mass Versus Stroke
+
+6 Head Trauma
+
+6 Cerebellar Hemorrhage
+
+6 Conjestive Heart Failure
+
+6 Ventricular Tachycardia Ablation Remote West
+
+6 Mental Status Change
+
+6 St Elevation Mi
+
+6 Mca Stoke Sp Thrombolysis
+
+6 Central Cord Syndrome
+
+6 Aflutter
+
+6 Subdural Hematoma Sp Fall
+
+6 Sternal Issues
+
+6 Edema
+
+6 Ischemic Colitis
+
+6 Epidural Bleed
+
+6 Ischemia
+
+6 Intraperitoneal Bleed
+
+6 Left Carotid Angiogram
+
+6 Ep Study
+
+6 T And C Fractures
+
+6 Intestinal Perforation
+
+6 Left Subclavian Deep Vein Thrombosis
+
+6 T Fracture
+
+6 Leg Pain
+
+6 Intercranial Hemorrhage
+
+6 Infection
+
+6 Cspine Fractures
+
+6 Volvulus
+
+6 Hypotension Ro Cadsp Laparoscopic Cholecystectomy
+
+6 Sternum Revision Plating
+
+6 Elevated Trop
+
+6 Etoh Intoxication
+
+6 Exertional Dyspnea
+
+6 Spontaneous Hemoperitoneum
+
+6 Liver Tx
+
+6 Wrist Fracture
+
+6 Splenic Laceration
+
+6 Discitis
+
+6 Palpitations
+
+6 Bilateral Leg Fractures
+
+6 Pea Arrest
+
+6 Sp Vfib Arrest
+
+6 Pedestrian Struck
+
+6 Sp Cholecystectomy
+
+6 Cardioversion
+
+6 Sp Vf Arrest
+
+6 Pe
+
+6 Sp Total Colectomy
+
+6 Sp Kidney
+
+6 Ro Cancer Of Spine
+
+6 Sp Bicycle Accident
+
+6 Sp Kidney Transplant
+
+6 Rib Fracture
+
+6 Shoulder Pain
+
+6 Brain Abscess
+
+6 Sp Mva
+
+6 Sp Imi
+
+6 Portal Vein Thrombosis
+
+6 Biventricular Heart Failure
+
+6 Spinal Cord Injury
+
+6 Ro Rib Fracture
+
+6 Pancreatic Cancer
+
+6 Ro Pulmonary Embolus
+
+6 Right Carotid Stenosis
+
+6 Ro Cva
+
+6 Rapid Afib
+
+6 Mitral Valve Stenosis
+
+6 Mitral Valve Replacementheart Port Minimally Invasive
+
+6 Bronchial Stenosis
+
+6 Biliary Obstruction
+
+6 Pancreatic Cyst
+
+5 Vfib Arrest
+
+5 Rhabdomyolysis
+
+5 Intracranial Hemmorhage
+
+5 Brain Bleed
+
+5 Chronic Pancreatitis
+
+5 Chronic Osteomyelitis
+
+5 Evolving Anterior Mi
+
+5 Perforated Duodenum
+
+5 Esophageal Perforation
+
+5 Bile Leak
+
+5 Abdominal Aneurysm
+
+5 Perforated Diverticula
+
+5 Abdominal Abcess
+
+5 Facial Fracture
+
+5 Brain Metastasis
+
+5 Arrest
+
+5 Sz
+
+5 Abd Painpna
+
+5 Ileus
+
+5 Aortic Valve Disorder
+
+5 Respiratory Distress Syndrome
+
+5 Compartment Syndrome
+
+5 Complete Heart Cath
+
+5 Rectal Sheath Hematoma
+
+5 Rd Degree Heart Block
+
+5 Type B Dissection
+
+5 Rash
+
+5 Post Arrest
+
+5 Prostate Cancer
+
+5 Hematemesis
+
+5 Biliary Stricture
+
+5 Upper Gatrointestinal Bleeding
+
+5 Graft Infection
+
+5 Pulseless Left Leg
+
+5 Question Of Osteomylitis
+
+5 Coronary Arterty Disease
+
+5 Hepatoma
+
+5 Gangrene
+
+5 Hip Fx
+
+5 Vf Arrest
+
+5 Thrombotic Thrombocytopenic Pupura
+
+5 Rule Out Aortic Root Abscess
+
+5 Tracheobronchal Malacia
+
+5 Altered Mental Status Changes
+
+5 Pituitary Tumor
+
+5 Aortic Valve Ascending Aorta Replacement
+
+5 Feveretiology Unknown
+
+5 Pneumoniarespiratory Failure
+
+5 Atherosclerosis W
+
+5 Transient Ischemic Attack Tia
+
+5 Bilateral Femoral Fractures
+
+5 Portal Hypertension
+
+5 Human Immunodefiency Virus
+
+5 Hip Pain
+
+5 Failed Transplant
+
+5 Redoredo Tricuspid Valve Repair
+
+5 Ercp
+
+5 Bile Duct Injury
+
+5 Left Occipital Tumor
+
+5 Right Hip Hardware Dislocation
+
+5 Carotid Angiogram And Stent
+
+5 Empyema
+
+5 No Rupture
+
+5 New Onset Diabetes
+
+5 Avr Replacement
+
+5 Right To Left Shunt
+
+5 Mitral Valve Replacement With Concmitant Maze
+
+5 Mcc
+
+5 Central Airway Obstruction
+
+5 Elevated Liver Function Test
+
+5 End Stage Liver Failure
+
+5 Liver Failure And Sirs
+
+5 Painless Jaundice
+
+5 Near Drowning
+
+5 Aortic Vegatation
+
+5 N Stemi
+
+5 Wound Ulcer
+
+5 Myxoma
+
+5 Stabbing
+
+5 Lower Extremity Dyspnea
+
+5 Status Post Ventricular Fibrillation Arrest
+
+5 Status Post Kidney Transplant
+
+5 Mvc
+
+5 Multifocal Motor Neuropathy
+
+5 Spinal Cord Compression
+
+5 Right Hip Fracture
+
+5 Right Lower Extremity Angiogram
+
+5 Mitral Valve Replacement W
+
+5 Cyst In Brain
+
+5 Arf
+
+5 Ovarian Hyper Stimulation
+
+5 Minimally Invasive
+
+5 Mitral Valve Insufficiency
+
+5 Atrial Flutter
+
+5 Methicillin Resistant Staph Aureus
+
+5 Ischemis Bowel
+
+5 Ivh
+
+5 Subaracnoid Hemorrhage
+
+5 End Stage Renal Disease
+
+5 Ards
+
+5 Obstructive Jaundice
+
+5 Dka
+
+5 Bacertial Peritonitis
+
+5 Metastatic Adenocarcinoma Colon To Liver
+
+5 Left Carotid Stenosis
+
+5 Left Bundle Branch Block
+
+5 Left Atrial Appendage Ligation
+
+5 Diarrheaanemia
+
+5 Kyphosis
+
+5 Stroketransient Ischemic Attack
+
+5 Spinal Stenosis
+
+5 Diabetes Mellitus
+
+5 Right Heart Cath
+
+5 Lead Extraction
+
+5 Vt Ablation
+
+4 Dog Bites
+
+4 Gi Bleeddiabetic Ketoacidosis
+
+4 Gastroparesis
+
+4 Radiofrequency Ablation
+
+4 Duodenal Tumor
+
+4 Recurrent Chest Pain
+
+4 Gastric Cancer
+
+4 V Fib Arrest
+
+4 Worsening Lower Back
+
+4 Dvt
+
+4 Varioes Bleeding
+
+4 Gibleed
+
+4 Rapid Ventricular Rate
+
+4 Epistakis
+
+4 Fungemia
+
+4 Rhabdo Compartment Syndrome
+
+4 Vs
+
+4 Retropharyngeal Swelling
+
+4 Ethanol Septal Ablation
+
+4 Enterocutaneous Fistula
+
+4 Right Frontal Meningioma
+
+4 Respiratory Insufficiency
+
+4 Respiratory Insufficency
+
+4 Viral Meningitis
+
+4 Ro Stroke
+
+4 External Fixation Left Tibial Fracture
+
+4 Encephalocele
+
+4 Vf
+
+4 Right Ventricular Thrombus
+
+4 Ruptured Aaa
+
+4 Renal Hemorrhage
+
+4 Rvr
+
+4 Ro Aortic Dissection
+
+4 Elevated Creatinine
+
+4 Redo Sternotomy Aortic Valve Replacement
+
+4 Ebv
+
+4 Fluid Overload
+
+4 Found Down
+
+4 Frontal Brain Meningioma
+
+4 Ro Cellulitis
+
+4 With Mvr
+
+4 Recurrent Ventricular Tachycardia
+
+4 Dysphagia
+
+4 Fever Unknown Originsepsis
+
+4 Pleural Effusions
+
+4 Urosepsisanemiaacute Renal Failure
+
+4 Sp Liver Tx
+
+4 Nonq Wave Mi
+
+4 Left Hand Wound
+
+4 Obstructing Stone
+
+4 Le Edema Ro Mi
+
+4 L Sided Pneumothorax
+
+4 Kyphoscoliosis
+
+4 Jaw Fracture
+
+4 Ischemic Legs Dvts
+
+4 Left Parietal Lobe Lesion
+
+4 Ovarian Cancer
+
+4 Ischemic Coliltis
+
+4 Pacemaker
+
+4 Pain Control
+
+4 Intubated
+
+4 Subglottic Stenosis
+
+4 Suicidal Ideation
+
+4 Intraparenchymal Bleed
+
+4 Intraparanchymal Hemorrhage
+
+4 Sp Head Bleed
+
+4 Ischemic Foot
+
+4 Pancreatic Tumor
+
+4 Sp Liver Tx N
+
+4 Left Ventricular Lead Revision
+
+4 Metastatic Brain Tumor
+
+4 Squamous Cell Ca Floor Of Mouth
+
+4 Mitral Valve Replacement Tricuspid Valve Replacement
+
+4 Mengioma Of Brain
+
+4 Maze Procedure
+
+4 Mandible Abscess
+
+4 Sp Vtach
+
+4 Ms Changes
+
+4 Lung Mass Left
+
+4 Left Temporal Lesion
+
+4 Multiple Trauma
+
+4 Stent
+
+4 Lower Extremity Cellulitis
+
+4 Sp Motor Vehicle Crash
+
+4 Nauseavomitinghyperglycemiaincreased Wbc
+
+4 Liver Failure Hepatitis
+
+4 Nec Pancreatitis
+
+4 Liver Abscess
+
+4 New Dilated Cardiomyopathy
+
+4 Leukemia
+
+4 Status Post Left Iliac Artery Surgery
+
+4 Sdh
+
+4 Pancreatits
+
+4 Sp Coronary Artery Bypass Graft
+
+4 Hydronephrosis
+
+4 Transplant
+
+4 Transplant Kidney Recipient
+
+4 Transplant Rejection
+
+4 Possible Stent Placement
+
+4 Hepatocellular Carcinoma 
+
+4 Pre Op
+
+4 Premature
+
+4 Preop Liver Transplant
+
+4 Poly Trauma
+
+4 Prevertebral Abscess
+
+4 Proctitis
+
+4 Progressive Exertional Dyspnea
+
+4 Ulcerative Colitis
+
+4 Hemopytsis
+
+4 Unresponsive Ro Cva
+
+4 Hematuria
+
+4 Psterior Fossa Mass
+
+4 Ptx
+
+4 Ureteral Stones Left
+
+4 Hepatacellular Carcinoma
+
+4 Syncopy
+
+4 Hypercabric Respiratory Failure
+
+4 Severe Sepsis
+
+4 Innominate Artery Bypass
+
+4 Injuries
+
+4 Sp Cath
+
+4 Inferior Mi
+
+4 Sp Bike Accident With Multiple Fx
+
+4 Infected Right Foot
+
+4 Infected Left Foot
+
+4 Inability To Eat
+
+4 Pericardial Mass
+
+4 Hypercalcemia
+
+4 Ich
+
+4 Icd Lead Extraction
+
+4 Hypoxic
+
+4 Sp Asystolic Cardiac Arrest
+
+4 Hypotensive
+
+4 Pic Line Placement
+
+4 Pineal Region Tumor
+
+4 Tracheobroncho Malacea
+
+4 Pituitary Mass
+
+4 Hypernatremia
+
+4 Three Vessel Coronary Artery Disease
+
+4 Ro Meningitis
+
+4 Left Ventricular Lead Malfunction
+
+4 Bental Versus Avr Accending Aorta
+
+4 Aortic Stanosis
+
+4 Closed Loop Obstruction
+
+4 Catheterization
+
+4 Bradicardia
+
+4 Chest Pvd
+
+4 Anaphylaxis
+
+4 Adenocarcinoma Esophagus
+
+4 Brain Lesion
+
+4 Brain Lesions
+
+4 Depressed Left Ventricular Function
+
+4 Aneursymal Bleed
+
+4 Brain Mets
+
+4 Breast Cancer
+
+4 Chronic Liver Failure
+
+4 Aortic Thrombus
+
+4 Chest Pain Ro Mi
+
+4 Cardiac Catherization
+
+4 Cardiac Cath Right And Left
+
+4 Asthmaintubated
+
+4 Cerebral Edema
+
+4 Cholangia Carcinoma Of Bile Duct
+
+4 Bronchoscopy Flexible And Rigid
+
+4 Chfro Mi
+
+4 Decreased Ejection
+
+4 Af
+
+4 Anterior Communicating Aneurysm
+
+4 C Spine Fracture
+
+4 Chf Vs Pna
+
+4 Coronary Artery Bypass Graft With Avr Mitral Valve Replacement
+
+4 Abdominal Perforation
+
+4 Coronary Artery Bypass Graft With Avr Redo
+
+4 Diabetes
+
+4 Anterior St Elevations
+
+4 Airway Mass
+
+4  Vessel Coronary Artery Disease
+
+4 Bactermia
+
+4 Bilateral Pleural Effusion
+
+4 Bilateral Subdural Hematoma
+
+4 Cerebellar Infarct
+
+4 Aphasia
+
+4 Coronary Angiography
+
+4  Vessel Disease
+
+4 Aortic Valve Disease
+
+4 Biventricular Implantable Cardiac Defibrillator Implant
+
+4 Aortic Valvuloplasty
+
+4 Bladder Cancer
+
+4 Aki
+
+4 Allergic Reaction
+
+4 Ch
+
+4 Copd Asthma
+
+4 Change In Mental Status
+
+4 Aortic Valve Replacement Coronary Artery Bypass Graft
+
+4 Aortic Valve Insufficiency
+
+4 Central Nervous System Lymphoma
+
+4 Bilateral Pulmonary Emboli
+
+3 Stevensjohnson Syndrome
+
+3 Liver And Kidney Failure
+
+3 Aortic And Mitral Valve Replacement  No Assessment Needed 
+
+3 Large Bifrontal Skull Lesion
+
+3 Left Mainstream Bronchial Mass
+
+3 L Lung Collapse
+
+3 Liver Lesion
+
+3 Kidney Stones
+
+3 Sub Arachnoid Hemorrhage
+
+3 Chest Painshortness Of Breath
+
+3 Low Urine Output
+
+3 Cervical Myleopathy
+
+3 Anti Coagulation
+
+3 Chemoembolization
+
+3 Stenosis
+
+3 Left Mainstem Lung Obstruction
+
+3 Splenomegaly
+
+3 Aortic Ulcers
+
+3 Aortic Stenosis Cad
+
+3 Left Hip Infection
+
+3 Left Hip Fracture
+
+3 Left Subdural Hematoma
+
+3 Left Hip Avascular Necrosis
+
+3 St Segment Myocardial Infarction
+
+3 Left Heart Catherization
+
+3 Aortic Intramural Hematoma
+
+3 Left Frontal Tumor
+
+3 Left Foot Pain
+
+3 Left Ventricular Dysfunction
+
+3 Left Femur Fracture
+
+3 Status Epi
+
+3 Cervical Stenosis With Myelopathy
+
+3 Chemo
+
+3 Left Carotid Body Tumor
+
+3 Cervical Stenosis
+
+3 Spondylosis
+
+3 Status Post Pulseless Electrical Activity Arrest
+
+3 Status Post Transplant
+
+3 Aortic Valve Insufficency
+
+3 Left Heart Cathetrization
+
+3 Choledoco Cyst
+
+3 Subdural Bleeding
+
+3 Cn  Palsy
+
+3 Hypernatremiahypothermia
+
+3 Co Retention
+
+3 Hypercarbic Respiratory Failure
+
+3 Ams
+
+3 Humerus Fracture
+
+3 Htn
+
+3 Hiv
+
+3 Herniated Disc
+
+3 Hernia
+
+3 Comgestive Heart Failure
+
+3 Trac Obstructed Airway
+
+3 Hypertensive
+
+3 Hepatic Decompensation
+
+3 Heparin
+
+3 Hep C Cirrhosis Arf
+
+3 Hemorrhage
+
+3 Tracheal Injury
+
+3 Congestive Heart Failurechronic Obstructive Pulmonary Disease
+
+3 Tracheal Obstruction
+
+3 Trachealplasty
+
+3 Hematoma Of Chest
+
+3 Tracheobrochomalacia
+
+3 Congestive Heart Failurerenal Failure
+
+3 Head Mass With Shift
+
+3 Hardware Infection
+
+3 Trach Replacement
+
+3 Hypertrophic Obstructive Cardiomyopathy
+
+3 Thoracic Aortic Dissection
+
+3 Hypot
+
+3 Intrparenchymal Hemorrhage
+
+3 Intraventricular Bleed
+
+3 Intraperitoneal Hemorrhage
+
+3 Intractable Nauseavomiting
+
+3 Cholelithiasis
+
+3 Submandibular Abscess
+
+3 Intraabd Abscess
+
+3 Intoxication
+
+3 Interstitial Pulmonary Fibrosis
+
+3 Angioplasty And Stent
+
+3 Superior Mesenteric Artery Stenosis
+
+3 Superior Mesenteric Embolus
+
+3 Swan Ganz Catheter Placement
+
+3 Symptomatic Carotid Stenosis
+
+3 Infected Renal Stone
+
+3 Angina Pectoris
+
+3 Infected Orthopedic Hardware
+
+3 Infected Biventricular Implantable Cardioverter Defibrillator
+
+3 Incarcerated Hernia
+
+3 Implantable Cardivoerter Defibrillator Implant
+
+3 Chronic Respiratory Failure
+
+3 Idiopathic Cardiomyopathy
+
+3 Icd Lead Infection
+
+3 Telemtry
+
+3 Hypotention
+
+3 Clavicle Fracture
+
+3 Clogged Doboff
+
+3 Subcortical Stroke
+
+3 Lower Bi Bleed
+
+3 Mass
+
+3 Ludwigs Angina
+
+3 Pituitary Adenoma
+
+3 Pineal Region Epidimoid
+
+3 Perirenal Bleed Hematoma
+
+3 Right Renal Artery Angiogram
+
+3 Right Renal Cell Cancer W
+
+3 Peripheral Angiogram
+
+3 Right Renal Stenosis
+
+3 Pericolostomy Hernia
+
+3 Pericardiocentesis
+
+3 Right Shoulder Dislocation
+
+3 Brain Herniation
+
+3 Av Nodal Reentry Tachycardia
+
+3 Right Tumor Frontal
+
+3 Pleural Cut Fistula Pe
+
+3 Pelvic Pain
+
+3 Ped Struck
+
+3 Partial Right Heart Bypass
+
+3 Rll Pneumonia
+
+3 Paraganglionoma Of Abdomen
+
+3 Pancytopenia
+
+3 Pancreatic Fistula
+
+3 Attempted Hanging
+
+3 Pancreatic Colonic Fistula
+
+3 Broncheoplasty Via Right Thoracotomy
+
+3 Atrial Septal Defect
+
+3 Atrial Fluttersp Pulmonary Vein Isolation
+
+3 Pacemaker Implant
+
+3 Pacemaker Estraction
+
+3 Brain Meningioma
+
+3 Pleurx Catheter Placement
+
+3 Pmeumonia
+
+3 Pneumonia Renal Failure
+
+3 Renal Hematoma
+
+3 Renal Cell Carcinoma
+
+3 Bental Procedure W
+
+3 Repair Thoracoabdominal Aorta W
+
+3 Redo Sternotomy Epicardial Albation For Ventrical Tachycardiacoronary Artery Bypass Graft
+
+3 Redo Redo Aortic Valve Replacement
+
+3 Residual Pituitary Tumor
+
+3 Resp Distress
+
+3 Bilateral Pneumothorax
+
+3 Respiratoty Failure
+
+3 Question Of Stroke
+
+3 Retroperitoneal Hemorrhage
+
+3 Pvd
+
+3 Biliary Cirrhosis
+
+3 Rhabdo
+
+3 Pulmonary Nodule
+
+3 Biliary Pathology
+
+3 Biscupid Valve
+
+3 Pseudocyst Pancreatic
+
+3 Biventricular Implantable Cardioverter Defibrillator Placement
+
+3 Posterior Nose Bleed
+
+3 Posterior Communicating Aneurysm
+
+3 Postercp
+
+3 Post Procedure Pain And Fever
+
+3 Right Coronary Artery Intervention
+
+3 Right Femur Fracture
+
+3 Positive Stress Test
+
+3 B
+
+3 Pneumoniahypotension
+
+3 Bronchopleural Fistula
+
+3 Cerebral Hemorrahage
+
+3 Osteoarthritis Leftknee
+
+3 Atrial Fibrillation Ablation
+
+3 Mitral Valve Repair Vs Replacement
+
+3 Cath Lab
+
+3 Sinus Tract Drainage
+
+3 Cath With Brachy S
+
+3 Mitral Valve Insufficency
+
+3 Skull Fx
+
+3 Sms Obstruction
+
+3 Metastatic Melanoma
+
+3 Metastatic Brain Lesions
+
+3 Met Renal Cell Ca
+
+3 Sp Cardiac Arrestcath
+
+3 Arterial Occlusion
+
+3 Arrythmia
+
+3 Mitral Valve Replacement Aortic Valve Replacement
+
+3 Melena
+
+3 Mediastinal Mass
+
+3 Mechanical Valve
+
+3 Center Airway Obstruction
+
+3 Centralairway Obstruction
+
+3 Maxillary Sinus Fracture
+
+3 Hallucinations
+
+3 Sp Kidneypancreas Txleft Leg Cellulitis
+
+3 Sp Kidneypancreas Txro Pneumonia
+
+3 Lvad
+
+3 Lung Nodule Right
+
+3 Aortis Stenosis
+
+3 Cerebellar Lesions
+
+3 Lumbar Spondylosis
+
+3 Mediastinitis
+
+3 Shortness Of Breathneutropenia
+
+3 Short Gut Syndrome
+
+3 Carotid Stenosis Right
+
+3 Occluded Right Coronary Artery Lesion
+
+3 Obstruction
+
+3 Nstemipericardial Effusion
+
+3 Nqwmi
+
+3 Normal Pressure Hydrocephalus
+
+3 C Compression Fracture
+
+3 Nonhealing Right Foot Ulcer
+
+3 Non St Myocardial Infarction
+
+3 Non Q Wave Myocardial Infarction
+
+3 Non Q Wave Mi
+
+3 Cadchfsp Vfib Arrestsp Cath
+
+3 New Onset Angina
+
+3 New Cva
+
+3 Atherosclerosis Of Extremity Angiogram
+
+3 Necrotizing Fascitis
+
+3 Necrotizing Fascilitis
+
+3 Aterial Insufficiency
+
+3 Nausea Vomiting Weakness
+
+3 Sepsi
+
+3 Septal Myomectomy
+
+3 Septic Arthritis
+
+3 Myelogenous Leukemia
+
+3 Myasthenia Crisis
+
+3 Cardiogenicshock
+
+3 Ascities Mitrovalve Regurgitation
+
+3 Severe As
+
+3 Ascending Cholangitis
+
+3 Severe Mitral Regurgitation
+
+3 Motorcycle Crash
+
+3 Oral Swelling
+
+3 Alcohol Withdrawl
+
+3 Spinal Mets
+
+3 Elevated White Count
+
+3 Gib
+
+3 Esopageal Cancer
+
+3 Diastolic Dysfunction
+
+3 Vasospasm
+
+3 Trigeminal Neuralgia
+
+3 Vertebral Fracture
+
+3 Adenocarcinoma Stomach
+
+3 Acute
+
+3 Gi Perforation
+
+3 Ftt
+
+3 Unresponsiveness
+
+3 Epilepsy And Epilepic Syndromes
+
+3 Gastric Ulcers
+
+3  Troponin
+
+3 V Tach Arrest
+
+3 End Stemi
+
+3 Etoh Withdrawal Seizures
+
+3 Vaginoenteric Fistula
+
+3 Adenal Carcinoma Of Stomach
+
+3 End Stage Renal Failure
+
+3 Varicella Zoster Encephalitis
+
+3 Finger Amputation
+
+3 Tspine Abcess
+
+3 Gastrointestinal Bleedsubdural Bleed
+
+3 Gastrointestinal Bleedspontaneous Bacterial Peritonitis
+
+3 Dehiscent Avr
+
+3 Ventricular Fibrillation
+
+3 Gallbladder Cancer
+
+3 Cough
+
+3 Gastric Outlet Obstruction
+
+3 Decreased Platelet Count
+
+3 Dilated Aortic Root
+
+3 Ekg Changes
+
+3 Adenopathy
+
+3 Epicardial Lead Placement
+
+3 Ulnar Nerve Involvement
+
+3 Critical Aortic Stress
+
+3 Endstage Liver Disease
+
+3 Tremors
+
+3 Ercp East Remote  Gi St
+
+3 Airway Edema
+
+3 Usasevere Mr
+
+3 Delirium
+
+3 Enteric Fistula
+
+3 Crohns Disease
+
+3 Vena Cava Thrombus
+
+3 Esophageal Foreign Body
+
+3 Tunnelled Catheter
+
+3 Esrd
+
+3 Aa R Unoffs
+
+3 Abdomen
+
+3 Esophageal Tear
+
+3 Vertebral Artery Stenosis
+
+2 Nad Cronic Respiratory Failure
+
+2 Erosion
+
+2 Ventricular Fibrillation Arrest
+
+2 Nausea Dyspnea
+
+2 Erectile Dysfuction
+
+2 Sepsis Gi Bleed Esophageal Ca
+
+2 Myxedema
+
+2 Narrowing Of Airway
+
+2 Guillan Barre
+
+2 Myocardial Infarctionpulmonary Edema
+
+2 Carotid Artery Angiogram With Stent Placement
+
+2 Multifocal Pneumonia
+
+2 Multiple Brain Lesions
+
+2 Multiple Facial Fractures
+
+2 Multiple Myeloma
+
+2 Multiple Sclerosis
+
+2 Esophageal Leak
+
+2 Septal Ethanol Abletion
+
+2 Severe Cad
+
+2 Esophageal Cencer
+
+2 Sever Anemia
+
+2 Mvr Cabg Maze
+
+2 Mvr Repair Vs Replacement
+
+2 Septick Shock
+
+2 Asd Closure Remote West Cath Lab Room 
+
+2 Cardiac Stenosis
+
+2 Severe Bilateral Leg Pain
+
+2 Septic Knee
+
+2 Neck Pain
+
+2 Nauseavomitingdehydration
+
+2 New Chf
+
+2 Ventricular Tacchycardia
+
+2 Cadmr
+
+2 S
+
+2 Atn
+
+2 New Onset Jaundice Encephalopathy
+
+2 Rv Thrombis
+
+2 Epiglotitis
+
+2 Atnal Tachycardia
+
+2 No St Elevation Mipancreatitis
+
+2 Non Healing Ulcer Left Foot
+
+2 Rule Out Sepsis
+
+2 Abdominal Wall Hematoma
+
+2 Rule Out Insulinoma
+
+2 Rule Out Guillain Barre Syndrome
+
+2 C Tumor
+
+2 Rule Out Brain Tumor
+
+2 Nonpharmacological Management Afib
+
+2 Rule Otu Coronary Artery Disease
+
+2 Nonst Elevation Myocardial Infarction
+
+2 Epicardial Left Ventricular Lead Placement
+
+2 Buttock Infection
+
+2 Rue Pain
+
+2 New Brain Mass Confusion Seizures
+
+2 Sacral Decubitusshortness Of Breathhypotension
+
+2 Cads
+
+2 Neutropenic Fever
+
+2 Card Arrest
+
+2 Nausia
+
+2 Nd Redo Total Aortic Arch Replacement Medusa Graft
+
+2 Seizures And Skulltumor
+
+2 Ataxia
+
+2 Seizurehydrocephalus
+
+2 Seizure Vs Stroke
+
+2 Neck Hematoma
+
+2 Calcium Channel Blocker Overdose
+
+2 Multi Trauma
+
+2 Seizure Disorder
+
+2 Nausea W
+
+2 Ablation
+
+2 Ventricular Septal Defect Repair
+
+2 Cx Angioplasty And Stent
+
+2 Necrotizing Pancreatitis
+
+2 Needs Urgent Bypass Surgery
+
+2 Neoplasm Of Heart
+
+2 Scrotal Edema
+
+2 Neuralgia
+
+2 Sclerosing Cholangitis
+
+2 Neuroleptic Malignant Syndrome
+
+2 Sarcoma Left Femur
+
+2 Atherosclerosis With Ulcer
+
+2 Sdh And Femur Fx
+
+2 Esophageal Mass
+
+2 Shockgi Bleed
+
+2 Ascending Aortic Arch Thrombus
+
+2 Malignant Central Airway Obstruction
+
+2 Malignant Melanoma Of Skin And Scalp And Neck
+
+2 Malignant Neoplasm Of Oropharnyx
+
+2 Sp Inferior Mi
+
+2 Cerbral Vascular Accident
+
+2 Sp Infarct
+
+2 Ards Coagulapathy
+
+2 Etoh Withdrawl
+
+2 Mastoiditis R Facial Mass
+
+2 Etoh Withdrawel
+
+2 Cerbral Edema
+
+2 Maze Coronary Artery Bypass Graft
+
+2 Mca Aneurysm
+
+2 Medial Stinal Tumor
+
+2 Mediastinal Adenopathy
+
+2 Coumadin Toxicity
+
+2 Etoh Liver Failure
+
+2 Sp Fallintracranial Hemorrhage
+
+2 Melanomaintracranial Bleed
+
+2 Sp Egd
+
+2 Sp Cvafailure To Thrive
+
+2 Sp Cva
+
+2 Crescendo Angina
+
+2 Malfuction Icd
+
+2 Eus
+
+2 Cerebellar Bleed
+
+2 Excision Left Atrial Mass
+
+2 Cerebral Infarct
+
+2 Sp Pleuroscopy With Pleuridesis
+
+2 Uti Altered Mental State
+
+2 Sp Pacer
+
+2 Sp Nqwmi
+
+2 Sp Nqw Mi
+
+2 Sp Nqmi
+
+2 Sp Non Q Wave Mi
+
+2 Sp Non Q Mi
+
+2 Sp Myocardial Infarction
+
+2 Lumbar Radiculopathy
+
+2 Meningoma
+
+2 Cerebellopontine Angle Tumor
+
+2 Aortic Valve Vegetation
+
+2 Lung And Brain Mass
+
+2 Exploratory Lap
+
+2 Aorticstenosis
+
+2 Acetabular Fracture
+
+2 Exertional Chest Pain
+
+2 Exertional Angina
+
+2 Lung Mass Right
+
+2 Lung Nodule
+
+2 Lung Nodule Left
+
+2 Lupus Flare Hyperglycemia
+
+2 Aortic Valve Stenosis
+
+2 Mental Status Change With Fever
+
+2 Arteriovenous Fistula
+
+2 Sp Cabg
+
+2 Mitral Valve Rapair
+
+2 Mitral Valve Regurgitation
+
+2 Skin Neoplasm
+
+2 Esophageal Varices
+
+2 Sigmoid Volvulus
+
+2 Esophageal Tumor
+
+2 Mitral Valve Replacement Comcomitant Maze Procedure
+
+2 Mitral Valve Replacement Coronary Artery Bypass Graft Redo
+
+2 Sigmoid Diverticulitis
+
+2 Shunt Malfunction
+
+2 Shortness Of Breathchest Pain
+
+2 Cath With Brachy Standby
+
+2 Short Of Breath
+
+2 Shockacute Renal Failurecardiac Arrest
+
+2 Mitrial Disorder
+
+2 Ascending Aortic Aneurysm
+
+2 Mitro Valve Disection
+
+2 Seziure
+
+2 Morbid Obesity Gallstones
+
+2 Carotid Stenosis Left
+
+2 Carotid Pseudoaneurysm
+
+2 Motor Vehicle Collision
+
+2 Esophageal Mass Neck Pain
+
+2 Carotid Intervention
+
+2 Carotid Stent
+
+2 Multi Lobe Pneumonia
+
+2 Skull Based Lesion
+
+2 Skull Based Tumor
+
+2 Sp Cabbage
+
+2 Mesteric Ischemia
+
+2 Etoh
+
+2 Met Renal Cell Catrachel Obstruction
+
+2 Metastasis Breast Cancer
+
+2 Arterioveous Malformation
+
+2 Sp Asystolic Arrest
+
+2 Ethyanol Septal Ablation Stand By
+
+2 Cc Fracturesp Mva
+
+2 Metastatic Cancer
+
+2 Sp Arrest At Rehab
+
+2 Mitral Valve Annuloplasty
+
+2 Ascendibg Aortic Aneurysm
+
+2 Sp Appendectomy
+
+2 Mi Chf
+
+2 Middle Cerebral Artery Aneurysm
+
+2 Midgut Volvulus
+
+2 Sleeve Dehiscence
+
+2 Mirespiratory Distress Low Crit
+
+2 Misepsis
+
+2 Mital Valve Prolapse
+
+2 Mitral Insufficency
+
+2 Mitral Insufficiency
+
+2 Mitral Regurge
+
+2 Ethenol Septal Ablation
+
+2 O Cabg With Chf
+
+2 Open Tibia Fibula Fracture
+
+2 Oa Right Knee
+
+2 Duodenal Obstruction
+
+2 Postitive Stress Test
+
+2 Pre Op Liver
+
+2 Right Brain Tumor
+
+2 Right Brain Mass
+
+2 Right Basal Ganglia Bleed
+
+2 Duodenal Mass
+
+2 Biventricular Pacemaker Implant
+
+2 Biventricular Pacemaker
+
+2 Right Arm Fracture
+
+2 Progressive Angina
+
+2 Bacterial Endocarditis
+
+2 Prosthetic Valve Endocarditis
+
+2 Drug Refractory For Atrial Fibrillation
+
+2 Right
+
+2 Rib Fracturesspleen Laceration
+
+2 Pulm Edema
+
+2 Pulmonart Edema
+
+2 Pulmonary Edemacardiac Arrest
+
+2 Pulmonary Edemanonstelevation Myocardial Infarction
+
+2 Pulmonary Edemaro Mi
+
+2 Pulmonary Embolectomy
+
+2 Rhc
+
+2 Back Paincannot Ambulate
+
+2 Posterior Communicating Artery Aneurysm
+
+2 Diaphramatic Hernia
+
+2 Right Cerebellar Lesion
+
+2 Poly Overdose
+
+2 Right Heel Gangrene
+
+2 Right Heart Failure
+
+2 Avt
+
+2 Polysubstance Overdose
+
+2 Vt With Acid Firing
+
+2 Port Infection
+
+2 Bleeding Hepatoma
+
+2 Bleeding Groin Abscess
+
+2 Right Frontal Lesion
+
+2 Right Frontal Cavenoma
+
+2 Billiary Obstruction
+
+2 Dysphasia
+
+2 Right Foot
+
+2 Dyspenia
+
+2 Right Coronary Artery Angioplasty
+
+2 Possible Pericarditis
+
+2 Bleeding From Nephrectony Site
+
+2 Bleeding Chest Wound
+
+2 Post Arrest Sepsis
+
+2 Post Ercp
+
+2 Right Colon Ca
+
+2 Post Op Infection
+
+2 Bleeding Aneurysm
+
+2 Possible Angioplasty
+
+2 Pulmonary Fibrosis
+
+2 Dog Bite
+
+2 Pulmonary Nodules
+
+2 Bilateral Leg Angiogram
+
+2 Recurrent Left Tuberculum Cella Menigioma
+
+2 Recurrent Lt Pleural Effusion
+
+2 Resection Aortic Ascending Aneurysm
+
+2 Recurrent Pituitary Tumor
+
+2 Recurrent Reflux  Hiatal Hernia
+
+2 Replacement Of Ascending Aortic
+
+2 Bilateral Dvts
+
+2 Redo Avr
+
+2 Redo Homagraft
+
+2 Replacement Of Ascending Aorta
+
+2 Disseminated Encephalomyelitis
+
+2 Dissection
+
+2 Redo Sternotomy Accending Aorta Replacement Bental Procedure Avr Coronary Artery Bypass Graft
+
+2 Dissecting Aneurysm
+
+2 Redo Sternotomy Mitral Valve Replacement
+
+2 Repair Of Ascending Aorta Aneurysmal
+
+2 Removal Of Stent From Right Main Pulmonary Artery
+
+2 Repair Atrial Septal Defect Limited Access
+
+2 Renal Artery Stenosis
+
+2 Renal Bleeding
+
+2 Renal Calculus
+
+2 Renal Cancer
+
+2 Disc Protusion Ls
+
+2 Bilateral Dvt
+
+2 Pocket Infection
+
+2 Resp Failure
+
+2 Bental
+
+2 Pulmonary Vein Isolation Remote West Jet Ventilation
+
+2 Pulonary Nodule Right
+
+2 Pulsless Foot
+
+2 Dks
+
+2 Pyeloneohritis
+
+2 Basal Skull Mass
+
+2 Pyleonephritis
+
+2 Question Of Empyema
+
+2 Bile Duct Cancer
+
+2 Question Of Sah
+
+2 Respitory Failure
+
+2 Recurrent Angina
+
+2 Diverting Colostomy
+
+2 Respiratory Failuretrachea Malasia
+
+2 Bilateral Thoracoscopic Mini Maze Procedure With Left Atrial Appendage Resection Bilateral
+
+2 Radiofrequency Ablation Liver
+
+2 Raf
+
+2 Dilantin Toxicitymental Status Changes
+
+2 Bilateral Sah
+
+2  Stress Test
+
+2 Respiratory Distressfever
+
+2 Rd Degree Heart Block Sarcoid
+
+2 Wound Infection Ro Sepsis
+
+2 Rectal Cancer
+
+2 Basilar Stroke
+
+2 Oa Left Knee
+
+2 Pneumoniaurinary Tract Infection
+
+2 A Typical Chest Pain
+
+2 Bronchial Malacia
+
+2 Vertebral Dissection
+
+2 Atrial Myxoma Removal Tricusip Valve Repair
+
+2 Abdominal Mets
+
+2 Bronchial Asthma
+
+2 Atrial Tachycardia Ablation
+
+2 Bronchial Alveolar Lavarge
+
+2 Ro For Tips
+
+2 Ro Coronary Artery Disease
+
+2 Breast Cancer Right
+
+2 Pancreatic Cyst Planned Whipple Procedure
+
+2 Dehydrationrule Out Sepsis
+
+2 Pancreatic Pseudocyst
+
+2 Brbpr
+
+2 Brain Tumor Right
+
+2 Brain Tumor Malignant
+
+2 Ro Cad
+
+2 End Stage Kidney Disease
+
+2 Paraesophageal Hernia
+
+2 Parapharyngeal Abscess
+
+2 Delirium Tremens
+
+2 Parcreatic Transplant
+
+2 Rigid Bronchoscopy W
+
+2 Ro Mi Fever
+
+2 P Cabg
+
+2 Ro Myocardial Infarctionsobhyperkalemia
+
+2 Over Dosetylenol And Klonopin
+
+2 Obstructive Hypertrophic Cardiomyopathy
+
+2 Rt Cerebellar Bleed
+
+2 Bronchoscopy W
+
+2 Routine Percutaneous Nephrostomy Tube Change
+
+2 Off Pump Coronary Artery Bypass Endoscopic Left Chest
+
+2 Atrial Fibrilation
+
+2 Ro Subacute Bacterial Endocarditis
+
+2 Open Descending Thoracic Aortic Aneurysm Repair
+
+2 Ro St Segment Mi
+
+2 Open Tib
+
+2 Facial Cellulitis
+
+2 Parietal Mass
+
+2 Open Wound Of Right Leg
+
+2 Open Wound To The Chest
+
+2 Open Woundright Arm
+
+2 Ro Sepsisdkaimmuno Supressed Kidney Tx
+
+2 Ro Sepsis
+
+2 Endstage Liver
+
+2 Ro Sah
+
+2 Ro Pancreatitis
+
+2 Ro Myocarditis
+
+2 Endoscopic Retrograde Cholangiopancreatography
+
+2 Ovarian Carcinoma
+
+2 Bronchitisutichange In Mental Status
+
+2 Open Wound To Chest
+
+2 Parotid Cancer
+
+2 Right Wing Meningioma
+
+2 Partial Lead Extraction Remote West
+
+2 Elevated Creatininedehydration
+
+2 Pericarditis
+
+2 Elevated Bilirubin
+
+2 Peripheral Insufficiency
+
+2 Perirectal Abcess With Gangrene
+
+2 Vomotting
+
+2 Peritonitis
+
+2 Right Pleural Effusion Cirrhosis Pht
+
+2 Bpfalls
+
+2 Avm Bleed
+
+2 Pituitary Abscess
+
+2 Volume Overload
+
+2 Effusion
+
+2 Desending Aortic Aneurysm
+
+2 Bovine Mitral Valve
+
+2 Right Parietal Subarachnoid Bleed
+
+2 Dyspnea On Exertionchromic Renal Insufficiency
+
+2 Right Middle Lobe Collapsed
+
+2 Bone
+
+2 Pnemothorax
+
+2 Pneumohydrothorax
+
+2 Right Lung Mass
+
+2 Pneumonia E
+
+2 Right Knee Open Wound Infection
+
+2 Right Peripheral Angiogram
+
+2 Right Ingunal Hernia
+
+2 Right Side Frontal Brain Lesion
+
+2 Right Side Heart Failure
+
+2 Vfibcardiac Arrest
+
+2 Via Sternotomy
+
+2 Pedistrian Struck
+
+2 Pelvic Hematoma
+
+2 Pelvis Fracture
+
+2 Pencardial Effusion
+
+2 Right Upper Lobe Lung Ca
+
+2 Right Upper Lobe Cancer
+
+2 Elevated Troponin
+
+2 Perfed Bowel
+
+2 Brain Mass With Seizure
+
+2 Right Side Glioma
+
+2 Right Superficial Femoral Artery Disease
+
+2 Elevated Lfts
+
+2 Perforated Gallbladder
+
+2 Dermoid Cyst
+
+2 Perforated Viscus
+
+2 Perforation
+
+2 Perform Renal Biopsy Right Kidney Remote West
+
+2 Pericadial Effusion
+
+2 Pericardectomy
+
+2 Brain Cyst
+
+2 Right Sided Pleural Effusion
+
+2 Right Sided Cerebral Meningioma
+
+2 Vocal Cord Lesion
+
+2 Sp Sepsis
+
+2 Sp Appy Large Leg Pe
+
+2 Low Hematocrit
+
+2 Coronary Artery Bypass Graft With Avr Ascending Aorta Replacement
+
+2 Inter Cranial Hemorrhage
+
+2 Interstitial Lung Disease
+
+2 Fractures
+
+2 Choleycysitis
+
+2 Fractured Icd Lead
+
+2 Subtherapeutic Inr
+
+2 Fractured Aicd Lead
+
+2 Fracturec  C
+
+2 Frontal Brain Tumor
+
+2 Intracaranial Hemorrhage
+
+2 Fracture
+
+2 Intracranial Abcess
+
+2 Agitation
+
+2 Cholangio Carcinoma
+
+2 Cholangio Cancer
+
+2 Coronary Artery Bypass Graft With Avr Deep Hypothermic Circulatiory Arrest
+
+2 Intractable Epilepsy
+
+2 Intracutaneous Fistula
+
+2 Subdural Hemoatoma
+
+2 Intracerebral Hemmorhage
+
+2 Subdural Hematomacrfl Wrist Fx
+
+2 Uterine Bleed
+
+2 Supratherapeutic Inr
+
+2 Implantable Cardioverter Defibrillator Placement
+
+2 Triple Aaa
+
+2 Inability To Ambulatehyponatremia
+
+2 Chronic Renal Insufficiency
+
+2 Incarcerated Parastomal Hernia
+
+2 Incessant Ventricular Tachycardia
+
+2 T Metastisis
+
+2 Increased Ascites
+
+2 Increased Intraocular Pressures
+
+2 Infrection Of Icd Lead
+
+2 Increased Lfts
+
+2 Infected Aicd
+
+2 Aneyrysm
+
+2 Infected Kidney Stone
+
+2 Chronic Obstructive Pulmonary Disease Exacerbation
+
+2 Fulminant Hepatitis
+
+2 Symptomatic Rd Degree Heart Block
+
+2 Symptomatic Bradycardia
+
+2 Swelling
+
+2 Frontal Lobe Seizure
+
+2 Aneurysm Aorta
+
+2 Implantable Cardioverter Defibrillator Implant
+
+2 Anterior Cervical Collection
+
+2 Intraventricular Hemorrhage
+
+2 Ulcer
+
+2 Antifreeze Ingestion
+
+2 Kidney Tx
+
+2 Strokecardiac Arrest
+
+2 Knee Dislocation
+
+2 Chest Pain With Nstemi
+
+2 L Burst Fracture
+
+2 L Fracture
+
+2 Stridor
+
+2 Kidney Injury
+
+2 Strial Fibrillation
+
+2 Stevens Johnson Syndrome
+
+2 Aortic  Mitral Valve Replacemnt
+
+2 Ulnar Fracture
+
+2 Laryngeal Edema
+
+2 Sternal Fracture
+
+2 Sternal Debridement
+
+2 Lateral St Depression
+
+2 Lburst Fracture
+
+2 Feverpneumonia
+
+2 Fib Fracture
+
+2 Afibcadcrf
+
+2 Struck By A Car
+
+2 Stsegment Elevation Myocardial Infarction Anterior
+
+2 Foreign Body
+
+2 Subdural Hamatoma
+
+2 Food Impaction
+
+2 Iph
+
+2 Subdural
+
+2 Ischemia Bowel
+
+2 Focal Nodular Hyperplasia
+
+2 Fluoroscopy
+
+2 Chest Trauma
+
+2 Kidney Disease
+
+2 Fluid Collection
+
+2 Anterior Myocardial Infarction
+
+2 Ischemic Stroke
+
+2 Subarachniod Hemorrhage
+
+2 Flexible Bronchoscopy
+
+2 Sub Glottic Mass
+
+2 Sub Dural Hematoma
+
+2 Ugi Bleed
+
+2 Joint Infection
+
+2 Stsegment Elevation Myocarial Infarction
+
+2 Subarachnoid Hemorrhageintraparenchymal Hemorrhage
+
+2 Chest Pain Dyspnea
+
+2 Imbalance
+
+2 Chrons Disease
+
+2 Tracheal Esophageal Fistula
+
+2 Tracheal
+
+2 Trachael Stenosis
+
+2 Confusionhypoglycemia
+
+2 Hempotysis
+
+2 Gastrointestinal Hemorrhage
+
+2 Confudion Temporal Mass
+
+2 Total Arch Replacement
+
+2 Torsades
+
+2 Airway Obstruction Lung Cancer
+
+2 Compartment Syndrome Of The Abdomen
+
+2 Gastrointestinal Bleedro Myocardial Infarction
+
+2 Colonic Mass
+
+2 Colon Mass
+
+2 Hepatorenal Cirrhosis
+
+2 Gastrointestinal Bleedrll Pneumoniaro Mi
+
+2 Thyroid Mass Impinging Airway
+
+2 Colitisgastroenteritis
+
+2 Cold Leg
+
+2 Thyroid Goiter
+
+2 Hepatocellular Cancer
+
+2 Coronary Artery Bypass Graft Mitral Valve Repair Mitral Valve Replacement
+
+2 Airway Stenosis
+
+2 Ampullary Adenoma
+
+2 Transesophageal Echocardiogram
+
+2 Transcatheter Aortic Valve Implant Tavi Direct Access
+
+2 Hcap
+
+2 Transbronchial Needle Aspiration
+
+2 Transbronchial Biopsy
+
+2 Head Bleed With Shift
+
+2 Head Injuries
+
+2 Trachiobronchomalacia
+
+2 Alcohol
+
+2 Tracheal Leak
+
+2 Tracheostomy
+
+2 Coronaries Angiography
+
+2 Tracheobronchiomalecia
+
+2 Tracheobronchial Malacia
+
+2 Hematocrit Drop
+
+2 Gib Renal Failure
+
+2 Congestive Heart Failurecoronary Artery Disease
+
+2 Hemi Arch Under Deep Hypothermic Circulatory Arrest
+
+2 Tracheo Bronchial Fistula
+
+2 Coronary Artery Bypass
+
+2 Heamatoma Cervical Fracture
+
+2 Tacchycardia
+
+2 Htn Emergency
+
+2 Tricoustid Valve Replacement
+
+2 Tricuspid Valve Replacement Left Valve Lead Placement
+
+2 Hypotensive Urgency
+
+2 Claudication Right
+
+2 Hypoxemia
+
+2 Hypoxiaacute Coronary Syndromehypotensionacute Renal Failure
+
+2 Hypoxiamultiple Sclerosis
+
+2 Hypoxic Dilantin Toxicity
+
+2 Ic Contusion
+
+2 Trigeminal
+
+2 Hypotensionmental Status Change
+
+2 Icd
+
+2 Icd Implant In Or
+
+2 Icd Implantation
+
+2 Icd Pocket Infection And Lead Revision
+
+2 Tca Overdose
+
+2 Ich Pneumonia
+
+2 Icp
+
+2 Idiopathic Hypertrophic Subaortic Stenosis
+
+2 Idiopathic Scoliosis
+
+2 Ihc
+
+2 Icd Firing
+
+2 Cold Left Foot
+
+2 Hypotensionhyperglycemia
+
+2 Clonus
+
+2 Thrombotic Thrombocytopenic Purpura
+
+2 Code Stemi
+
+2 Hyperbilirubinemia
+
+2 Coagulopathy
+
+2 Tricuspid Regurge
+
+2 Hyperglycemia And Upper Gi Bleed
+
+2 Hyperglycemialeft Sided Weakness
+
+2 Hyperglycemiapneumonia
+
+2 Hyperkalemia Anemia Nausea Arf
+
+2 Thoracic Aneurysm With Mention Of Rupture
+
+2 Hyperkalemiapancreatitis
+
+2 Thoracoabdominal Aortic Aneurysm
+
+2 Clotted Dialysis Access
+
+2 Clostriduium Difficile Colitis
+
+2 Thoracic Dissection
+
+2 Coronary Artery Bypass Graft Mvr
+
+2 Clostridium Difficile
+
+2 Gastric Ca
+
+2 Gastric And Esophageal Varices
+
+2 Thoracic Aortic Aneurysm Dissection
+
+2 Hyperlipidemia
+
+2 Stent Placement Of Left Anterior Descending Artery
+
+2 Supracellar Lesion
+
+2 Left Sided Weakness
+
+2 Aortic Steosis
+
+2 Left Leg Compartment Syndrome
+
+2 Lithium Toxicity
+
+2 St Elevation
+
+2 Upper Gastrointenstinal Bleed
+
+2 Cervical Spine Fracture
+
+2 Cervical Spinal Tumor
+
+2 Acidosisacute Renal Failure
+
+2 Cervical Tracheobronchomalasia
+
+2 Left Internal Carotid Aneurysm
+
+2 Left Incisional Hernia
+
+2 St Segment Elevation Mi
+
+2 Aortic Route Dilation
+
+2 Aortic Valve Insuffiency
+
+2 Coronary Cath
+
+2 Liver Cancer
+
+2 Liver Disease
+
+2 Fever Jaundice
+
+2 Left Heart Cath With Percutareous Coronary Intervention To The Left Anterior Descending Artery
+
+2 Stab Wound Chest
+
+2 Facial Swelling
+
+2 Uncontrolled Hypertensionnauseavomiting
+
+2 Liver Lession
+
+2 Left Frontal Meningioma
+
+2 Left Frontal Mass
+
+2 Left Frontal Lesion
+
+2 Left Foot Ulcer
+
+2 Sp V Fib Arrest
+
+2 Ferorated Bowel
+
+2 Left Foot Non Healing Ulcer
+
+2 Left Lower Extremity Angiogram Procedure Remote West
+
+2 Linear Endobronchial Ultrasound Ebus
+
+2 Left Tentorial Lesion  Meningioma
+
+2 Failure To Wean
+
+2 Left Sided Weaknesspneumonia
+
+2 Aortic Aneursym
+
+2 Zenkers Diverticulum
+
+2 Left Ventricular Lead Placement Via Left Thoracotomy
+
+2 Left Recurrent Parietal Tumor
+
+2 Spinal Muscular Atrophy
+
+2 Benzo Withdrawal
+
+2 Splenic Lac
+
+2 Left Patella Fracutre
+
+2 Falls
+
+2 Left Parietal Lesion
+
+2 Left Lower Extremity Pvd
+
+2 Leg Cellulitis
+
+2 Acquired Cardiac Septal Defect
+
+2 Aortic Value Endocarditis
+
+2 Acsites
+
+2 Upper Gi Bled
+
+2 Spinal Infection
+
+2 Failed Left Hip Hemiarthroplasty
+
+2 Left Main Stem Obstruction
+
+2 Change Ms
+
+2 Lgib
+
+2 Likely Seizures
+
+2 Limited Access
+
+2 Acutemi
+
+2 Left Lower Lobe Nodule
+
+2 Uppper Gi Bleed
+
+2 Coronary Artery Bypass Graft With Mvr Versus Replacement
+
+2 Left Internal Carotid Artery Aneurysm
+
+2 Facial Fractures
+
+2 Aortic Insuffiency
+
+2 Left Atrial Thrombus
+
+2 Lead Malfunction
+
+2 Feverhivhematuria
+
+2 Lliver Failure
+
+2 Sp Spleenectomy
+
+2 Status Post Fall
+
+2 Liver Transplant Rejection
+
+2 Left Acetabular Fracture
+
+2 Lead Replacement
+
+2 Feverekg Changes
+
+2 Liver Transplant Work Up
+
+2 Chest Pain  Vessel Disease
+
+2 Lead Revision
+
+2 Feverdyspnea
+
+2 Status Epelepticus
+
+2 Umbilical Hernia
+
+2 Stelevation Myocardial Infarction
+
+2 Aortic Ascenting Aneurysm
+
+2 Ste Mi
+
+2 Sp Small Bowel Obstruction
+
+2 Sp Trauma
+
+2 Cerebral Meningioma
+
+2 Coronary Artery Bypass Graft With Mvr  Tvr
+
+2 Loose Hipleft Side
+
+1 Arm Painnstemi
+
+1 Right Common Carotid Artery W
+
+1 Ypotension
+
+1 Anal Cancer
+
+1 Thromboembolism
+
+1 Arotic Anuerysm
+
+1 Thrombocytopeniahypoxia
+
+1 Throat Swelling
+
+1 Urinary Tract Infectioncolitis
+
+1 Acities
+
+1 Altered Ms
+
+1 Tricuspic Valve Replacement
+
+1 Aortic Valve Replacement Heart Port Minimally Invasive
+
+1 Spinal Dural Fistula
+
+1 Right Atrial Clot
+
+1 Replacement Ascending Aorta
+
+1 Apml
+
+1 Thymus
+
+1 Aprtic Stenosis
+
+1 Right Bundle Branch Block
+
+1 Bacteremiastaph Infection
+
+1 Right Collaspe Lung
+
+1 Thumb Amputation
+
+1   Cv
+
+1 Repair Sinus Aneurysm
+
+1 Repair Of Perforated Esophagus
+
+1 Aortic Valve Replacement Mitral Valve Replacement
+
+1 A  Fib
+
+1 Right Cerebella Lesion
+
+1 Throacic Aneurysm
+
+1 Spinal Lesion
+
+1 Vtac
+
+1 Bental Procedure Redo
+
+1 Right Cranial Fluid Collection
+
+1 Alcohol Withdrawal With Aka
+
+1 Right Femoral Neck Fracture
+
+1 Thoracic Phlegmon
+
+1 Right Iliac Artery Aneurysm
+
+1 Thoracic Fx
+
+1 Right Internal Carotid Artery Angiogram
+
+1 Right Intracranial Hemorrhage
+
+1 Renal Laceration
+
+1 Spinal Tumor
+
+1 Right Knee Oa
+
+1 Arotic Stenosis
+
+1 Avr W
+
+1 Right Leg Arterial Thrombosis
+
+1 Avr Standard Khabbaz
+
+1 Renal Insuffiency
+
+1 Right Lower Extremity Angiography
+
+1 Right Lung Cancer
+
+1 Thoracic Cord Compression
+
+1 Transcatheter Aortic Valve Implant Tavi W
+
+1 Right Mandibular Cellulitis
+
+1 Right Mca Stroke
+
+1 Tricuspid Valve Disorders
+
+1 Urinary Retention
+
+1 Right Empyema
+
+1 Avrtissue
+
+1 Valproate Overdose
+
+1 Vt With Aicd Fitting
+
+1 Acid Firing
+
+1 Right Foot Ulcer
+
+1 Three Vessel Coronary Disease
+
+1 Alcoholic Cirrhosis
+
+1 Aortic Valve Replacement Maze Resection Of Left Arteral Appendage Mitral Valve Replacement
+
+1 Anaphalactic Shock
+
+1 Right Frontal Gliobastoma
+
+1 Thorascopic Vs Left Thoracotomy Left Ventricular Epicardial Lead Placement Automatic Internal Cardiac Defibrillator
+
+1 Right Hilar Mass
+
+1 Transcatheter Aortic Valve Implant Tavi Percutaneous Approach With Sapien
+
+1 Repair Aortic Arch Aneurysm
+
+1 Renal Stent
+
+1 Renal Mass Left
+
+1 Right Frontal Tumor
+
+1 Aortic Valve Disorders
+
+1 Anaphylactic Reaction
+
+1 Right Heart Catheterization
+
+1 Thoraco Abdominal Aneurysm Repair
+
+1 Tricuspid Valve Disorder
+
+1 Thoracoscopic Maze Procedure Left
+
+1 Right Arm Weakness
+
+1 Right Ankle Cellulitis
+
+1 Right Arm Laceration
+
+1 Ampullary Cancer
+
+1 Aortic Valve Replacement Ascending Aorta Replacement
+
+1 Respiratory Failuretracheal Stenosisempyema
+
+1 Bateremia
+
+1 Aortic Valve Replacement Ascending Aorta
+
+1 Sphincterotomy
+
+1 Respirtory Failure
+
+1 Traumatic Arrest
+
+1 Aortic Valve Replacement  Coronary Artery Bypass Graft Mvr
+
+1 Tracheobroncomalasia
+
+1 Spinal Anterial Venous Malformation
+
+1 Ap
+
+1 Retroperitoneal  Left Leg Pseudoaneurysm
+
+1 Aortic Valve Repair Ascending Aorta Replacement
+
+1 Basilar Artery Stenosis
+
+1 Trachael Mass
+
+1 Alcholhol W
+
+1 Traumatic Brain Hemorrhage Left
+
+1 Worsening Dyspnea On Exertion
+
+1 Trachealbroncho Malacea
+
+1 Respiratory Failuremental Status Changes
+
+1 Allergic Rxn
+
+1 Aortic Valve Replacement Bental Procedure Coronary Artery Bypass Graft
+
+1 Resp Failurehypotensionpneumonia
+
+1 Bental Procedure Coronary Artery Bypass Graft
+
+1 Respiratory Disease
+
+1 Bental Procedure Ascending Aorta Replacement
+
+1 Transplant Evaluation
+
+1 Uvular Edema
+
+1 Tracheobronchialmalacea
+
+1 Aortic Valve Replacement With Bental
+
+1 Respiratory Distress Syndromemesenteric Thrombosis
+
+1 Traumatic Head Injury
+
+1 Respiratory Distressals
+
+1 Altered Ental Status
+
+1 Resection Right Ventricular Aneurysm
+
+1 Tracheo Bronchial Malacia
+
+1 Respiratory Fail
+
+1 Aortic Valve Replacement With Maze And Ligation Of Left Atrial Appendage
+
+1 Worsening Shortness Of Breat
+
+1 Acetaminophen Toxicity
+
+1 Resection Left Atrial Appendage
+
+1 Benadryl Overdose
+
+1  Left Main Coronary Artery Disease
+
+1 Thyrotoxicosis
+
+1 With Radial Artery Left
+
+1 Resection Aaa
+
+1 Rib Fracture And Lung Puncture
+
+1 Tracheostomy Placement
+
+1 Wide Complex Tachycardia
+
+1 Rib Fractures Pneumothorax
+
+1 Tissue Valve
+
+1 Aortic Valve Replacement W
+
+1 Tibial Plateau Fracture
+
+1 Replacement Ascending Aortia
+
+1 Right And Left Cardiac Catheterization
+
+1 Bacterial Peritonitis
+
+1 Replacement Ascending Aorta W
+
+1 W
+
+1 Tib
+
+1 Traumatic Subarachnoid Hemorrhage
+
+1 Vtach Heart Failure
+
+1 Tia Vs Seizures
+
+1 Right Ankle Joint Pain
+
+1 Ampullary Mass
+
+1 Right Arm Fx
+
+1 Balloon Dilation
+
+1 Apical Ischemia
+
+1 Rib
+
+1 Aca Aneurysm
+
+1 Retrosternal Hematoma
+
+1 Trach Out
+
+1  Tylenol
+
+1 Repsiratory Distress
+
+1 Toxic Alcohol Ingestion
+
+1 With Maze
+
+1 Barretts Esophagus Adenocarcinoma
+
+1 Total Arch Under Deep Hypothermic Circulation Arrest
+
+1 Replacment Of Ascending Aorta Bental Procedure
+
+1 Basal Ganglia Hemorrhage
+
+1 Rhabdo Myolysis
+
+1 Spinal Cord Infarction
+
+1 Balloon Pump
+
+1 Rhabdourinary Tract Infection
+
+1 V Hyperglycemianew Onset Afib
+
+1 Allergic
+
+1 Rheumatic Heart Disease
+
+1 Tongue Ca
+
+1 Toe Gangrene
+
+1 Tracheomalasia
+
+1 Tracheobropchial Malacia
+
+1 Right Middle Cerberal Aneurym
+
+1 Aortic Aneurysm Dissection
+
+1 Tricuspid Valve Repair
+
+1 Subdural Hemmorage Aortic Dissection
+
+1 Rule In Myocardial Infarction
+
+1 Vernticular Tachycardia
+
+1 Uncleaer Etiology
+
+1 Afluttercongestive Heart Failure
+
+1 Verapamil Overdose
+
+1 Anterior Communicated Artery Aneurysm
+
+1 Atrial Fibillation
+
+1 Ventricular Tackycardia
+
+1 Aflutter Ablation
+
+1 Stab Wounds
+
+1 Atrial And Ventricular Lead Malfunction
+
+1 Sickle Cell Crisis
+
+1 Rule Out Pulmonary Hypertension
+
+1 Abdominal Pain Hyperkalemia
+
+1 Ascending Aorta Replacement With Deep Hypothermic Circulatory Arrest And Hemiarch Replacemsnt Aortic Valve Cabg
+
+1 Type B Aortic Dissection
+
+1 Atrial  Ventricular Lead Extraction
+
+1 Ascending Aorta To Supraciliac Aorta Bypass
+
+1 Ruptured Aneurysm
+
+1 Uncinate Mass
+
+1 Ruq Pain
+
+1 Ventricular Tachycardia Ablation Tandem Heart
+
+1 Ankle Fracture
+
+1 Rt Upper Extremity Swelling
+
+1 Tvr Repair
+
+1 Ascending Aorta Replacement Vs Bental Procedure
+
+1 Superficial Femoral Artery Stenosis
+
+1 Varicella Pneumonia
+
+1 Subural Hemorrhage
+
+1 Subtheraputic Inr
+
+1 Subq Emphysema
+
+1 Abscess Hyperglycemia
+
+1 Skull Base Meningioma
+
+1 Angioplasty With Brachy Therapy
+
+1 Rollover Mvc
+
+1 Aortic Lesion
+
+1 Vertebral Artery Occlusion
+
+1 Vascular Blockage
+
+1 Rp Bleed
+
+1 Vertebral Artery Aneurysm
+
+1 Rt Carotid Stenosis
+
+1 Sinus Brady
+
+1 Subdural Vs Subarachnoid Hematoma
+
+1 Rt Frontal Contusion
+
+1 Single Lung Ventilation No Lines Left Arm
+
+1 Rt Leg Ischemia
+
+1 Rt Sided Hemiparesis
+
+1 Single Lung Ventilation Leave Left Arm Free
+
+1 Subderal Hematoma
+
+1 Atrial Fibrillation Ablation Remote West
+
+1 Stable Left Front Iph
+
+1 Subclavian Thrombosis
+
+1 Aortic Arch Aneurysm
+
+1 Sencondar Lesion To Spine
+
+1 Strangulation
+
+1 Stomach Mass
+
+1 Sencondary Malignant Neoplasm Of Bone And Bone Marrow
+
+1 Aorta Thoracic Abdominal Aneurysm
+
+1 Severe Hypotension
+
+1 Stem I
+
+1 Ulcerative Colitis Chronic
+
+1 Sepsis Versus Gi Bleed
+
+1 Aoetic Stanosis
+
+1 Aortic And Mitral Valve Replacement Cabg
+
+1 Severe Headache
+
+1 Assess Biliary Strictures Remote West
+
+1 Aortic Anuerysm W
+
+1 Assault
+
+1 Abmormal Mri
+
+1 Aspirin Allergy
+
+1 Abominal Pain
+
+1 Septic Right Knee
+
+1 Aortic And Mitral Valve Replacement Redo
+
+1 Ventral Bilateral Inguinal Hernias
+
+1 Sepsisrespiratory Failure
+
+1 Stroke Transient Ischemic Attack
+
+1 Severe Ischemia
+
+1 Stroke With Head Bleed
+
+1 Subbarachnoid Hemorrhage
+
+1 S T Elevated Ion Mi
+
+1 Anterior Communicating Artery Aneurysm
+
+1 S T Elevation Myocardial Infarction
+
+1 Subarachnoid Henorrhage
+
+1 Shock Hypolemia
+
+1 Saddle Embolua
+
+1 Unable To Walk
+
+1 Status Epilepiticus
+
+1 Afib With Rvr
+
+1 Subarachnoid Bleed
+
+1 Aortic Disserction
+
+1 Vena Caval Tumor
+
+1 Status Post Implantable Cardioverter Defibrillator Firing
+
+1 Atherosclerosis Bilateral Lower Extremity
+
+1 Aortic Carotid Subclavian Bypass Graft
+
+1 Secondary Malignant Neoplasm Of Bone And Bone Marrow
+
+1 Severe Obstructive Hypertrophic Cardiomyopathy
+
+1 Seizure Brain Mets
+
+1 Severe Mr
+
+1 Severe Mitral Valve Regurgitation
+
+1 Status Post Liver Transplant
+
+1 Status Post Motor Vehicle Accident With Injuries
+
+1 Ventricular Tachyarrhythmia Storm
+
+1 Atrial Fibuation
+
+1 St Elevations
+
+1 Superior Mesenteric Vein Thrombosis
+
+1 Arterial Thrombosis
+
+1 Temporparietal Brain Mass
+
+1 Temporary Pacer Wire
+
+1 Ac Pancreatitis
+
+1 Splenic And Renal Laceration
+
+1 Right Sided Meningioma
+
+1 Splenic Infarct
+
+1 Avgs Infection
+
+1 Aortic Valve Abscess
+
+1 Tee 
+
+1 Tetralogy Of Fallot
+
+1 Tee
+
+1 Anemia Pneumonia
+
+1 Tachypnea
+
+1 Right Temple Lesion
+
+1 Anemiapeptic Ulcer Disease
+
+1 Right Temporal Mass
+
+1 Artherosclerosis With Ischemic Rest Pain
+
+1 Right Thalmic Hemorrhage
+
+1 Tachybrady Syndrome
+
+1 Arthymia
+
+1 Spondylolisthesis
+
+1 Tba
+
+1 Volume Overload Hyperkalemia
+
+1 Right Rib Mass
+
+1 Abdmominal Pain
+
+1 Right Middle Lobe Mass
+
+1 Right Parietal Brain Tumor
+
+1 Aa Runoffs
+
+1 Right Parietal Metastatic Lesion
+
+1 Aicd Fire
+
+1 Right Parotid Mass
+
+1 Arotic Valve Insufficiency
+
+1 Valve Sparing Root Vs Bental Vs Patch Repair Root
+
+1 Right Pelellar Fracture
+
+1 Uremia
+
+1 Anaphylaxis Respiratory Distress
+
+1 Spine Infection
+
+1 Spleenic Laceration
+
+1 Vomting
+
+1 Trigemianal Neuralgia
+
+1 Thalamus Hemorrhage
+
+1 Right Pneumothorax
+
+1 Varceal Bleed
+
+1 Thalamic Hemorrhage
+
+1 Vomiting Pneumonia
+
+1 Thalamic Bleed
+
+1 Aaa Cad
+
+1 Th Ventricular Tumor
+
+1 Tachyarrythmia
+
+1 Upper Respiratory Infection
+
+1 Abdominal Aortic Aneurysm Leak
+
+1 Right Upper Lobe Pneumonia
+
+1 Squamous Cell Carcinoma
+
+1 Aneurysms
+
+1 Ascending Aorta Replacement Coronary Artery Bypass Graft
+
+1 Small Bowel Mass
+
+1 Small Bowel Carcinoids
+
+1 Syncopehyponatremia
+
+1 Atrial Valve Replacement Tissue Coronary Artery Bypass Graft
+
+1 Atrial Tachycardia Ablation Remote West
+
+1 Syncopehyperkalemia
+
+1 Ttp
+
+1 Srtoke
+
+1 Ttpmult Myelomaintracranial Bleed
+
+1 Sleep Apnea
+
+1 Vertricular Tachycardia
+
+1 Tumor Removal
+
+1 Sva Clot
+
+1 Surgical Revascularization
+
+1 Angio Edema
+
+1 Atrial Flutter Ablation  Icd Test
+
+1 Supraglottic Edema
+
+1 Unstable Angine
+
+1 Superior Vena Cava Syndrome
+
+1 Atrial Flutter Ablation
+
+1 T Burst Fracture
+
+1 Acquired Immune Deficiency Syndrome
+
+1 Trop Leak
+
+1 Atypical Chest Pain
+
+1 As Coronary Artery Disease
+
+1 Right Upper Quadrant Pain
+
+1 Right Ventricular Aneurysm
+
+1 Trigeminal Neurolgia
+
+1 Right Ventricular Infarction
+
+1 Right Ventricular Lead Extraction And Replacement
+
+1 Anemiarenal Failure
+
+1 Right Ventricular Mass
+
+1 Right Ventricular Mass Excision
+
+1 Av Fistula Infection
+
+1 Abdominal Distension
+
+1 Rightbronchus Mass
+
+1 Transcatheter Aortic Valve Implant Tavivia Direct Aortic Access With Pump Standby Corevalve
+
+1 Rightsided Paralysis
+
+1 Spontaneous Sah
+
+1 Triscupid Valve Replacement
+
+1 Ascending Aorta  Hemi Arch Replacement
+
+1 Sore Throat
+
+1 Autumn
+
+1 Ascending Aorta Replacement  Circulatory Arrest
+
+1 Abdominal Hematoma
+
+1 T Interstitial Lung Disease
+
+1 Small Frontal Brain Tumor
+
+1 T Fx
+
+1 Direct Aortic Approach
+
+1 Bronchiectasis
+
+1 Renal Hepatic Failure
+
+1 Infected Arterial Graft
+
+1 Increasing Sob R
+
+1 Increasing Shortness Of Breath
+
+1 Increasing Leg Weakness
+
+1 Increasing Angina
+
+1 Increased Angina
+
+1 Chronic Renal Insuffciency
+
+1 Implantable Cardioverer Defibrillator Fidelis Lead Extraction
+
+1 Iliac Vein Thrombosis
+
+1 Idiopathic Thrombocytopenic Purpura
+
+1 Idiopathic Dilated Cardiomyopathy
+
+1 Ich With Herniation
+
+1 Chylous Ascites
+
+1 Icd Site Infection
+
+1 Icd Shocks
+
+1 Icd Shock For Vt
+
+1 Cirrhosis W
+
+1 Icd Infection
+
+1 Icb
+
+1 Chronic Obstructive Pulmonary Diseaseexacerbation
+
+1 Infected Leg Wound Post Coronary Artery Bypass Surgery
+
+1 Infected Pacemaker Lead
+
+1 Infected Pacemaker Pocket
+
+1 Intra Abdominal Hemorrhage
+
+1 Choleycystitis
+
+1 Chordae Rupture
+
+1 Intercerebral Hemorrhage
+
+1 Insulin Dependent Diabetes
+
+1 Chronic Cholecystitis
+
+1 Chronic Distal Common Bile Duct
+
+1 Initiation Of Flolan
+
+1 Inguinal Hernia
+
+1 Cjr Exacerbation  Hip Dislocation
+
+1 Ingestion Of
+
+1 Influenza Like Illness
+
+1 Influenza
+
+1 Inferior Stsegment Elevation Myocardial Infarction
+
+1 Chronic Immune Demyelinating Polyneuropathy
+
+1 Inferior Ischemia
+
+1 Chronic Mesenteric Ischemia
+
+1 Infected Thyroglossal Duct Cyst
+
+1 Chronic Obstructive Pulmonary Disease
+
+1 Infected Pacer Site
+
+1 Ingestion
+
+1 Hypoxiarespiratory Failure
+
+1 Hypoxiaintracranial Hemorrhage
+
+1 Hypoxia Of Unknown Etiology
+
+1 Cocaine
+
+1 Coffee Ground Emesis
+
+1 Hodgkins Disease
+
+1 History Of Endocarditis
+
+1 Histoplasmosis
+
+1 Hip Fractureright Side
+
+1 Colitisurinary Tract Infection
+
+1 Colon Ca
+
+1 Herpes Zoster
+
+1 Coagulation Management
+
+1 Hernia Strangulation
+
+1 Colon Cancer
+
+1 Hepatitis C
+
+1 Hepatitis B
+
+1 Hepatic Vein Vena Caval Stenosis
+
+1 Hepatic Masses
+
+1 Hepatic Hydrothorax
+
+1 Complicated Diverticulitis
+
+1 Complication Of Device
+
+1 Hepatic Cellular Carcinoma
+
+1 Hepatorenal Syndrome Hemetemsis
+
+1 Intra Cerebral Lesion
+
+1 Hypercapnea
+
+1 Hypercarbic Respiratory Failuremental Status Changes
+
+1 Hypoxia Mental Status Changes
+
+1 Claudication Bilateral Lower Extremity
+
+1 Hypoventilation
+
+1 Hypotensionuremia
+
+1 Hypotensionhepatorenal Failure
+
+1 Hypotensionhepatic Failure
+
+1 Hypotennsion
+
+1 Hyponatremiaascites
+
+1 Closed Head Injury
+
+1 Hypercarbia
+
+1 Hypertrophic Cardiomyopathy
+
+1 Hyperthermia
+
+1 Hypertension Emergency
+
+1 Hypernatremiahyperglycemia
+
+1 Cns Mass
+
+1 Hyperkalemia Heart Block
+
+1 Co Narcosis
+
+1 Hyperk
+
+1 Hyperglycemic Hyperosmolar Syndrome
+
+1 Hyperglycemiadiabetic Ketoacidosis
+
+1 Hypertrophic Cardio Myopathy
+
+1 Intraabdominal Mass
+
+1 Intraaortic Balloon Pump Placement
+
+1 Cholangitisupper Gi Bleed
+
+1 Left Extremity Edema
+
+1 Left Epicardial Lead Placement
+
+1 Left Emphysemic Pyelonephritis
+
+1 Left Cva
+
+1 Left Chest Wall Tumor
+
+1 Left Cfa Clot
+
+1 Left Cerebellum Mass
+
+1 Left Carotid Artery Disease
+
+1 Chest Abscess
+
+1 Left Foot Cellulitis
+
+1 Left Atrial Appendage Resection
+
+1 Left Atrial Appendage
+
+1 Left Anterior Descending Intervention
+
+1 Left Anterior Descending Artery Perferation
+
+1 Left Anterior Descending Artery Angioplasty
+
+1 Left Ankle Arthritis
+
+1 Left And Right Heart Catheterization
+
+1 Leaking J Tube
+
+1 Lead Fracture
+
+1 Lead Failure
+
+1 Chest Oain
+
+1 Lead Extraction W
+
+1 Left Groin Mass
+
+1 Charcoal Aspiration
+
+1 Left Pneumothorax
+
+1 Left Pleural Effusion
+
+1 Left Paralysis
+
+1 Change In Mental Statusintubated
+
+1 Left Occipital Lesion
+
+1 Left Middle Carotid Artery Aneurysm
+
+1 Left Main Occulusion
+
+1 Left Main Coronary Artery Stent Placement
+
+1 Left Main Coronary Artery Disease
+
+1 Charcot Marie Tooth
+
+1 Left Lower Extremity Ulcer
+
+1 Left Leg Weakness
+
+1 Left Leg Angiogram
+
+1 Left Leg Amputation
+
+1 Left Knee Osteoarthritis
+
+1 Left Kidney Ca
+
+1 Left Hip Oa
+
+1 Left Hip Hardware Failure
+
+1 Left Heart Catheterization With Angioplasty
+
+1 Change Of Picc Line Found Large Dvt Vs Lysis Of Dot
+
+1 Left Lower Extremity Angiogram
+
+1 Heparin Therapy 
+
+1 Lead Extraction Remote West
+
+1 Laser Lead Extraction
+
+1 Iv Antibiotics
+
+1 Chest Painste Mi
+
+1 Ischemic Rt Foot
+
+1 Ischemic Right Foot
+
+1 Ischemic Lle
+
+1 Ischemic Leg Left
+
+1 Chest Tube Placement
+
+1 Chf Af Cardiomyopathy
+
+1 Chf Afib
+
+1 Iv Hydration
+
+1 Chf Flare
+
+1 Invasive
+
+1 Intussusception
+
+1 Chfarf
+
+1 Chfpneumonia
+
+1 Intraparenchymal Head Bleed Renal Failure
+
+1 Chiari Malformation Bilateral
+
+1 Choking
+
+1 Intrahepatic Thrombus
+
+1 Choking Episode
+
+1 Chfacute Coronary Syndrome
+
+1 Lead  Device Extraction Left Sided System Pacemaker Reimplant On Right
+
+1 Chest Painrenal Failure
+
+1 Chest Painpneumonia
+
+1 Laryngeal Stenosis
+
+1 Large Liver Hematoma
+
+1 Large Bowel Obstruction
+
+1 Laparscopic Repair Paraesophageal Hernia W
+
+1 Lactid Acidosis
+
+1 Lactic Acidosis
+
+1 Lacks Capacity
+
+1 Labile Htn
+
+1 Labile Blood Sugar
+
+1 Jaundiceklatskin Tumor
+
+1 Chest Pain Syndrome
+
+1 L Foot Ulcer
+
+1 L Disc Protrusion
+
+1 Chest Painett
+
+1 Knee Amputation
+
+1 Chest Painfor Cabg
+
+1 Chest Painhypotension
+
+1 Kicked By Horse
+
+1 Jypotension
+
+1 Jp Drain Out
+
+1 L Intercranial Bleed
+
+1 Hep C Cirrhosis
+
+1 Congestive Heart Failureacute Pulmonary Edema
+
+1 Hemorrhagic Pancreatitis
+
+1 Crf
+
+1 Esphageal Food Impaction
+
+1 Esophagus Cancer
+
+1 Esophagle Cancer
+
+1 Esophagial Ca
+
+1 Esophageal Varicies
+
+1 Critical Renal Artery Stenosis
+
+1 Esophageal Perf
+
+1 Crohns Stricture Of Colon
+
+1 Etoh Hepatitis
+
+1 Esophageal Adenoma Carcinoma
+
+1 Esoph Ca
+
+1 Csf Otorrhea Right Ear
+
+1 Epithelium
+
+1 Cspine Injury
+
+1 Cyst
+
+1 Epiglottitis
+
+1 Epigastric Pain
+
+1 Epidural Hemorrhage
+
+1 Ddd Pacemaker Replacement
+
+1 Esophag Cancer
+
+1 Decompensated Cirrhosis
+
+1 Etoh Intubated
+
+1 Etoh Withdrawal Endocarditis
+
+1 Fascial Dehiscence
+
+1 Falx Meningioma
+
+1 Fallsback Pain Weakness
+
+1 Fall From A Horse
+
+1 Coronary Disease
+
+1 Coronary Intervention
+
+1 Failure Of Fixation
+
+1 Coronary Ischemia
+
+1 Failed Left Total Hip Replacement
+
+1 Etoh Withdrawal Aeizure
+
+1 Facial Trauma
+
+1 Coronary Stenosis
+
+1 F Humerus  Af
+
+1 Coronary Stent
+
+1 Exposure
+
+1 Exploratory Laparotomy
+
+1 Coronary Stent Placement
+
+1 Excision Of Myxoma
+
+1 Coronary Syndromesyncope
+
+1 Etoh Withdrawaldts
+
+1 Facial Infection
+
+1 Fatigue
+
+1 Decompensated Liver Failure
+
+1 Epideral Empyema Para
+
+1 Dyspnea Cad
+
+1 Diabetes Melllitus
+
+1 Diabetic Foot Infection
+
+1 Duodenitis
+
+1 Dual Chamber Pacemaker Implant
+
+1 Dual Chamber Implantable Cardioverter Definrillator Implant
+
+1 Diaphramatic Paralysis
+
+1 Drug Refractory Atria Fibrillation
+
+1 Drain Leakage
+
+1 Dyspnea On Ecertion
+
+1 Doe
+
+1 Dm
+
+1 Dic
+
+1 Dizziness
+
+1 Diverticular Bleed
+
+1 Distal Tibia Fibula Fracture
+
+1 Disseminated Intravascular Coagulation
+
+1 Dissection Aortic
+
+1 Dissecting Aaa
+
+1 Displaced Trach Tube
+
+1 Dm Foot Ulcer
+
+1 Epidural
+
+1 Diabeetic Ketoacidosis
+
+1 Ekg Change
+
+1 Decubitis Ulcer
+
+1 Enlarged Pleural Effusion
+
+1 Endstage Live Disease
+
+1 Endoscopic Coronary Artery Bypass Graft Sternotomy
+
+1 Decubitus Ulcer
+
+1 Endocardiatitis Of Mitral Valve
+
+1 Endobronchial Tumor
+
+1 Encephlopathic
+
+1 Demand Ischemia
+
+1 Dhoulder Dislocation
+
+1 Dementia
+
+1 Dens Fracture
+
+1 Depressed Ef
+
+1 Depressed Skull Fracture
+
+1 Elevated Hr
+
+1 Descending Dissecting Aortic Aneurysm
+
+1 Electrophysiology Study
+
+1 Electrophysiologic Study
+
+1 Electrolyte Abnormalities
+
+1 Electrocution
+
+1 Emobilzation
+
+1 Left Radius Fracture
+
+1 Fb In Esoph
+
+1 Fb In Tachea
+
+1 Copd Obhypo Syndrome
+
+1 Copdrespiratory Failure
+
+1 Hct 
+
+1 Hart Mass
+
+1 Hammond Rich Syndrome
+
+1 Gunshot Wounds
+
+1 Gunshot Wound
+
+1 Gunshot To Chest
+
+1 Coratid Stenosis
+
+1 Copd Flare Cord Compression
+
+1 Guillainbarre
+
+1 Granulation In Trach
+
+1 Cord Compress
+
+1 Gj Tube Dislodged
+
+1 Gilliam Barre Syndrome
+
+1 Gi Bleedmi
+
+1 Coronary Artery Bypass Graft  Maze Procedure
+
+1 Gi Bleed Schlerosing Cholangitis
+
+1 Coronary Artery Bypass Graft  No Assessment Needed 
+
+1 Gerd
+
+1 Gtube Leak
+
+1 Coronary Artery Bypass Graft Endarterectomy Carotid Left
+
+1 Copd Exacervatioon
+
+1 Headachefever
+
+1 Congestive Heart Failureaflutter
+
+1 Hemoptysis Vshematemisis
+
+1 Hemoptyis
+
+1 Hemoptosis
+
+1 Hemoptesis
+
+1 Hemoperitoneum
+
+1 Hemoparineum
+
+1 Hemiarch Vs Bental Procedure
+
+1 Hemiarch Replacement
+
+1 Copd Exacerbatiom
+
+1 Hematuriahypotension
+
+1 Heart Rate Control
+
+1 Heart Port Minmally Invasive
+
+1 Constipation
+
+1 Heart Port Minimally
+
+1 Heart Murmur
+
+1 Copd And Pneumonia
+
+1 Heart Catherization
+
+1 Heart Blocknon Ste Mi
+
+1 Headcahe
+
+1 Congestive Heart Failurepneumonia
+
+1 Fb In Esophagus
+
+1 Coronary Artery Bypass Graft Lv Aneurysmectomy
+
+1 Gastro Esophagel Reflux Disease
+
+1 Foreign Body In Esophagus
+
+1 Foound Down
+
+1 Florid Dts
+
+1 Coronary Artery Bypass Graft With Avr Myomectomy
+
+1 Fistula Obstruction
+
+1 Fidelis Lead Fracture
+
+1 Fibromuscular Dysplasia
+
+1 Fib
+
+1 Fevers And Leukocytosis
+
+1 Foreign Body In Stomach
+
+1 Coronary Artery Bypass Graft With Maze
+
+1 Fever Tachy Cardia
+
+1 Fever Of Unknown Origen
+
+1 Fever Of An Unknown Origin
+
+1 Fever Malaise
+
+1 Fever Ams Respiratory Failure
+
+1 Coronary Artery Bypass Graft X
+
+1 Coronary Artery Stenting
+
+1 Femoral Hernia
+
+1 Feber
+
+1 Fever Unknown Origen
+
+1 Gastro Intestinal Bleeding
+
+1 Foreign Body In Throat
+
+1 Fourniers Gangrene
+
+1 Gastric Volvulus
+
+1 Gastric Ulcer
+
+1 Gastric Perforation
+
+1 Gastric Foreign Body
+
+1 Gangrenous Cholecystitis
+
+1 Gangrene Right Foot
+
+1 Gangrene Of Scrotum
+
+1 Gangrene Left Leg
+
+1 Gangrene Left Big Toe And Second Toe
+
+1 Foreign Body Ingestion
+
+1 Gangrene Foot
+
+1 Fx Ankle
+
+1 Fx
+
+1 Coronary Artery Bypass Graft With
+
+1 Fungal Respiratory Infection
+
+1 Fundoplication
+
+1 Full Maze
+
+1 Coronary Artery Bypass Graft With Atrial Valve Replacement
+
+1 Frontal Hematoma
+
+1 Free Air In Abdomen
+
+1 Coronary Artery Bypass Graft W
+
+1 Renal Infarction
+
+1 Left Retro Peritoneal Malignant Neoplasm
+
+1 Left Sub Talar Arthritis
+
+1 Plural Effusion
+
+1 Plueral Effusion
+
+1 Bonepain
+
+1 Pleural Effusion Right
+
+1 Pleural Effusion And Right Node Nodule
+
+1 Bowel Diversion For Takedown Colostomy
+
+1 Bowel Ischemia
+
+1 Bowel Obtruction
+
+1 Pfo Closure
+
+1 Permanent Pacemeker Generator Change
+
+1 Perirectal Abscess
+
+1 Bradyarrhythmia
+
+1 Peripancreatic Pseudo Cyst
+
+1 Bradycadia
+
+1 Pericardiectomy
+
+1 Bradycardia Digoxin Toxicity
+
+1 Bradycardia Shock
+
+1 Pericardial Rub
+
+1 Brain Arterial Clot
+
+1 Bone Marrow Transplant
+
+1 Pnauti
+
+1 Pneumo
+
+1 Pneumo Fibrosis
+
+1 Bleeding Low Hct
+
+1 Polysubtance Overdose
+
+1 Polymorphic V Tach
+
+1 Polychondritis
+
+1 Bleeding Tracheostomy
+
+1 Poly Substance Overdose
+
+1 Pnuemonia
+
+1 Blunt Abdominal Trauma
+
+1 Pneumonitis
+
+1 Pericardial Hematoma
+
+1 Pneumoniaunsstable Angina
+
+1 Blunt Traum
+
+1 Pneumoniahypothermia
+
+1 Pneumoniacongestive Heart Failure
+
+1 Pneumoniachf
+
+1 Pneumoniaboop
+
+1 Pneumonia Multiple Melanoma
+
+1 Bo
+
+1 Pneumoncephamusblunt Head Injury
+
+1 Pneumomediastinum
+
+1 Pneumoniasepsis
+
+1 Pericardial Fusion
+
+1 Pericardial Effusion With Tamonade
+
+1 Brain Mass Bleed
+
+1 Brief Hypotension
+
+1 Pancreatic Ca
+
+1 Pancreas Cancer
+
+1 Panc
+
+1 Painful Right Total Hip
+
+1 Pacer Erosion
+
+1 Pacemaker Removal
+
+1 Pacemaker Insertion
+
+1 P Cva
+
+1 Pancreatic Duct Cancer
+
+1 Overdose Sepsis
+
+1 Other Machanic Comp Of Other Internal Orthopedic Device Implants And Grafts
+
+1 Osteomylitis
+
+1 Osteomyelitis W
+
+1 Bronchoscopy Flexible
+
+1 Osteogenesis Imperfecta
+
+1 Orbital Fractures
+
+1 Oral Bleeding
+
+1 Opoid Withdrawal
+
+1 Open Left Tib Fib Fracture
+
+1 Diplopia
+
+1 Portal Vein Thrombus
+
+1 Pancreatitis Bleed
+
+1 Paraspinal Abscess
+
+1 Perforated Colon
+
+1 Perfed Duodenum
+
+1 Percarditis
+
+1 Per Op Liver
+
+1 Pentasa Desensitization
+
+1 Pentasa Allergy
+
+1 Penetrating Trauma
+
+1 Pelvic Inflammatory Disease
+
+1 Pelvic Abscess
+
+1 Brain Stem Stroke
+
+1 Peerforation
+
+1 Pedesrtrian Struck Leg Fractures
+
+1 Brain Stem Cva
+
+1 Patent Foramen Ovale Closure
+
+1 Partial Small Bowel Obstruction
+
+1 Paroxysmal Atrial Fibrillation
+
+1 Parotiditis
+
+1 Parkinsons Disease
+
+1 Parenchymal Bleed
+
+1 Paratitis
+
+1 Brain Metastases
+
+1 Positive Exercise Tolerance Test
+
+1 Positive Stress Tesst For Ischemia
+
+1 Possible Ablation
+
+1 Recurrent Bilateral Pleural Fusion
+
+1 Recurrent Atrial Fibrillation
+
+1 Bilateral Mammary
+
+1 Rectal Vaginal Fistula
+
+1 Bilateral Ovarian Cyst
+
+1 Rectal Mass
+
+1 Rectal Carcinoma
+
+1 Reanl Angiogram
+
+1 Reactive Airway Disease
+
+1 Bilateral Lung Infiltrates
+
+1 Bilateral Pneumonia
+
+1 Rapid Afiburinary Tract Infection
+
+1 Radiofrequency Ablation Liver Lesion  Remote West 
+
+1 R Mandibular Repair
+
+1 Bilateral Upper Arm Cellulitis
+
+1 R Facial Swelling
+
+1 R
+
+1 Question Of Ttp
+
+1 Question Of Sepsis
+
+1 Question Of Seizures
+
+1 Rcc With Mets To Cerebellum
+
+1 Pylonephritis
+
+1 Recurrent Fever
+
+1 Recurrent Pain
+
+1 Renal Failurerespiratory Failure
+
+1 Renal Failurehyponatremia
+
+1 Renal Failure Ms Change
+
+1 Beta Blocker Od
+
+1 Renal Disease
+
+1 Renal Artery Aneurysm
+
+1 Removal Soft Tissue Mass Posterior To Odontoid Process
+
+1 Removal Left Atrial Mass Myxoma
+
+1 Removal Cardiac Mass
+
+1 Recurrent Gastric Cancer
+
+1 Reimplantation
+
+1 Redo Tips
+
+1 Redo Sternotomy Tvr
+
+1 Redo Sternotomy Avr Bental Procedure Coronary Artery Bypass Graft
+
+1 Bilateral Carotid Stenosis
+
+1 Redo Mitral Vavle Replacement
+
+1 Recurrent Vt
+
+1 Bilateral Kidney Cancer
+
+1 Recurrent Spine Metastasis
+
+1 Recurrent Right Frontal Tumor
+
+1 Bicyclist Struck
+
+1 Open Fx
+
+1 Pyelonephritis  Aspiration Pneumonia
+
+1 Pvi Generator Remote West
+
+1 Preop Liver Tx
+
+1 Bladder Rupture
+
+1 Blast Cell Crisis
+
+1 Pre Op Liver Tx
+
+1 Pre Op Liver Transplant
+
+1 Bleeding
+
+1 Postop Bleeding
+
+1 Posterior Nasal Bleed
+
+1 Postcardiac Arrest
+
+1 Biventricular Left Ventricle Lead Placement Via Left Thoracotomy
+
+1 Post Respiratory Arrest
+
+1 Post Op Bleeding
+
+1 Post Op
+
+1 Possible Pacemaker Implant
+
+1 Possible Maze
+
+1 Possible Gastrintestinal Bleed
+
+1 Possible Deep Hypothermic Circotory Arrest
+
+1 Possible Coronary Artery Bypass Graft
+
+1 Possible Ascending Aorta Replacement
+
+1 Possible Aortic Stenosis
+
+1 Post Op Knee Infection
+
+1 Biliary Blockage
+
+1 Probable Delerium Tremons
+
+1 Profound Dehydration
+
+1 Pulseless Arrest
+
+1 Pulmonary Vein Isolation Remote West Jet Ventilation Cardiac Anesthesia
+
+1 Biliary Colic
+
+1 Pulmonary Infiltrate
+
+1 Pulmonary Htn
+
+1 Pulmonary Embolusgastrointestinal Bleed
+
+1 Biliary Tumor
+
+1 Pulmonary Embolishematemesis
+
+1 Biopsy Bleed
+
+1 Biventricular Lead Placement Via Left Thoracotomy
+
+1 Biventricular Icd
+
+1 Pulmoary Edema
+
+1 Biventricular Icd Implant
+
+1 Ptc For Cholestasis
+
+1 Ptc
+
+1 Biventricular Icd Implantation
+
+1 Pseudocyst
+
+1 Pseudoaneurysm Rupture
+
+1 Prostatitis
+
+1 Biventricular Implantable Cardioverter Defibrillator
+
+1 Pulmona Vein Isolation Remote West
+
+1 Open
+
+1 Oligodendroglioma Right
+
+1 Old Aortic Dissection
+
+1 Mental Status Changes Fever
+
+1 Cdiff Infection
+
+1 Celluilitis
+
+1 Meninigioma
+
+1 Meningitis Status Post Cardiac Arrest
+
+1 Meningitis Rhabdomyolysis
+
+1 Cellulitis Gangrene Left Leg
+
+1 Cellulitis Neck
+
+1 Cellultiis
+
+1 Cdiff Colitis
+
+1 Melanotic Stool
+
+1 Median Sternotomy Superior Vena Cava Reconstruction With Pump Standby
+
+1 Mast Cell Degranulation
+
+1 Massive Hemoptysis
+
+1 Mania Anemia Le Edema
+
+1 Mandibular Abscess
+
+1 Malignant Neoplasm Of The Rectum
+
+1 Malignant Neoplasm Hard Palate
+
+1 Malignant Neoplasm Esophagus Unspecified
+
+1 Cerebella Tumor
+
+1 Melanoma
+
+1 Maglignant Neoplasm Of Esophagus
+
+1 Metastasis Occular Melanoma To Liver
+
+1 Ccb Overdose
+
+1 Cath With Ethanol Septal Ablation
+
+1 Cath With Intervention
+
+1 Mitral Regurgetation
+
+1 Mitiral Valve Repair Vs Replacement Coronary Artery Bypass Graft
+
+1 Mital Valve Insufficency
+
+1 Minimmaly Invasive Atrial Septal Defect Closure
+
+1 Minimillay Invasive
+
+1 Cauda Equina
+
+1 Mini Vs Stenotomy
+
+1 Metastastic Breast Cancer To Liver
+
+1 Mi St Elevation
+
+1 Mets Capleural Effusion
+
+1 Cavernous Sinus Thrombosis
+
+1 Methemoglobinemia
+
+1 Metastatic Rectal Cancer To Liver
+
+1 Metastatic Pancreatic Cancer To Liver
+
+1 Metastatic Lung Cancer Left
+
+1 Metastatic Colon Cancer To Liver
+
+1 Metastatic Carcinoid
+
+1 Metastatic Brain Lesion
+
+1 Cavernous Malformation Right
+
+1 Mitral Valve Prolapse And Regurgitation
+
+1 Lysis Of Ashesion
+
+1 Cerebellar Lesion Left
+
+1 Cerebrial Aneurysm
+
+1 Cervical Disc Herniation
+
+1 Cervical Fracture
+
+1 Liver Injury
+
+1 Liver Hemorrhage
+
+1 Cervical Osteomyelitis And Non Union
+
+1 Liver Failure Abdominal Pain
+
+1 Cervical Spinal Stenosis
+
+1 Liver And Renal Disease
+
+1 Liver Transplant Eval
+
+1 Lithium Overdose
+
+1 Leukocytosisbandemia
+
+1 Cervical Spine Injury
+
+1 Let Heart Catheterization
+
+1 Leg Weakness
+
+1 Left Ventricular Outflow Tract Mass Resection
+
+1 Cervical Tracheal Stenosis
+
+1 Left Ventricular Lead Placement
+
+1 Left Ventricular Lead Implant
+
+1 Left Tibilar Fracture
+
+1 Line Infection
+
+1 Lyme Ridiculitis
+
+1 Ll Nonunion And Stenosis
+
+1 Low Back Pain
+
+1 Lung Hernia
+
+1 Lung Caairway Obstruction
+
+1 Cerebellar Tumor
+
+1 Lung Abscess
+
+1 Lumber Spine Fracture
+
+1 Lumbar Spinal Stenosis
+
+1 Cerebral Aneursym
+
+1 Lt Hip Fracture
+
+1 Lt Arm Weakness
+
+1 Loose Stool
+
+1 Lower Hematoma
+
+1 Cerebral Aneurym
+
+1 Lower Gastrointestinal Bleeding
+
+1 Cerebral Arteriovenous Malformation
+
+1 Lower Gastrointesinal Bleed
+
+1 Lower Extremity Weakness
+
+1 Lower Extremity Ischemia
+
+1 Lower Extremety Edema
+
+1 Lower Back Pain
+
+1 Low Hct
+
+1 Lower Gstrointedtinal Bleed
+
+1 Left Sphenoid Menengioma
+
+1 Mitral Valve Repair
+
+1 Mitral Valve Repair Replacement
+
+1 New Ekg Changes
+
+1 New Depressed Ejection Fraction
+
+1 New Cardiomyopathy
+
+1 New Brain Mass And Lung Lesion
+
+1 New Angina
+
+1 Neutropenia
+
+1 Neurologic Symptoms
+
+1 Neuroendocrine Tumor Of Liver And Pancreas
+
+1 Neurocysticercosis W
+
+1 Cadfor Cabg
+
+1 Neumonia
+
+1 Necrotizing Fasciitis
+
+1 Necrotic Penis
+
+1 Necroizing Fasciitis
+
+1 Neck Tumor
+
+1 Neck Swelling
+
+1 Neck Abscess
+
+1 Calvarial Lesion
+
+1 Near Syncope
+
+1 Carcinoid Tumor
+
+1 Need Gi Scope
+
+1 Nausea Vomitting
+
+1 New Onset Seizure
+
+1 Newly Diagnosed Brain Mass
+
+1 Off Pump
+
+1 Of Mvr  Coronary Artery Bypass Graft
+
+1 Occluded Graft
+
+1 Occipital Fracture
+
+1 Burn
+
+1 Buttock Hematoma
+
+1 Obstructed Right Middle Lobe
+
+1 Nuero Sarcoidosis
+
+1 Nstemi Uti Seizures
+
+1 New Renal Failure
+
+1 Nqw Mi
+
+1 Nonhealing Ulcer
+
+1 Non Sustained Ventricular Tachycardia
+
+1 Non St Segment Myocardial Infarction
+
+1 Cabg X
+
+1 Non Small Cell Lung Cancer
+
+1 Non Qwave Mi
+
+1 Cad Carotid Stenosis Left
+
+1 Cadaortic Valve Disease
+
+1 Cadas
+
+1 C Diff
+
+1 Mitral Valve Repair Mitral Valve Replacement
+
+1 Nausea And Vomiting
+
+1 Nasal Nasopharyngeal Bleed
+
+1 Carotid Artery Disease
+
+1 Ms Change Dehydration
+
+1 Mrsa
+
+1 Miutipneumonia
+
+1 Mitrial Valve Replacement
+
+1 Mitral Vslve Disorder
+
+1 Mitral Vaslve Insufficiency
+
+1 Mitral Valvuloplasty
+
+1 Carotid Stent Placement
+
+1 Mucocele
+
+1 Mitral Valve Replacement With Coronary Artery Bypass Graft
+
+1 Carotis Angiogram
+
+1 Cartid Stenosis
+
+1 Mitral Valve Replacement Redo With Maze
+
+1 Mitral Valve Replacement Redo Redo Thoracotomy Right
+
+1 Cas
+
+1 Mitral Valve Replacement Heart Port Minimally Invasive
+
+1 Catatonia
+
+1 Mitral Valve Repair Vs Replacement Coronary Artery Bypass Graft
+
+1 Mitral Valve Repair Versus Replacement
+
+1 Carotidstenosis
+
+1 Cardiac
+
+1 Multi Organ Failure
+
+1 Multiple Icd Charges
+
+1 Narcotic Overdose
+
+1 Cardiac Arrest Iph
+
+1 Myxedema Coma
+
+1 Myomectomy
+
+1 Myocardial Ischemia
+
+1 Myocardial Infarctionacute Renal Disease
+
+1 Cardiac Dz
+
+1 Cardiac Intervention
+
+1 Myesthenia Gravis Exacerbation
+
+1 Multifocal Pna
+
+1 Mycoplasma
+
+1 Myasthenia Exacerbation
+
+1 Myasthemia Gravis  Thymic Mass
+
+1 Mvd
+
+1 Caridac Catheterizationl
+
+1 Mva
+
+1 Muscle Weakness
+
+1 Carols Syndrome
+
+1 Carotid Angiography
+
+1 Multiple Sclerosis Changes
+
+1 Myasthenia Gravis
+
+1 Zoster Vs Meningitis
+

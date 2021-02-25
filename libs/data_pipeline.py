@@ -69,11 +69,7 @@ def get_offsets(indices):
     return offsets
 
 
-def zfill(i, n):
-    return tf.strings.substr('0'*n + tf.as_string(i), -n, n)
-
-
-def get_examples(H, W, example):
+def get_examples(H, example):
     
     rand_int = lambda maxval: tf.random.uniform([1], 0, maxval, 'int32')[0]
     length = lambda tensor: tf.shape(tensor)[0]
@@ -102,8 +98,11 @@ def get_examples(H, W, example):
     sig_index = example.pop('sig_index')[i][j]
     example['mask'] = sig_index > 0
     
-    for key in ['diagnosis', 'age', 'weight', 'height', 'admission_diagnosis']:
+    for key in ['diagnosis', 'age', 'admission_diagnosis']:
         example[key] = example[key][0][i]
+    
+    def zfill(i, n):
+        return tf.strings.substr('0'*n + tf.as_string(i), -n, n)
     
     chunk_name = tf.as_string(rec_id) 
     chunk_name += '_' + zfill(seg_id, 4)
@@ -119,7 +118,8 @@ def get_examples(H, W, example):
     sig_count = len(H['input_sigs'])
     sigs.set_shape((prepare_data.CHUNK_SIZE, sig_count))
     sigs = tf.cast(sigs - baseline, 'float32') / adc_gain
-        
+    
+    W = get_window_index_matrix(H)
     dW = tf.cast(get_offsets(window_ids), 'int32')
     windows = tf.gather_nd(sigs, W + dW)
     metadata = {
@@ -144,15 +144,8 @@ def build(H, tensors, part):
     if part == 'validation' and H['batch_size_validation_log2'] > 9:
         dataset = dataset.repeat(2 ** (H['batch_size_validation_log2'] - 9))
     dataset = dataset.shuffle(n)
-    window_index_matrix = get_window_index_matrix(H)
-#     dataset = dataset.interleave(
-#         partial(get_examples, H, window_index_matrix), 
-#         block_length = 1, 
-#         cycle_length = buffer_size * batch_size,
-#         num_parallel_calls = tf.data.experimental.AUTOTUNE,
-#     )
 
-    dataset = dataset.flat_map(partial(get_examples, H, window_index_matrix))
+    dataset = dataset.flat_map(partial(get_examples, H))
     
     S_train, S_val = H['input_sigs'], H['input_sigs_validation']
     validation_mask = tf.constant([i in S_val for i in S_train], dtype='bool')

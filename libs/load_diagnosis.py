@@ -87,12 +87,16 @@ def load_grouped():
 
 def augment(diagnosis, metadata):
     matched_data = metadata.reset_index()
-    matched_data = matched_data[matched_data['subject_id'] > 0]
+#     matched_data = matched_data[matched_data['subject_id'] > 0]
+#     matched_data = matched_data[matched_data['hadm_id'] > 0]
     matched_data.drop_duplicates(diagnosis.index.names, inplace=True)
     matched_data.set_index(diagnosis.index.names, inplace=True)
     matched_data.sort_index(inplace=True)
         
     diagnosis = diagnosis.reindex(matched_data.index)
+    
+    diagnosis = diagnosis[diagnosis.notna().all(1)]
+    matched_data = matched_data.reindex(diagnosis.index)
     
 #     for i in ['gender', 'race']:
     for i in ['gender']:
@@ -101,7 +105,8 @@ def augment(diagnosis, metadata):
 #         for j in ['F']:
             diagnosis.at[values.notna(), i + '_' + j] = values == j
     
-    thresholds = {'age': 75, 'height': 70, 'weight': 100}
+#     thresholds = {'age': 75, 'height': 70, 'weight': 100}
+    thresholds = {'age': 75}
     
     for k in thresholds:
         is_int = numpy.issubdtype(matched_data[k].dtype, numpy.signedinteger)
@@ -112,7 +117,8 @@ def augment(diagnosis, metadata):
     died = matched_data['death_time'].notna()
     diagnosis.at[(slice(None), slice(0, None)), 'died'] = died
     
-    bool_to_int = {True: 1, False: -1, numpy.nan: 0}
+#     bool_to_int = {True: 1, False: -1, numpy.nan: 0}
+    bool_to_int = {True: 1, False: 0, numpy.nan: 0}
     diagnosis = diagnosis.replace(bool_to_int).astype('int8')
     
     return diagnosis
@@ -132,7 +138,7 @@ def fix(diagnosis):
 def conform(diagnosis, metadata):
     unindexed = metadata.reset_index()
     I = pandas.MultiIndex.from_frame(unindexed[diagnosis.index.names])
-    diagnosis = diagnosis.reindex(I).fillna(0).astype('int8').reset_index()
+    diagnosis = diagnosis.reindex(I).fillna(-1).astype('int8').reset_index()
     frames = [diagnosis, unindexed[['rec_id', 'seg_id']]]
     diagnosis = pandas.concat(frames, sort=False, axis=1)
     diagnosis = diagnosis.set_index(metadata.index.names)

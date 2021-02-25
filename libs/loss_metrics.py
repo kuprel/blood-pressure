@@ -38,38 +38,6 @@ def diagnosis_loss(j, y_true, y_pred):
 #     y_pred = tf.expand_dims(y_pred, axis=1)
     return custom_loss(y_true, y_pred)
 
-
-def _roc_auc(y_true, y_pred):
-    mask = lambda y: tf.boolean_mask(y, y_true != 0)
-    y_true, y_pred = mask(y_true), mask(y_pred)
-    y_true = y_true == 1
-    m = tf.keras.metrics.AUC(num_thresholds=200)
-    m.update_state(y_true, y_pred)
-    return m.result()
-
-def roc_auc_score(j, y_true, y_pred):
-    return _roc_auc(y_true[:, j], y_pred[:, j])
-
-
-def precise_threshold(j, y_true, y_pred, precision=0.8):
-    mask = lambda y: tf.boolean_mask(y[:, j], y_true[:, j] != 0)
-    y_true, y_pred = mask(y_true), mask(y_pred)
-    y_true = y_true == 1
-    I = tf.argsort(y_pred, direction='DESCENDING')
-    y_true, y_pred = tf.gather(y_true, I), tf.gather(y_pred, I)
-    precisions = tf.math.cumsum(tf.cast(y_true, 'float32'))
-    precisions /= tf.cast(tf.range(tf.shape(y_true)[0]) + 1, 'float32')
-    i_thresh = tf.reduce_sum(tf.cast(precisions > precision, 'int32'))
-    i_thresh = tf.minimum(i_thresh, tf.shape(y_true)[0] - 1)
-    threshold = tf.cond(i_thresh <= 0, lambda: 1., lambda: y_pred[i_thresh])
-    return threshold
-
-
-def precise_sensitivity(j, y_true, y_pred, precision=0.8):
-    threshold = precise_threshold(j, y_true, y_pred, precision)
-    return sensitivity(y_true[:, j], y_pred[:, j], threshold)
-
-
 def positive_loss(y_true, y_pred):
     mask = tf.cast(y_true == 1, 'float32')
     cross_entropy = -tf.math.log(y_pred) * mask
@@ -90,14 +58,22 @@ def negative_loss(y_true, y_pred):
     return loss
 
 
-def custom_loss(y_true, y_pred):
+def custom_loss_old(y_true, y_pred):
     y_pred = tf.clip_by_value(y_pred, 1e-7, 1 - 1e-7)
     loss_positive = positive_loss(y_true, y_pred)
     loss_negative = negative_loss(y_true, y_pred)
     
 #     loss = (loss_positive + loss_negative) / 2
     loss = tf.reduce_mean(loss_positive + loss_negative)
-    return loss    
+    return loss   
+
+def custom_loss(y_true, y_pred):
+    y_pred = tf.clip_by_value(y_pred, 1e-7, 1 - 1e-7)
+    log_y_pred = tf.math.log(y_pred)
+    cross_entropy_pos = -tf.math.log(y_pred) * y_true
+    cross_entropy_neg = -tf.math.log(1 - y_pred) * (1 - y_true)
+    loss = tf.reduce_sum(loss_positive + loss_negative)
+    return loss   
 
     
 def build(H, diagnosis_codes):
@@ -138,6 +114,6 @@ def build(H, diagnosis_codes):
         metrics[k].__name__ = k
     
     metrics = {'diagnosis': list(metrics.values())}
-    loss = {'diagnosis': custom_loss}
+#     loss = {'diagnosis': custom_loss}
     
-    return loss, metrics
+    return metrics

@@ -181,7 +181,7 @@ def to_tensors(H, metadata, sig_data, diagnosis, row_lengths):
     k = 'diagnosis'
     tensors[k] = to_ragged_tensor(diagnosis, k, nested=False)
     
-    for k in ['rec_id', 'height', 'weight', 'age', 'admission_diagnosis']:
+    for k in ['rec_id', 'age', 'admission_diagnosis']:
         tensors[k] = to_ragged_tensor(metadata[k], k, nested=False)
     
     return tensors
@@ -196,11 +196,19 @@ def describe_data_size(H, sig_data, metadata):
 
         
 def run(H, parts, load_path=None, save_path=None):
-    sig_data, metadata, diagnosis = load_initial_data(load_path, save_path)
-    diagnosis = load_diagnosis.augment(diagnosis, metadata)
-    diagnosis = load_diagnosis.fix(diagnosis)
-    priors = (diagnosis == 1).sum() / (diagnosis != 0).sum()
-    diagnosis = load_diagnosis.conform(diagnosis, metadata)
+    sig_data0, metadata0, diagnosis0 = load_initial_data(load_path, save_path)
+    has_hadm_id = metadata0['hadm_id'] > 0
+    metadata1 = metadata0[has_hadm_id]
+    sig_data1 = sig_data0[has_hadm_id]
+    diagnosis1 = load_diagnosis.augment(diagnosis0, metadata1)
+#     diagnosis = load_diagnosis.fix(diagnosis)
+    priors = (diagnosis1 == 1).mean()
+    diagnosis2 = load_diagnosis.conform(diagnosis1, metadata1)
+    diagnosis_exists = (diagnosis2 != -1).all(1)
+    diagnosis = diagnosis2[diagnosis_exists]
+    metadata = metadata1[diagnosis_exists]
+    sig_data = sig_data1[diagnosis_exists]
+    assert((diagnosis != -1).all().all())
     partition = load_partition(H['input_sigs_validation'], sig_data, H['fold_index'])
 #     partition = get_partition(H['input_sigs_validation'], sig_data)
     
